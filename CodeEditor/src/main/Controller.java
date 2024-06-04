@@ -1,0 +1,276 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.JPanel;
+
+import VisualComponents.RoundedBackground;
+import VisualComponents.TitleBar;
+import utils.Globals;
+
+/**
+ * The Controller class controls which component is drawn and when; and handles
+ * input (mouse/keyboard) events.
+ * 
+ * @author Gergely Bertalan
+ *
+ */
+public class Controller extends JPanel {
+	private static final long serialVersionUID = 1L;
+
+	RoundedBackground roundedBackground;
+	TitleBar titleBar;
+	
+
+	Window window;
+
+	private Point initialClick = new Point(0, 0);
+	private Point edgeStart = new Point(0, 0);
+
+	private int oldWidth;
+	private int oldHeight;
+	private int oldLocX;
+	private int oldLocY;
+
+	boolean draggingByTitleBar;
+	boolean draggingByEdge;
+
+	private Object hoveredComponent;
+
+	public Controller(Window window) {
+		this.window = window;
+
+		oldWidth = window.width;
+		oldHeight = window.height;
+		oldLocX = window.locX;
+		oldLocY = window.locY;
+
+		setBounds(0, 0, Window.jFrame.getWidth(), Window.jFrame.getHeight());
+		setBackground(new Color(0, 0, 0, 0));
+		setOpaque(false);
+
+		addMouseListener(new MAdapter());
+		addMouseMotionListener(new MMAdapter());
+
+		roundedBackground = new RoundedBackground(window);
+		titleBar = new TitleBar(window);
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBounds(0, 0, Window.jFrame.getWidth(), Window.jFrame.getHeight());
+
+		Graphics2D g2d = (Graphics2D) g;
+		Globals.setRenderingHints(g2d);
+
+		roundedBackground.draw(g2d);
+		titleBar.draw(g2d);
+
+		g2d.dispose();
+	}
+
+	/**
+	 * - mouseClicked - mousePressed - mouseReleased
+	 */
+	private class MAdapter extends MouseAdapter {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getY() < titleBar.getHeight() && e.getY() > window.frameThichness) {
+				if (e.getClickCount() == 2) {
+					if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+						// Window is not maximised, so maximise it
+						Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() | Window.MAXIMIZED_BOTH);
+						oldWidth = window.width;
+						oldHeight = window.height;
+						window.width = Window.jFrame.getWidth();
+						window.height = Window.jFrame.getHeight();
+					} else {
+						// Window is maximised, so restore it
+						Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() & ~Window.MAXIMIZED_BOTH);
+						window.width = oldWidth;
+						window.height = oldHeight;
+					}
+					window.onResize(window.width, window.height);
+					Window.update();
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+
+			if (e.getY() < titleBar.getHeight() && e.getY() > window.frameThichness && e.getX() > window.frameThichness
+					&& e.getX() < window.width - window.frameThichness) {
+				draggingByTitleBar = true;
+				initialClick = e.getPoint();
+			}
+
+			Window.Edge Edge = window.getEdgeType(e.getPoint());
+			if (Edge != Window.Edge.CENTER) {
+				draggingByEdge = true;
+				edgeStart = e.getLocationOnScreen();
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			draggingByTitleBar = false;
+
+			if (draggingByEdge) {
+				window.width = Window.jFrame.getWidth();
+				window.height = Window.jFrame.getHeight();
+				window.locX = Window.jFrame.getLocation().x;
+				window.locY = Window.jFrame.getLocation().y;
+				oldWidth = Window.jFrame.getWidth();
+				oldHeight = Window.jFrame.getHeight();
+				oldLocX = Window.jFrame.getLocation().x;
+				oldLocY = Window.jFrame.getLocation().y;
+				draggingByEdge = false;
+			}
+		}
+
+	}
+
+	/**
+	 * - mouseDragged - mouseMoved
+	 */
+	private class MMAdapter extends MouseMotionAdapter {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+
+			if (draggingByTitleBar) {
+				window.width = oldWidth;
+				window.height = oldHeight;
+				window.locX = oldLocX;
+				window.locY = oldLocY;
+
+				// if window is not maximised, drag it:
+				if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+					Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+					int x = mouseLocation.x - initialClick.x;
+					int y = mouseLocation.y - initialClick.y;
+
+					Window.jFrame.setLocation(x, y);
+					window.locX = x;
+					window.locY = y;
+					oldLocX = x;
+					oldLocY = y;
+
+				}
+				// if window is maximised, restore it:
+				else {
+					double ratio = e.getX() / (double) Window.jFrame.getWidth(); // the ratio between the cursor and
+																					// the width of the window
+					Window.jFrame.setSize(window.width, window.height);
+					initialClick = new Point((int) (window.width * ratio), e.getY());
+					
+					window.onResize(window.width, window.height);
+				}
+				Window.update();
+			}
+			if (draggingByEdge) {
+				Cursor cursor = getCursor();
+				Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+				int x = mouseLocation.x - edgeStart.x;
+				int y = mouseLocation.y - edgeStart.y;
+
+				int newWidth = oldWidth;
+				int newHeight = oldHeight;
+				int newLocX = oldLocX;
+				int newLocY = oldLocY;
+
+				switch (cursor.getType()) {
+				case Cursor.S_RESIZE_CURSOR:
+					newWidth = oldWidth;
+					newHeight = oldHeight + y;
+					newLocX = oldLocX;
+					newLocY = oldLocY;
+					break;
+				case Cursor.E_RESIZE_CURSOR:
+					newWidth = oldWidth + x;
+					newHeight = oldHeight;
+					newLocX = oldLocX;
+					newLocY = oldLocY;
+					break;
+				case Cursor.SE_RESIZE_CURSOR:
+					newWidth = oldWidth + x;
+					newHeight = oldHeight + y;
+					newLocX = oldLocX;
+					newLocY = oldLocY;
+					break;
+				case Cursor.W_RESIZE_CURSOR:
+					newWidth = oldWidth - x;
+					newHeight = oldHeight;
+					newLocX = oldLocX + x;
+					newLocY = oldLocY;
+					break;
+				case Cursor.N_RESIZE_CURSOR:
+					newWidth = oldWidth;
+					newHeight = oldHeight - y;
+					newLocX = oldLocX;
+					newLocY = oldLocY + y;
+					break;
+				case Cursor.SW_RESIZE_CURSOR:
+					newWidth = oldWidth - x;
+					newHeight = oldHeight + y;
+					newLocX = oldLocX + x;
+					newLocY = oldLocY;
+					break;
+				case Cursor.NW_RESIZE_CURSOR:
+					newWidth = oldWidth - x;
+					newHeight = oldHeight - y;
+					newLocX = oldLocX + x;
+					newLocY = oldLocY + y;
+					break;
+				case Cursor.NE_RESIZE_CURSOR:
+					newWidth = oldWidth + x;
+					newHeight = oldHeight - y;
+					newLocX = oldLocX;
+					newLocY = oldLocY + y;
+					break;
+				default:
+					// Handle other cursor types if needed
+					break;
+				}
+
+				Window.jFrame.setSize(newWidth, newHeight);
+				Window.jFrame.setLocation(newLocX, newLocY);
+
+				window.width = newWidth;
+				window.height = newHeight;
+				
+				window.onResize(window.width, window.height);
+				Window.update();
+			}
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+//			if (window.isEdgeHovered(e)) {
+//				hoveredComponent = window;
+//			}
+//			if (titleBar.isHovered(e)) {
+//				hoveredComponent = titleBar;
+//			}
+//
+//			System.out.println(hoveredComponent.toString());
+
+//			if (hoveredComponent == window) {
+				Window.Edge edge = window.getEdgeType(e.getPoint());
+				setCursor(edge.getPredefinedResizeCursor());
+//			}
+		}
+
+	}
+
+}

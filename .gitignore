@@ -19,3 +19,4 @@ bin/
 
 # Environment configuration file
 .env
+/.metadata/
