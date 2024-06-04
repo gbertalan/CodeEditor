@@ -55,4 +55,8 @@ public class Theme {
                 return Color.BLACK;
         }
     }
+    
+    public static Color getDEBUGColor() {
+                return Color.RED;
+    }
 }

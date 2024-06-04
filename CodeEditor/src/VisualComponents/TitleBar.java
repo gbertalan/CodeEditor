@@ -10,12 +10,18 @@ public class TitleBar extends Component {
 
     public TitleBar(Window window) {
         super(window, 0, 0, window.width, TITLEBAR_HEIGHT);
-        this.adjustHeightOnResize = false;
+//        this.adjustHeightOnResize = false;
     }
 
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(Theme.getSeparatorLineColor());
-        g2d.drawLine(0, height, width, height);
+        g2d.drawLine(0, height, window.width, height);
     }
+
+	@Override
+	public void updateLocX() {
+		// TODO Auto-generated method stub
+		
+	}
 }

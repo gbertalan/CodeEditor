@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import VisualComponents.ResizeListener;
+//import VisualComponents.ResizeListener;
 
 /**
  * The Window class is a JFrame. A Component to store the main canvas where
@@ -34,7 +34,7 @@ public class Window extends JFrame {
 
 	public int frameThichness = 6;
 	
-	private List<ResizeListener> resizeListeners = new ArrayList<>();
+//	private List<ResizeListener> resizeListeners = new ArrayList<>();
 
 	/**
 	 * Enum representing the directions (e.g., north, south-east) in which a window
@@ -177,14 +177,14 @@ public class Window extends JFrame {
 			return false;
 	}
 	
-	public void addResizeListener(ResizeListener listener) {
-        resizeListeners.add(listener);
-    }
-	
-	public void onResize(int newWidth, int newHeight) {
-        for (ResizeListener listener : resizeListeners) {
-            listener.onResize(newWidth, newHeight);
-        }
-    }
+//	public void addResizeListener(ResizeListener listener) {
+//        resizeListeners.add(listener);
+//    }
+//	
+//	public void onResize(int newWidth, int newHeight) {
+//        for (ResizeListener listener : resizeListeners) {
+//            listener.onResize(newWidth, newHeight);
+//        }
+//    }
 
 }

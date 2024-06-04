@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
+import VisualComponents.CloseButton;
 import VisualComponents.RoundedBackground;
 import VisualComponents.TitleBar;
 import utils.Globals;
@@ -27,7 +28,7 @@ public class Controller extends JPanel {
 
 	RoundedBackground roundedBackground;
 	TitleBar titleBar;
-	
+	CloseButton closeButton;
 
 	Window window;
 
@@ -41,8 +42,6 @@ public class Controller extends JPanel {
 
 	boolean draggingByTitleBar;
 	boolean draggingByEdge;
-
-	private Object hoveredComponent;
 
 	public Controller(Window window) {
 		this.window = window;
@@ -61,6 +60,7 @@ public class Controller extends JPanel {
 
 		roundedBackground = new RoundedBackground(window);
 		titleBar = new TitleBar(window);
+		closeButton = new CloseButton(window);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -72,6 +72,7 @@ public class Controller extends JPanel {
 
 		roundedBackground.draw(g2d);
 		titleBar.draw(g2d);
+		closeButton.draw(g2d);
 
 		g2d.dispose();
 	}
@@ -83,7 +84,7 @@ public class Controller extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (e.getY() < titleBar.getHeight() && e.getY() > window.frameThichness) {
+			if (titleBar.isHovered(e)) {
 				if (e.getClickCount() == 2) {
 					if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
 						// Window is not maximised, so maximise it
@@ -98,7 +99,8 @@ public class Controller extends JPanel {
 						window.width = oldWidth;
 						window.height = oldHeight;
 					}
-					window.onResize(window.width, window.height);
+//					window.onResize(window.width, window.height);
+					updateComponents(window.width, window.height);
 					Window.update();
 				}
 			}
@@ -107,8 +109,7 @@ public class Controller extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 
-			if (e.getY() < titleBar.getHeight() && e.getY() > window.frameThichness && e.getX() > window.frameThichness
-					&& e.getX() < window.width - window.frameThichness) {
+			if (titleBar.isHovered(e)) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
@@ -172,9 +173,10 @@ public class Controller extends JPanel {
 																					// the width of the window
 					Window.jFrame.setSize(window.width, window.height);
 					initialClick = new Point((int) (window.width * ratio), e.getY());
-					
-					window.onResize(window.width, window.height);
+
+//					window.onResize(window.width, window.height);
 				}
+				updateComponents(window.width, window.height);
 				Window.update();
 			}
 			if (draggingByEdge) {
@@ -247,8 +249,11 @@ public class Controller extends JPanel {
 
 				window.width = newWidth;
 				window.height = newHeight;
-				
-				window.onResize(window.width, window.height);
+
+//				window.onResize(window.width, window.height);
+
+//				roundedBackground.updateLocationAndSize(0, 0, newWidth, newHeight);
+				updateComponents(newWidth, newHeight);
 				Window.update();
 			}
 
@@ -256,21 +261,17 @@ public class Controller extends JPanel {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-//			if (window.isEdgeHovered(e)) {
-//				hoveredComponent = window;
-//			}
-//			if (titleBar.isHovered(e)) {
-//				hoveredComponent = titleBar;
-//			}
-//
-//			System.out.println(hoveredComponent.toString());
-
-//			if (hoveredComponent == window) {
-				Window.Edge edge = window.getEdgeType(e.getPoint());
-				setCursor(edge.getPredefinedResizeCursor());
-//			}
+			Window.Edge edge = window.getEdgeType(e.getPoint());
+			setCursor(edge.getPredefinedResizeCursor());
 		}
 
+	}
+
+	private void updateComponents(int newWidth, int newHeight) {
+		titleBar.updateWidth(newWidth);
+		roundedBackground.updateWidth(newWidth);
+		roundedBackground.updateHeight(newHeight);
+		closeButton.updateLocX();
 	}
 
 }
