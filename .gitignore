@@ -1,0 +1,21 @@
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Compiled Java bytecode
+*.class
+
+# Compiled Maven/Gradle files
+target/
+bin/
+
+# Log files
+*.log
+
+# User-specific files
+*.swp
+*.tmp
+
+# Environment configuration file
+.env
