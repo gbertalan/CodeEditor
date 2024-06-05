@@ -24,7 +24,7 @@ public class RobotTest {
 
 		// Create the Robot instance
 		Robot robot = new Robot();
-		robot.setAutoDelay(15);
+		robot.setAutoDelay(5);
 
 //		dragByTitleBar(frame, robot);
 

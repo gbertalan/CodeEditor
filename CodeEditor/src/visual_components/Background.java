@@ -19,7 +19,7 @@ public class Background extends Component {
 		g2d.setColor(Theme.getBackgroundColor());
 		
 		int state = Window.jFrame.getExtendedState();
-        if ((state & Window.jFrame.MAXIMIZED_BOTH) == Window.jFrame.MAXIMIZED_BOTH) {
+        if ((state & Window.MAXIMIZED_BOTH) == Window.MAXIMIZED_BOTH) {
         	g2d.fillRect(0, 0, window.width, window.height);
     		g2d.setColor(new Color(69, 69, 69));
     		g2d.drawRect(0, 0, window.width, window.height);
@@ -33,7 +33,6 @@ public class Background extends Component {
 	@Override
 	public void update() {
 		width = window.width;
-		height = window.height;
-		
+		height = window.height;	
 	}
 }
