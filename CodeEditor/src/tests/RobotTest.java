@@ -24,11 +24,12 @@ public class RobotTest {
 
 		// Create the Robot instance
 		Robot robot = new Robot();
-		robot.setAutoDelay(35);
+		robot.setAutoDelay(15);
 
 //		dragByTitleBar(frame, robot);
 
 		// Resize the window by dragging the edge
+		
 		dragTopLeftCorner(frame, robot);
 		dragTopRightCorner(frame, robot);
 		dragBottomLeftCorner(frame, robot);
@@ -41,6 +42,9 @@ public class RobotTest {
         doubleClickTitleBar(frame, robot);
         
         maximizeAndDragWindow(frame, robot);
+        
+        
+        dragTopEdgeBUG(frame, robot);
 
 		System.exit(0);
 	}
@@ -206,5 +210,9 @@ public class RobotTest {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         Thread.sleep(500);
     }
+    
+    private static void dragTopEdgeBUG(JFrame frame, Robot robot) throws InterruptedException {
+	    dragEdge(frame, robot, frame.getWidth() / 2, 5);
+	}
     
 }

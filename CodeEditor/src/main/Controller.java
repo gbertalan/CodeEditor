@@ -84,7 +84,7 @@ public class Controller extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (titleBar.isHovered(e)) {
+			if (titleBar.isHovered(e, window.frameThichness)) {
 				if (e.getClickCount() == 2) {
 					if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
 						// Window is not maximised, so maximise it
@@ -107,7 +107,7 @@ public class Controller extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 
-			if (titleBar.isHovered(e)) {
+			if (titleBar.isHovered(e, window.frameThichness)) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}

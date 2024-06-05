@@ -41,11 +41,18 @@ public abstract class Component implements VisualComponent {
 		return height;
 	}
 
-	public boolean isHovered(MouseEvent e) {
-		return e.getX() >= locX + window.frameThichness && e.getY() >= locY + window.frameThichness
-				&& e.getX() < locX + width - window.frameThichness && e.getY() <= locY + height - window.frameThichness;
+	/**
+	 * Checks if a MouseEvent is within the bounds of the component with a given
+	 * modifier.
+	 * 
+	 * @param e        The MouseEvent to check.
+	 * @param modifier The modifier to adjust the bounding box of the component.
+	 */
+	public boolean isHovered(MouseEvent e, int modifier) {
+		return e.getX() > locX + modifier && e.getY() > locY + modifier && e.getX() < locX + width - modifier
+				&& e.getY() < locY + height - modifier;
 	}
-	
+
 	abstract public void update();
 
 	@Override
