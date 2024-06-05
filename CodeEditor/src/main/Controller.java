@@ -17,20 +17,18 @@ import visual_components.RoundedBackground;
 import visual_components.TitleBar;
 
 /**
- * The Controller class controls which component is drawn and when; and handles
- * input (mouse/keyboard) events.
+ * The Controller class manages drawing components and handling input events.
  * 
  * @author Gergely Bertalan
- *
  */
 public class Controller extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	RoundedBackground roundedBackground;
-	TitleBar titleBar;
-	CloseButton closeButton;
+	private RoundedBackground roundedBackground;
+	private TitleBar titleBar;
+	private CloseButton closeButton;
 
-	Window window;
+	private Window window;
 
 	private Point initialClick = new Point(0, 0);
 	private Point edgeStart = new Point(0, 0);
@@ -40,8 +38,8 @@ public class Controller extends JPanel {
 	private int oldLocX;
 	private int oldLocY;
 
-	boolean draggingByTitleBar;
-	boolean draggingByEdge;
+	private boolean draggingByTitleBar;
+	private boolean draggingByEdge;
 
 	public Controller(Window window) {
 		this.window = window;
@@ -55,14 +53,15 @@ public class Controller extends JPanel {
 		setBackground(new Color(0, 0, 0, 0));
 		setOpaque(false);
 
-		addMouseListener(new MAdapter());
-		addMouseMotionListener(new MMAdapter());
+		addMouseListener(new ControllerMouseListener());
+		addMouseMotionListener(new ControllerMouseMotionListener());
 
 		roundedBackground = new RoundedBackground(window);
 		titleBar = new TitleBar(window);
 		closeButton = new CloseButton(window);
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBounds(0, 0, Window.jFrame.getWidth(), Window.jFrame.getHeight());
@@ -77,43 +76,35 @@ public class Controller extends JPanel {
 		g2d.dispose();
 	}
 
-	/**
-	 * - mouseClicked - mousePressed - mouseReleased
-	 */
-	private class MAdapter extends MouseAdapter {
+	private class ControllerMouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (titleBar.isHovered(e, window.frameThichness)) {
-				if (e.getClickCount() == 2) {
-					if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
-						// Window is not maximised, so maximise it
-						Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() | Window.MAXIMIZED_BOTH);
-						oldWidth = window.width;
-						oldHeight = window.height;
-						window.width = Window.jFrame.getWidth();
-						window.height = Window.jFrame.getHeight();
-					} else {
-						// Window is maximised, so restore it
-						Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() & ~Window.MAXIMIZED_BOTH);
-						window.width = oldWidth;
-						window.height = oldHeight;
-					}
-					update();
+			if (titleBar.isHovered(e, window.frameThichness) && e.getClickCount() == 2) {
+				if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+					Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() | Window.MAXIMIZED_BOTH);
+					oldWidth = window.width;
+					oldHeight = window.height;
+					window.width = Window.jFrame.getWidth();
+					window.height = Window.jFrame.getHeight();
+				} else {
+					Window.jFrame.setExtendedState(Window.jFrame.getExtendedState() & ~Window.MAXIMIZED_BOTH);
+					window.width = oldWidth;
+					window.height = oldHeight;
 				}
+				update();
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-
 			if (titleBar.isHovered(e, window.frameThichness)) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
 
-			Window.Edge Edge = window.getEdgeType(e.getPoint());
-			if (Edge != Window.Edge.CENTER) {
+			Window.Edge edge = window.getEdgeType(e.getPoint());
+			if (edge != Window.Edge.CENTER) {
 				draggingByEdge = true;
 				edgeStart = e.getLocationOnScreen();
 			}
@@ -135,24 +126,18 @@ public class Controller extends JPanel {
 				draggingByEdge = false;
 			}
 		}
-
 	}
 
-	/**
-	 * - mouseDragged - mouseMoved
-	 */
-	private class MMAdapter extends MouseMotionAdapter {
+	private class ControllerMouseMotionListener extends MouseMotionAdapter {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-
 			if (draggingByTitleBar) {
 				window.width = oldWidth;
 				window.height = oldHeight;
 				window.locX = oldLocX;
 				window.locY = oldLocY;
 
-				// if window is not maximised, drag it:
 				if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
 					Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 					int x = mouseLocation.x - initialClick.x;
@@ -164,11 +149,8 @@ public class Controller extends JPanel {
 					oldLocX = x;
 					oldLocY = y;
 
-				}
-				// if window is maximised, restore it:
-				else {
-					double ratio = e.getX() / (double) Window.jFrame.getWidth(); // the ratio between the cursor and
-																					// the width of the window
+				} else {
+					double ratio = e.getX() / (double) Window.jFrame.getWidth();
 					Window.jFrame.setSize(window.width, window.height);
 					initialClick = new Point((int) (window.width * ratio), e.getY());
 				}
@@ -236,10 +218,8 @@ public class Controller extends JPanel {
 					newLocY = oldLocY + y;
 					break;
 				default:
-					// Handle other cursor types if needed
 					break;
 				}
-
 				Window.jFrame.setSize(newWidth, newHeight);
 				Window.jFrame.setLocation(newLocX, newLocY);
 
@@ -248,7 +228,6 @@ public class Controller extends JPanel {
 
 				update();
 			}
-
 		}
 
 		@Override
@@ -256,7 +235,6 @@ public class Controller extends JPanel {
 			Window.Edge edge = window.getEdgeType(e.getPoint());
 			setCursor(edge.getPredefinedResizeCursor());
 		}
-
 	}
 
 	private void update() {
@@ -269,5 +247,4 @@ public class Controller extends JPanel {
 		roundedBackground.update();
 		closeButton.update();
 	}
-
 }
