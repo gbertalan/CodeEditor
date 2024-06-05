@@ -12,8 +12,6 @@ public abstract class Component implements VisualComponent {
 	protected int locY;
 	protected int width;
 	protected int height;
-//	protected boolean adjustHeightOnResize = true;
-//	protected boolean adjustWidthOnResize = true;
 
 	public Component(Window window, int locX, int locY, int width, int height) {
 		this.window = window;
@@ -21,7 +19,6 @@ public abstract class Component implements VisualComponent {
 		this.locY = locY;
 		this.width = width;
 		this.height = height;
-//		window.addResizeListener(this);
 	}
 
 	@Override
@@ -48,39 +45,8 @@ public abstract class Component implements VisualComponent {
 		return e.getX() >= locX + window.frameThichness && e.getY() >= locY + window.frameThichness
 				&& e.getX() < locX + width - window.frameThichness && e.getY() <= locY + height - window.frameThichness;
 	}
-
-//	@Override
-//	public void onResize(int newWidth, int newHeight) {
-//		if (adjustWidthOnResize) {
-//			this.width = newWidth;
-//		}
-//
-//		if (adjustHeightOnResize) {
-//			this.height = newHeight;
-//		}
-//
-//	}
-
-	public void updateLocationAndSize(int locX, int locY, int width, int height) {
-		this.locX = locX;
-		this.locY = locY;
-		this.width = width;
-		this.height = height;
-	}
 	
-	abstract public void updateLocX();
-	
-	public void updateLocY(int locY) {
-		this.locY = locY;
-	}
-	
-	public void updateWidth(int width) {
-		this.width = width;
-	}
-	
-	public void updateHeight(int height) {
-		this.height = height;
-	}
+	abstract public void update();
 
 	@Override
 	public abstract void draw(Graphics2D g2d);

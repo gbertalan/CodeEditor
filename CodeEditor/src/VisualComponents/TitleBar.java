@@ -10,7 +10,6 @@ public class TitleBar extends Component {
 
     public TitleBar(Window window) {
         super(window, 0, 0, window.width, TITLEBAR_HEIGHT);
-//        this.adjustHeightOnResize = false;
     }
 
     @Override
@@ -20,8 +19,7 @@ public class TitleBar extends Component {
     }
 
 	@Override
-	public void updateLocX() {
-		// TODO Auto-generated method stub
-		
+	public void update() {
+		width = window.width;
 	}
 }

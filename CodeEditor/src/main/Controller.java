@@ -99,9 +99,7 @@ public class Controller extends JPanel {
 						window.width = oldWidth;
 						window.height = oldHeight;
 					}
-//					window.onResize(window.width, window.height);
-					updateComponents(window.width, window.height);
-					Window.update();
+					update();
 				}
 			}
 		}
@@ -173,11 +171,9 @@ public class Controller extends JPanel {
 																					// the width of the window
 					Window.jFrame.setSize(window.width, window.height);
 					initialClick = new Point((int) (window.width * ratio), e.getY());
-
-//					window.onResize(window.width, window.height);
 				}
-				updateComponents(window.width, window.height);
-				Window.update();
+
+				update();
 			}
 			if (draggingByEdge) {
 				Cursor cursor = getCursor();
@@ -250,11 +246,7 @@ public class Controller extends JPanel {
 				window.width = newWidth;
 				window.height = newHeight;
 
-//				window.onResize(window.width, window.height);
-
-//				roundedBackground.updateLocationAndSize(0, 0, newWidth, newHeight);
-				updateComponents(newWidth, newHeight);
-				Window.update();
+				update();
 			}
 
 		}
@@ -267,11 +259,15 @@ public class Controller extends JPanel {
 
 	}
 
-	private void updateComponents(int newWidth, int newHeight) {
-		titleBar.updateWidth(newWidth);
-		roundedBackground.updateWidth(newWidth);
-		roundedBackground.updateHeight(newHeight);
-		closeButton.updateLocX();
+	private void update() {
+		updateComponents();
+		Window.update();
+	}
+
+	private void updateComponents() {
+		titleBar.update();
+		roundedBackground.update();
+		closeButton.update();
 	}
 
 }

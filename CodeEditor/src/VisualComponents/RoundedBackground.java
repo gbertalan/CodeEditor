@@ -12,7 +12,6 @@ public class RoundedBackground extends Component {
 
 	public RoundedBackground(Window window) {
 		super(window, 0, 0, window.width, window.height);
-//		this.adjustHeightOnResize = true;
 	}
 
 	@Override
@@ -24,9 +23,9 @@ public class RoundedBackground extends Component {
 	}
 
 	@Override
-	public void updateLocX() {
-		// TODO Auto-generated method stub
+	public void update() {
+		width = window.width;
+		height = window.height;
 		
 	}
-
 }
