@@ -233,8 +233,16 @@ public class Controller extends JPanel {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
+
 			Window.Edge edge = window.getEdgeType(e.getPoint());
-			setCursor(edge.getPredefinedResizeCursor());
+			Cursor cursor = edge.getPredefinedResizeCursor();
+
+			int state = Window.jFrame.getExtendedState();
+			if ((state & Window.MAXIMIZED_BOTH) != Window.MAXIMIZED_BOTH) {
+				setCursor(cursor);
+			} else {
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
 		}
 	}
 
