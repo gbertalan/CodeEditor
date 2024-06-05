@@ -11,10 +11,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
-import VisualComponents.CloseButton;
-import VisualComponents.RoundedBackground;
-import VisualComponents.TitleBar;
 import utils.Globals;
+import visual_components.CloseButton;
+import visual_components.RoundedBackground;
+import visual_components.TitleBar;
 
 /**
  * The Controller class controls which component is drawn and when; and handles

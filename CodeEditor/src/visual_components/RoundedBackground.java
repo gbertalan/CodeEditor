@@ -1,4 +1,4 @@
-package VisualComponents;
+package visual_components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
