@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 import utils.Globals;
 import visual_components.CloseButton;
-import visual_components.RoundedBackground;
+import visual_components.Background;
 import visual_components.TitleBar;
 
 /**
@@ -24,7 +24,7 @@ import visual_components.TitleBar;
 public class Controller extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private RoundedBackground roundedBackground;
+	private Background roundedBackground;
 	private TitleBar titleBar;
 	private CloseButton closeButton;
 
@@ -56,7 +56,7 @@ public class Controller extends JPanel {
 		addMouseListener(new ControllerMouseListener());
 		addMouseMotionListener(new ControllerMouseMotionListener());
 
-		roundedBackground = new RoundedBackground(window);
+		roundedBackground = new Background(window);
 		titleBar = new TitleBar(window);
 		closeButton = new CloseButton(window);
 	}
@@ -138,6 +138,7 @@ public class Controller extends JPanel {
 				window.locX = oldLocX;
 				window.locY = oldLocY;
 
+				// if window is not maximised, drag it:
 				if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
 					Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 					int x = mouseLocation.x - initialClick.x;
@@ -149,7 +150,7 @@ public class Controller extends JPanel {
 					oldLocX = x;
 					oldLocY = y;
 
-				} else {
+				} else { // if window is maximised, restore it:
 					double ratio = e.getX() / (double) Window.jFrame.getWidth();
 					Window.jFrame.setSize(window.width, window.height);
 					initialClick = new Point((int) (window.width * ratio), e.getY());
