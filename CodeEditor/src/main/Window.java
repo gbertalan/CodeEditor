@@ -13,8 +13,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 /**
- * The Window class is a JFrame. A Component to store the main canvas where
- * everything is drawn.
+ * The Window class is a JFrame. It contains the Edge enum.
  * 
  * @author Gergely Bertalan
  *

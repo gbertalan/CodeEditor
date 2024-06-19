@@ -21,26 +21,6 @@ public abstract class Component implements VisualComponent {
 		this.height = height;
 	}
 
-	@Override
-	public int getLocX() {
-		return locX;
-	}
-
-	@Override
-	public int getLocY() {
-		return locY;
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
-
 	/**
 	 * Checks if a MouseEvent is within the bounds of the component with a given
 	 * modifier.
