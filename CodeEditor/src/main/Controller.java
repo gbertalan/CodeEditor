@@ -103,10 +103,13 @@ public class Controller extends JPanel {
 				initialClick = e.getPoint();
 			}
 
-			Window.Edge edge = window.getEdgeType(e.getPoint());
-			if (edge != Window.Edge.CENTER) {
-				draggingByEdge = true;
-				edgeStart = e.getLocationOnScreen();
+			// if not maximized:
+			if ((Window.jFrame.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+				Window.Edge edge = window.getEdgeType(e.getPoint());
+				if (edge != Window.Edge.CENTER) {
+					draggingByEdge = true;
+					edgeStart = e.getLocationOnScreen();
+				}
 			}
 		}
 
