@@ -1,9 +1,7 @@
-package visual_components;
+package view;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-
-import main.Window;
 
 public abstract class Component implements VisualComponent {
 
@@ -24,7 +22,7 @@ public abstract class Component implements VisualComponent {
 
 	/**
 	 * Checks if a MouseEvent is within the bounds of the component with a given
-	 * modifier.
+	 * modifier. If it is, it sets the hovered field to true.
 	 * 
 	 * @param e        The MouseEvent to check.
 	 * @param modifier The modifier to adjust the bounding box of the component.
@@ -32,11 +30,6 @@ public abstract class Component implements VisualComponent {
 	public boolean isHovered(MouseEvent e, int modifier) {
 		hovered = e.getX() > locX + modifier && e.getY() > locY + modifier && e.getX() < locX + width - modifier
 				&& e.getY() < locY + height - modifier ? true : false;
-		System.out.println("hovered: " + this.getClass() + " " + hovered);
-		return hovered;
-	}
-
-	public boolean getHovered() {
 		return hovered;
 	}
 
