@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
@@ -25,6 +27,8 @@ public class Listener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
+	private int previousState = JFrame.NORMAL;
+
 	public Listener(Window window) {
 		this.window = window;
 
@@ -35,6 +39,7 @@ public class Listener extends MouseAdapter {
 
 		window.addMouseListener(new ControllerMouseListener());
 		window.addMouseMotionListener(new ControllerMouseMotionListener());
+		window.addWindowStateListener(new ControllerWindowStateListener());
 	}
 
 	private class ControllerMouseListener extends MouseAdapter {
@@ -230,6 +235,23 @@ public class Listener extends MouseAdapter {
 			window.getCanvas().getTrayButton().isHovered(e, 0);
 			window.getCanvas().getMaxButton().isHovered(e, 0);
 
+		}
+	}
+
+	private class ControllerWindowStateListener implements WindowStateListener {
+		@Override
+		public void windowStateChanged(WindowEvent e) {
+			// If the window is being minimized, save its current state
+			if (e.getNewState() == JFrame.ICONIFIED) {
+				previousState = e.getOldState();
+			}
+
+			// If the window is being restored from minimized state, restore it to its
+			// previous state
+			if (e.getOldState() == JFrame.ICONIFIED
+					&& (e.getNewState() == JFrame.NORMAL || e.getNewState() == JFrame.MAXIMIZED_BOTH)) {
+				window.setExtendedState(previousState);
+			}
 		}
 	}
 
