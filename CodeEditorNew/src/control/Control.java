@@ -12,15 +12,8 @@ public class Control {
         this.model = model;
         this.view = view;
 
-        // Add action listener to the button
-//        this.view.getIncrementButton().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                model.increment();
-//                view.getCountLabel().setText(String.valueOf(model.getCount()));
-//            }
-//        });
-        Listener mouseListener = new Listener(view.getWindow());
+        WindowListener windowListener = new WindowListener(view.getWindow());
+        InnerListener innerListener = new InnerListener(view.getWindow());
     }
     
 }

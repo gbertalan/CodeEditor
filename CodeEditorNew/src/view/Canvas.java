@@ -12,7 +12,7 @@ import javax.swing.Timer;
 import utils.Globals;
 
 public class Canvas extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	private Window window;
 	private Background background;
 	private TitleBar titleBar;

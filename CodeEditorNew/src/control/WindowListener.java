@@ -10,11 +10,18 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
-
-import view.MaxButton;
+import view.Component;
 import view.Window;
 
-public class Listener extends MouseAdapter {
+/**
+ * WindowListener is responsible for handling events related to the window's
+ * control elements:
+ * 
+ * 1. resize window by dragging edge; 2. titlebar events; 3. window button
+ * (minimize, maximize, close) events
+ */
+
+public class WindowListener extends MouseAdapter {
 	private Window window;
 
 	private Point initialClick = new Point(0, 0);
@@ -28,27 +35,32 @@ public class Listener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
-	private int previousState = JFrame.NORMAL;
+	private Component titleBar, canvasBackground, closeButton, trayButton, maxButton;
 
-	public Listener(Window window) {
+	public WindowListener(Window window) {
 		this.window = window;
+
+		titleBar = window.getCanvas().getTitleBar();
+		canvasBackground = window.getCanvas().getCanvasBackground();
+		closeButton = window.getCanvas().getCloseButton();
+		trayButton = window.getCanvas().getTrayButton();
+		maxButton = window.getCanvas().getMaxButton();
 
 		oldWidth = window.width;
 		oldHeight = window.height;
 		oldLocX = window.locX;
 		oldLocY = window.locY;
 
-		window.addMouseListener(new ControllerMouseListener());
-		window.addMouseMotionListener(new ControllerMouseMotionListener());
-		window.addWindowStateListener(new ControllerWindowStateListener());
+		window.addMouseListener(new MouseListener());
+		window.addMouseMotionListener(new MouseMotionListener());
+		window.addWindowStateListener(new StateListener());
 	}
 
-	private class ControllerMouseListener extends MouseAdapter {
+	private class MouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if ((window.getCanvas().getTitleBar().isHovered(e, window.frameThichness) && e.getClickCount() == 2)
-					|| window.getCanvas().getMaxButton().isHovered(e, 0)) {
+			if ((titleBar.isHovered(e, window.frameThichness) && e.getClickCount() == 2) || maxButton.isHovered(e, 0)) {
 				if (!window.isMaximized()) {
 					window.setExtendedState(window.getExtendedState() | Window.MAXIMIZED_BOTH);
 					oldWidth = window.width;
@@ -62,19 +74,17 @@ public class Listener extends MouseAdapter {
 				}
 				updateComponents();
 			}
-			if (window.getCanvas().getCloseButton().isHovered(e, 0)) {
+			if (closeButton.isHovered(e, 0)) {
 				System.exit(0);
-			} else if (window.getCanvas().getTrayButton().isHovered(e, 0)) {
+			} else if (trayButton.isHovered(e, 0)) {
 				window.setExtendedState(JFrame.ICONIFIED);
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (window.getCanvas().getTitleBar().isHovered(e, window.frameThichness)
-					&& !window.getCanvas().getTrayButton().getHovered()
-					&& !window.getCanvas().getMaxButton().getHovered()
-					&& !window.getCanvas().getCloseButton().getHovered()) {
+			if (titleBar.isHovered(e, window.frameThichness) && !trayButton.getHovered() && !maxButton.getHovered()
+					&& !closeButton.getHovered()) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
@@ -107,7 +117,7 @@ public class Listener extends MouseAdapter {
 		}
 	}
 
-	private class ControllerMouseMotionListener extends MouseMotionAdapter {
+	private class MouseMotionListener extends MouseMotionAdapter {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -226,9 +236,9 @@ public class Listener extends MouseAdapter {
 			}
 
 			{ // update button hovered state:
-				window.getCanvas().getCloseButton().isHovered(e, 0);
-				window.getCanvas().getTrayButton().isHovered(e, 0);
-				window.getCanvas().getMaxButton().isHovered(e, 0);
+				closeButton.isHovered(e, 0);
+				trayButton.isHovered(e, 0);
+				maxButton.isHovered(e, 0);
 			}
 
 			{ // set all to unhovered when outside window:
@@ -239,18 +249,21 @@ public class Listener extends MouseAdapter {
 				if (!window.isMaximized())
 					if (x < window.locX || y < window.locY || x > window.locX + window.width
 							|| y > window.locY + window.height) {
-						window.getCanvas().getTitleBar().setHovered(false);
-						window.getCanvas().getCanvasBackground().setHovered(false);
-						window.getCanvas().getCloseButton().setHovered(false);
-						window.getCanvas().getTrayButton().setHovered(false);
-						window.getCanvas().getMaxButton().setHovered(false);
+						titleBar.setHovered(false);
+						canvasBackground.setHovered(false);
+						closeButton.setHovered(false);
+						trayButton.setHovered(false);
+						maxButton.setHovered(false);
 					}
 			}
 
 		}
 	}
 
-	private class ControllerWindowStateListener implements WindowStateListener {
+	private class StateListener implements WindowStateListener {
+
+		private int previousState = JFrame.NORMAL;
+
 		@Override
 		public void windowStateChanged(WindowEvent e) {
 			// If the window is being minimized, save its current state
@@ -268,11 +281,11 @@ public class Listener extends MouseAdapter {
 	}
 
 	private void updateComponents() {
-		window.getCanvas().getTitleBar().update();
-		window.getCanvas().getCanvasBackground().update();
-		window.getCanvas().getCloseButton().update();
-		window.getCanvas().getTrayButton().update();
-		window.getCanvas().getMaxButton().update();
+		titleBar.update();
+		canvasBackground.update();
+		closeButton.update();
+		trayButton.update();
+		maxButton.update();
 
 	}
 }
