@@ -33,6 +33,14 @@ public abstract class Component implements VisualComponent {
 		return hovered;
 	}
 
+	public boolean getHovered() {
+		return hovered;
+	}
+
+	public void setHovered(boolean isHovered) {
+		hovered = isHovered;
+	}
+
 	abstract public void update();
 
 	@Override

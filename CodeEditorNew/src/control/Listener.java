@@ -11,6 +11,7 @@ import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
+import view.MaxButton;
 import view.Window;
 
 public class Listener extends MouseAdapter {
@@ -46,8 +47,9 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (window.getCanvas().getTitleBar().isHovered(e, window.frameThichness) && e.getClickCount() == 2) {
-				if ((window.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+			if ((window.getCanvas().getTitleBar().isHovered(e, window.frameThichness) && e.getClickCount() == 2)
+					|| window.getCanvas().getMaxButton().isHovered(e, 0)) {
+				if (!window.isMaximized()) {
 					window.setExtendedState(window.getExtendedState() | Window.MAXIMIZED_BOTH);
 					oldWidth = window.width;
 					oldHeight = window.height;
@@ -62,19 +64,6 @@ public class Listener extends MouseAdapter {
 			}
 			if (window.getCanvas().getCloseButton().isHovered(e, 0)) {
 				System.exit(0);
-			} else if (window.getCanvas().getMaxButton().isHovered(e, 0)) {
-				if ((window.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
-					window.setExtendedState(window.getExtendedState() | Window.MAXIMIZED_BOTH);
-					oldWidth = window.width;
-					oldHeight = window.height;
-					window.width = window.getWidth();
-					window.height = window.getHeight();
-				} else {
-					window.setExtendedState(window.getExtendedState() & ~Window.MAXIMIZED_BOTH);
-					window.width = oldWidth;
-					window.height = oldHeight;
-				}
-				updateComponents();
 			} else if (window.getCanvas().getTrayButton().isHovered(e, 0)) {
 				window.setExtendedState(JFrame.ICONIFIED);
 			}
@@ -82,13 +71,16 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (window.getCanvas().getTitleBar().isHovered(e, window.frameThichness)) {
+			if (window.getCanvas().getTitleBar().isHovered(e, window.frameThichness)
+					&& !window.getCanvas().getTrayButton().getHovered()
+					&& !window.getCanvas().getMaxButton().getHovered()
+					&& !window.getCanvas().getCloseButton().getHovered()) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
 
 			// if not maximized:
-			if ((window.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+			if (!window.isMaximized()) {
 				Window.Edge edge = window.getEdgeType(e.getPoint());
 				if (edge != Window.Edge.CENTER) {
 					draggingByEdge = true;
@@ -119,6 +111,7 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
+
 			if (draggingByTitleBar) {
 				window.width = oldWidth;
 				window.height = oldHeight;
@@ -126,7 +119,7 @@ public class Listener extends MouseAdapter {
 				window.locY = oldLocY;
 
 				// if window is not maximised, drag it:
-				if ((window.getExtendedState() & Window.MAXIMIZED_BOTH) == 0) {
+				if (!window.isMaximized()) {
 					Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 					int x = mouseLocation.x - initialClick.x;
 					int y = mouseLocation.y - initialClick.y;
@@ -145,6 +138,7 @@ public class Listener extends MouseAdapter {
 
 				updateComponents();
 			}
+
 			if (draggingByEdge) {
 				Cursor cursor = window.getCursor();
 				Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
@@ -221,19 +215,37 @@ public class Listener extends MouseAdapter {
 		@Override
 		public void mouseMoved(MouseEvent e) {
 
-			Window.Edge edge = window.getEdgeType(e.getPoint());
-			Cursor cursor = edge.getPredefinedResizeCursor();
-
-			int state = window.getExtendedState();
-			if ((state & Window.MAXIMIZED_BOTH) != Window.MAXIMIZED_BOTH) {
-				window.setCursor(cursor);
-			} else {
-				window.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			{ // set resize cursor when pointing at edge of frame:
+				if (!window.isMaximized()) {
+					Window.Edge edge = window.getEdgeType(e.getPoint());
+					Cursor cursor = edge.getPredefinedResizeCursor();
+					window.setCursor(cursor);
+				} else {
+					window.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}
 			}
 
-			window.getCanvas().getCloseButton().isHovered(e, 0);
-			window.getCanvas().getTrayButton().isHovered(e, 0);
-			window.getCanvas().getMaxButton().isHovered(e, 0);
+			{ // update button hovered state:
+				window.getCanvas().getCloseButton().isHovered(e, 0);
+				window.getCanvas().getTrayButton().isHovered(e, 0);
+				window.getCanvas().getMaxButton().isHovered(e, 0);
+			}
+
+			{ // set all to unhovered when outside window:
+				Point mouseGlobalLocation = MouseInfo.getPointerInfo().getLocation();
+				int x = mouseGlobalLocation.x;
+				int y = mouseGlobalLocation.y;
+
+				if (!window.isMaximized())
+					if (x < window.locX || y < window.locY || x > window.locX + window.width
+							|| y > window.locY + window.height) {
+						window.getCanvas().getTitleBar().setHovered(false);
+						window.getCanvas().getCanvasBackground().setHovered(false);
+						window.getCanvas().getCloseButton().setHovered(false);
+						window.getCanvas().getTrayButton().setHovered(false);
+						window.getCanvas().getMaxButton().setHovered(false);
+					}
+			}
 
 		}
 	}
