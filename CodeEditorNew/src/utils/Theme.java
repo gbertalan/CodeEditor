@@ -81,4 +81,37 @@ public class Theme {
     public static Color getDEBUGColor() {
                 return Color.RED;
     }
+    
+    public static Color getTitleBarColor() {
+        switch (currentTheme) {
+            case LIGHT:
+                return Color.BLACK;
+            case DARK:
+                return new Color(24, 24, 38, 100);
+            default:
+                return Color.BLACK;
+        }
+    }
+    
+    public static Color getTitleTextColor() {
+        switch (currentTheme) {
+            case LIGHT:
+                return Color.BLACK;
+            case DARK:
+                return Color.LIGHT_GRAY;
+            default:
+                return Color.BLACK;
+        }
+    }
+
+	public static Color getSidePanelColor() {
+		switch (currentTheme) {
+        case LIGHT:
+            return new Color(200, 200, 200, 100);
+        case DARK:
+            return new Color(24, 24, 24, 100);
+        default:
+            return Color.GRAY;
+    }
+	}
 }

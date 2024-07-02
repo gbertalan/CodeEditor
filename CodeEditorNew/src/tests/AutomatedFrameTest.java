@@ -9,7 +9,7 @@ import view.View;
 import java.awt.*;
 import java.awt.event.InputEvent;
 
-public class RobotTest {
+public class AutomatedFrameTest {
 
 	public static void main(String[] args) throws Exception {
 		Model model = new Model();

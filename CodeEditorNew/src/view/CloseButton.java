@@ -47,34 +47,17 @@ public class CloseButton extends Component {
 		locX = window.width - WIDTH;
 	}
 
-	public void drawRedRectWithOneRoundedCorner(Graphics2D g2d, int x, int y, int width, int height, int arcSize) {
-
-		// Create a GeneralPath object
-		GeneralPath path = new GeneralPath();
-
-		// Move to the starting point (top-left corner)
-		path.moveTo(x, y);
-
-		// Draw the top edge to the top-right corner
-		path.lineTo(x + width - arcSize, y);
-
-		// Draw the arc for the rounded top-right corner
-		path.quadTo(x + width, y, x + width, y + arcSize);
-
-		// Draw the right edge
-		path.lineTo(x + width, y + height);
-
-		// Draw the bottom edge
-		path.lineTo(x, y + height);
-
-		// Draw the left edge
-		path.lineTo(x, y);
-
-		// Close the path (back to the starting point)
-		path.closePath();
-
-		// Draw the path
-		g2d.fill(path);
+	private void drawRedRectWithOneRoundedCorner(Graphics2D g2d, int x, int y, int width, int height, int arcSize) {
+	    GeneralPath path = new GeneralPath();
+	    path.moveTo(x, y);
+	    path.lineTo(x + width - arcSize, y);
+	    path.quadTo(x + width, y, x + width, y + arcSize);
+	    path.lineTo(x + width, y + height);
+	    path.lineTo(x, y + height);
+	    path.lineTo(x, y);
+	    path.closePath();
+	    g2d.fill(path);
 	}
+
 
 }

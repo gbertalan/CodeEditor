@@ -1,13 +1,16 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.awt.Component;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -44,17 +47,26 @@ public class Window extends JFrame {
 	}
 
 	public void addCanvas(Canvas canvas) {
-		if (getContentPane().getComponentCount() != 0) {
-			getContentPane().removeAll();
-		}
 		this.canvas = canvas;
 		getContentPane().add(canvas);
+	}
+	
+	public void refresh() {
 		revalidate();
 		repaint();
 	}
 
 	public Canvas getCanvas() {
 		return canvas;
+	}
+	
+	public void addPanel(JPanel panel) {
+		getContentPane().add(panel, 0);
+	}
+
+	
+	public void removePanel(int index) {
+		getContentPane().remove(index);
 	}
 
 	/**
