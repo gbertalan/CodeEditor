@@ -27,9 +27,9 @@ public class SettingsButton extends Component {
 	@Override
 	public void draw(Graphics2D g2d) {
 
-		g2d.setColor(Theme.getFilePanelColor());
+		g2d.setColor(Theme.getPanelButtonColor());
 		if (hovered) {
-			g2d.setColor(Theme.getPanelButtonColor());
+			g2d.setColor(Theme.getPanelButtonHoverColor());
 			if (!settingsPanel.isVisible()) {
 				settingsPanel.setVisible(true);
 				window.refresh();
@@ -41,7 +41,7 @@ public class SettingsButton extends Component {
 					window.refresh();
 				}
 			} else {
-				g2d.setColor(Theme.getPanelButtonColor());
+				g2d.setColor(Theme.getPanelButtonHoverColor());
 			}
 		}
 

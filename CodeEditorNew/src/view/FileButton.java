@@ -27,9 +27,9 @@ public class FileButton extends Component {
 	@Override
 	public void draw(Graphics2D g2d) {
 
-		g2d.setColor(Theme.getFilePanelColor());
+		g2d.setColor(Theme.getPanelButtonColor());
 		if (hovered) {
-			g2d.setColor(Theme.getPanelButtonColor());
+			g2d.setColor(Theme.getPanelButtonHoverColor());
 			if (!filePanel.isVisible()) {
 				filePanel.setVisible(true);
 				window.refresh();
@@ -41,7 +41,7 @@ public class FileButton extends Component {
 					window.refresh();
 				}
 			} else {
-				g2d.setColor(Theme.getPanelButtonColor());
+				g2d.setColor(Theme.getPanelButtonHoverColor());
 			}
 		}
 

@@ -116,12 +116,12 @@ public class Theme {
 		}
 	}
 	
-	public static Color getFilePanelColor() {
+	public static Color getOpenedPanelColor() {
 		switch (currentTheme) {
 		case LIGHT:
-			return new Color(200, 200, 200, 100);
+			return new Color(200, 200, 200);
 		case DARK:
-			return new Color(44, 44, 44, 150);
+			return new Color(44, 44, 44);
 		default:
 			return Color.GRAY;
 		}
@@ -154,7 +154,30 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
+			return new Color(15, 15, 15);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getPanelButtonHoverColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
 			return new Color(55, 55, 55);
+		default:
+			return Color.GRAY;
+		}
+	}
+
+	public static Color getFilePanelCoverColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(34, 34, 34);
+//			return Color.RED;
 		default:
 			return Color.GRAY;
 		}

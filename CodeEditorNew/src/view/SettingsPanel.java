@@ -26,6 +26,7 @@ public class SettingsPanel extends JPanel implements MouseListener, MouseMotionL
 	private static int LEFT_MARGIN = 55;
 	private static int BOTTOM_MARGIN = 8;
 	private static int WIDTH = 300;
+	private static int HEADER_HEIGHT = 24;
 
 	public boolean hovered = false;
 
@@ -37,18 +38,10 @@ public class SettingsPanel extends JPanel implements MouseListener, MouseMotionL
 		this.window = window;
 		setLayout(null);
 		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN - 1);
-		setBackground(Theme.getFilePanelColor());
+		setBackground(Theme.getOpenedPanelColor());
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
-
-//		textField = new JTextField();
-//		textField.setBorder(new LineBorder(new Color(171, 173, 179)));
-//		textField.setBackground(Color.LIGHT_GRAY);
-//		textField.setEditable(false);
-//		textField.setBounds(30, 60, 96, 19);
-//		add(textField);
-//		textField.setColumns(10);
 	}
 
 	@Override
@@ -61,15 +54,9 @@ public class SettingsPanel extends JPanel implements MouseListener, MouseMotionL
 		Globals.setRenderingHints(g2d);
 
 		g2d.setColor(Theme.getPanelHeaderTextColor());
-		drawText(g2d, "SETTINGS", true, 0, 24, Font.BOLD, 16);
-		g2d.setColor(Theme.getPanelTextColor());
-//		drawText(g2d, "Project:", false, 10, 56, Font.PLAIN, 14);
-
-		drawButton(g2d, true, 0, 46, 270, 30, "PROJECT", image);
-		drawButton(g2d, true, 0, 96, 270, 30, "FOLDER", image);
+		drawText(g2d, "SETTINGS", true, 0, HEADER_HEIGHT, Font.BOLD, 16);
 
 		drawSeparatorLine(g2d, 36);
-		drawSeparatorLine(g2d, 86);
 
 		// Draw the border
 		g2d.setColor(Theme.getSeparatorLineColor());
