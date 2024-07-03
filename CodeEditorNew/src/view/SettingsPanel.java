@@ -20,7 +20,7 @@ import utils.Theme;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-public class FilePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class SettingsPanel extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static int TOP_MARGIN = 42;
 	private static int LEFT_MARGIN = 55;
@@ -33,7 +33,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	private BufferedImage image;
 	private JTextField textField;
 
-	public FilePanel(Window window) {
+	public SettingsPanel(Window window) {
 		this.window = window;
 		setLayout(null);
 		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN - 1);
@@ -61,7 +61,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		Globals.setRenderingHints(g2d);
 
 		g2d.setColor(Theme.getPanelHeaderTextColor());
-		drawText(g2d, "FILE", true, 0, 24, Font.BOLD, 16);
+		drawText(g2d, "SETTINGS", true, 0, 24, Font.BOLD, 16);
 		g2d.setColor(Theme.getPanelTextColor());
 //		drawText(g2d, "Project:", false, 10, 56, Font.PLAIN, 14);
 

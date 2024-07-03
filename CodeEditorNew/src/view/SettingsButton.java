@@ -5,17 +5,17 @@ import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
-public class FileButton extends Component {
+public class SettingsButton extends Component {
 
-	private static int TOP_MARGIN = 42;
 	private static int SIZE = 55;
+	private static int TOP_MARGIN = 42 + SIZE;
 
-	private FilePanel filePanel = new FilePanel(window);
+	private SettingsPanel settingsPanel = new SettingsPanel(window);
 
-	public FileButton(Window window) {
+	public SettingsButton(Window window) {
 		super(window, 0, TOP_MARGIN, SIZE, SIZE);
-		window.addPanel(filePanel);
-		filePanel.setVisible(false);
+		window.addPanel(settingsPanel);
+		settingsPanel.setVisible(false);
 	}
 
 	@Override
@@ -30,14 +30,14 @@ public class FileButton extends Component {
 		g2d.setColor(Theme.getFilePanelColor());
 		if (hovered) {
 			g2d.setColor(Theme.getPanelButtonColor());
-			if (!filePanel.isVisible()) {
-				filePanel.setVisible(true);
+			if (!settingsPanel.isVisible()) {
+				settingsPanel.setVisible(true);
 				window.refresh();
 			}
 		} else {
-			if (!filePanel.hovered) {
-				if (filePanel.isVisible()) {
-					filePanel.setVisible(false);
+			if (!settingsPanel.hovered) {
+				if (settingsPanel.isVisible()) {
+					settingsPanel.setVisible(false);
 					window.refresh();
 				}
 			} else {

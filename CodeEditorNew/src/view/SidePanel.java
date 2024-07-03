@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import utils.Theme;
+
 public class SidePanel extends Component {
 
 	private static int TOP_MARGIN = 42;
@@ -21,8 +23,10 @@ public class SidePanel extends Component {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Color.CYAN);
+		g2d.setColor(Theme.getSidePanelColor());
 		g2d.fillRect(locX, locY, width, height);
+		g2d.setColor(Theme.getSeparatorLineColor());
+		g2d.drawLine(width, locY, width, locY + height);
 	}
 
 }

@@ -24,6 +24,7 @@ public class Canvas extends JPanel {
 	private MaxButton maxButton;
 	private SidePanel sidePanel;
 	private FileButton fileButton;
+	private SettingsButton settingsButton;
 	private Footer footer;
 
 	public Canvas(Window window) {
@@ -40,6 +41,7 @@ public class Canvas extends JPanel {
 		this.maxButton = new MaxButton(window);
 		this.sidePanel = new SidePanel(window);
 		this.fileButton = new FileButton(window);
+		this.settingsButton = new SettingsButton(window);
 		this.footer = new Footer(window);
 
 		/*
@@ -69,6 +71,7 @@ public class Canvas extends JPanel {
 		maxButton.draw(g2d);
 		sidePanel.draw(g2d);
 		fileButton.draw(g2d);
+		settingsButton.draw(g2d);
 		footer.draw(g2d);
 
 		g2d.dispose();
@@ -113,6 +116,10 @@ public class Canvas extends JPanel {
 
 	public FileButton getFileButton() {
 		return fileButton;
+	}
+	
+	public SettingsButton getSettingsButton() {
+		return settingsButton;
 	}
 	
 	public Footer getFooter() {
