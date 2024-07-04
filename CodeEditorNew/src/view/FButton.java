@@ -11,6 +11,7 @@ import utils.Theme;
 
 public class FButton {
 
+	private static final int TEXT_LEFT_MARGIN = 30;
 	private String filename;
 	private int x = 30;
 	private int y;
@@ -38,12 +39,11 @@ public class FButton {
 			g2d.setColor(Theme.getPanelButtonColor());
 		g2d.fillRect(0, y + wheelRotationAmount, width, HEIGHT);
 		g2d.setColor(Theme.getPanelTextColor());
-		g2d.drawString(filename, x, y + wheelRotationAmount + 20);
+		g2d.drawString(filename, TEXT_LEFT_MARGIN, y + wheelRotationAmount + 20);
 	}
 
 	public boolean containsPoint(Point point) {
-		if (point.x >= x && point.y >= y + wheelRotationAmount && point.x <= x + width
-				&& point.y <= y + wheelRotationAmount + HEIGHT)
+		if (point.y >= y + wheelRotationAmount && point.y <= y + wheelRotationAmount + HEIGHT)
 			return true;
 		else
 			return false;
@@ -57,10 +57,14 @@ public class FButton {
 		wheelRotationAmount += amount;
 	}
 
+	public static void resetWheelRotationAmount() {
+		wheelRotationAmount = 0;
+	}
+
 	public static int getWheelRotationAmount() {
 		return wheelRotationAmount;
 	}
-	
+
 	public int getExactYLoc() {
 		return y + wheelRotationAmount;
 	}
