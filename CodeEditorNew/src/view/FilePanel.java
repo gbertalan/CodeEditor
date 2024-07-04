@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-public class FilePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class FilePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
 	private static int TOP_MARGIN = 42;
 	private static int LEFT_MARGIN = 55;
@@ -48,6 +50,9 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	ArrayList<String> filenameList = new ArrayList<>();
 	ArrayList<FButton> fileList = new ArrayList<>();
 
+	private int wheelRotation;
+	private static double SCROLL_ACCELERATION = 15.0;
+
 	public FilePanel(Window window) {
 		this.window = window;
 		setLayout(null);
@@ -59,6 +64,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 
 		filenameList.add("file0.cpp");
 		filenameList.add("file1");
@@ -68,7 +74,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		filenameList.add("file5");
 		filenameList.add("file6");
 		filenameList.add("file7");
-		filenameList.add("file8");
+		filenameList.add("main.s");
 		filenameList.add("file9");
 		filenameList.add("file10");
 		filenameList.add("file11");
@@ -88,7 +94,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		filenameList.add("file25");
 
 		for (int i = 0; i < filenameList.size(); i++) {
-			fileList.add(new FButton(filenameList.get(i), COVER_PANEL_HEIGHT + (30 * i), this));
+			fileList.add(new FButton(filenameList.get(i), COVER_PANEL_HEIGHT + (28 * i), this));
 		}
 	}
 
@@ -193,8 +199,11 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		// same as previous, but with file list:
 		// (a possible simplification is that in the above code projectButton and
-		// folderButton could be placed in an ArrayList, similarly to these below. And then maybe the first half of this method can be combines with the second half.)
-		// (I could also do that I wouldn't have separate PanelButton and FButton, instead only one of those.)
+		// folderButton could be placed in an ArrayList, similarly to these below. And
+		// then maybe the first half of this method can be combines with the second
+		// half.)
+		// (I could also do that I wouldn't have separate PanelButton and FButton,
+		// instead only one of those.)
 		for (int i = 0; i < fileList.size(); i++) {
 			if (hoveredFileComponent != fileList.get(i) && fileList.get(i).containsPoint(e.getPoint())) {
 				hoveredFileComponent = fileList.get(i);
@@ -230,6 +239,12 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		} else if (hoveredComponent == folderButton) {
 			System.out.println("fold clicked");
 		}
+
+		for (int i = 0; i < fileList.size(); i++) {
+			if (hoveredFileComponent == fileList.get(i)) {
+				System.out.println(fileList.get(i).getFilename());
+			}
+		}
 	}
 
 	@Override
@@ -254,5 +269,23 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		hovered = false;
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getPoint().y > COVER_PANEL_HEIGHT) {
+			wheelRotation = (int) -(e.getWheelRotation() * SCROLL_ACCELERATION);
+			FButton.setWheelRotationAmount(wheelRotation);
+
+			if (FButton.getWheelRotationAmount() <= 0
+					&& fileList.get(fileList.size() - 1).getExactYLoc() > getHeight() - FButton.HEIGHT - BOTTOM_MARGIN) {
+
+				mouseMoved(e);
+				repaint();
+			} else {
+				FButton.setWheelRotationAmount(-wheelRotation);
+			}
+		}
+
 	}
 }
