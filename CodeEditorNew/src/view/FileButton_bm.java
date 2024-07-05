@@ -5,17 +5,17 @@ import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
-public class FileButton extends Component {
+public class FileButton_bm extends Component {
 
 	private static int TOP_MARGIN = 42;
 	private static int SIZE = 55;
 
-	FilePanel filePanel = new FilePanel(window);
+	private FilePanel filePanel = new FilePanel(window);
 
-	private boolean done; // to make sure code is called only ones when button is hovered
-
-	public FileButton(Window window) {
+	public FileButton_bm(Window window) {
 		super(window, 0, TOP_MARGIN, SIZE, SIZE);
+		window.addPanel(filePanel);
+		filePanel.setVisible(false);
 	}
 
 	@Override
@@ -29,29 +29,24 @@ public class FileButton extends Component {
 
 		g2d.setColor(Theme.getPanelButtonColor());
 		if (hovered) {
-			if (!done) {
-				g2d.setColor(Theme.getPanelButtonHoverColor());
-
-				if (filePanel.scrollPanel != null)
-					filePanel.recreateScrollPanel(window.getHeight());
-				window.addPanel(filePanel);
+			g2d.setColor(Theme.getPanelButtonHoverColor());
+			if (!filePanel.isVisible()) {
+				filePanel.setVisible(true);
 				window.refresh();
-
-				done = true;
 			}
 		} else {
-			done = false;
 			if (!filePanel.hovered) {
-				window.getContentPane().remove(filePanel);
-				window.refresh();
-
+				if (filePanel.isVisible()) {
+					filePanel.setVisible(false);
+					window.refresh();
+				}
 			} else {
 				g2d.setColor(Theme.getPanelButtonHoverColor());
 			}
 		}
 
 		g2d.fillRect(locX, locY, width, height);
-
+		
 		g2d.setColor(Theme.getSeparatorLineColor());
 		g2d.drawRect(locX, locY, width, height);
 	}
@@ -63,3 +58,4 @@ public class FileButton extends Component {
 	}
 
 }
+

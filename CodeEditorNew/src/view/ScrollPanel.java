@@ -30,6 +30,10 @@ public class ScrollPanel extends JPanel {
 			ScrollButton sb = new ScrollButton(list.get(i), width);
 			add(sb);
 		}
+		
+		ScrollButton.resetCounter();
 
 	}
+	
+	
 }

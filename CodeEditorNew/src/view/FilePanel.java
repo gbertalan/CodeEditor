@@ -19,7 +19,7 @@ import utils.Globals;
 import utils.Theme;
 import java.awt.Color;
 
-public class FilePanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class FilePanel extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static int TOP_MARGIN = 42;
 	private static int LEFT_MARGIN = 55;
@@ -31,24 +31,23 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	public boolean hovered = false;
 
 	private Window window;
+	private int height;
 
 	private Graphics2D g2d;
 	private PanelButton projectButton;
 	private PanelButton folderButton;
 
 	private Object hoveredComponent = this;
-	private Object hoveredFileComponent = this;
 
 	ArrayList<String> filenameList = new ArrayList<>();
-	ArrayList<FButton> fileList = new ArrayList<>();
 
-	private int wheelRotation;
-	private static double SCROLL_ACCELERATION = 15.0;
+	public ScrollPanel scrollPanel;
 
 	public FilePanel(Window window) {
 		this.window = window;
+		this.height = window.height - TOP_MARGIN - BOTTOM_MARGIN - 1;
 		setLayout(null);
-		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN - 1);
+		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, height);
 //		setBounds(LEFT_MARGIN, TOP_MARGIN, 300, 549);
 		setBackground(Theme.getOpenedPanelColor());
 //		setBackground(Color.CYAN);
@@ -58,7 +57,6 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		addMouseWheelListener(this);
 
 		filenameList.add("file0.cpp");
 		filenameList.add("file1");
@@ -86,34 +84,14 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		filenameList.add("file23");
 		filenameList.add("file24");
 		filenameList.add("file25");
-
-		for (int i = 0; i < filenameList.size(); i++) {
-			fileList.add(new FButton(filenameList.get(i), COVER_PANEL_HEIGHT + (28 * i), this));
-		}
-
-//		ScrollableListPanel scrollableListPanel = new ScrollableListPanel(0, COVER_PANEL_HEIGHT, getWidth(), getHeight() - COVER_PANEL_HEIGHT); 
-//		add(scrollableListPanel);
-//		setComponentZOrder(scrollableListPanel, 0); // Top-most
-
-//		setOpaque(true);
-//		
-//		JPanel panel = new JPanel();
-//		
-//		panel.setBounds(0, 0, 280, 549);
-//		panel.setBackground(new Color(0, 255, 0));
-//		System.out.println("width: "+this.getWidth()+" "+ panel.getWidth());
-//		System.out.println("height: "+this.getHeight()+" "+ panel.getHeight());
-//		panel.setLayout(null);
-//		panel.setOpaque(true);
-//		add(panel);
-
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN - 1);
+		height = window.height - TOP_MARGIN - BOTTOM_MARGIN - 1;
+		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, height);
 
 		g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
@@ -121,11 +99,6 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		// background:
 		g2d.setColor(Theme.getOpenedPanelColor());
 		g2d.fillRect(0, 0, getWidth(), getHeight());
-
-		// scrollable files:
-//		for (int i = 0; i < fileList.size(); i++) {
-//			fileList.get(i).draw(hoveredFileComponent, g2d);
-//		}
 
 		// cover panel so that the scrolled text will be covered:
 		g2d.setColor(Theme.getFilePanelCoverColor());
@@ -206,39 +179,6 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 			repaint();
 		}
 
-		// same as previous, but with file list:
-		// (a possible simplification is that in the above code projectButton and
-		// folderButton could be placed in an ArrayList, similarly to these below. And
-		// then maybe the first half of this method can be combines with the second
-		// half.)
-		// (I could also do that I wouldn't have separate PanelButton and FButton,
-		// instead only one of those.)
-
-		for (int i = 0; i < fileList.size(); i++) {
-			if (hoveredFileComponent != fileList.get(i) && fileList.get(i).containsPoint(e.getPoint())) {
-				hoveredFileComponent = fileList.get(i);
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				repaint();
-			}
-		}
-
-		if (hoveredFileComponent != null) {
-
-			boolean found = false;
-			for (int i = 0; i < fileList.size(); i++) {
-				if (fileList.get(i).containsPoint(e.getPoint())) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				hoveredFileComponent = null;
-				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				repaint();
-			}
-
-		}
-
 	}
 
 	@Override
@@ -249,24 +189,12 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		} else if (hoveredComponent == folderButton) {
 			System.out.println("fold clicked");
 
-//			ScrollableListPanel scrollableListPanel = new ScrollableListPanel(0, COVER_PANEL_HEIGHT, getWidth(),
-//					getHeight() - COVER_PANEL_HEIGHT, filenameList);
-//			add(scrollableListPanel);
-
-			ScrollPanel scrollPanel = new ScrollPanel(0, COVER_PANEL_HEIGHT, getWidth(),
-					getHeight() - COVER_PANEL_HEIGHT, filenameList);
-			add(scrollPanel);
-			System.out.println("getHeight(): " + getHeight());
+			recreateScrollPanel(height);
 
 			revalidate();
 			repaint();
 		}
 
-		for (int i = 0; i < fileList.size(); i++) {
-			if (hoveredFileComponent == fileList.get(i)) {
-				System.out.println(fileList.get(i).getFilename());
-			}
-		}
 	}
 
 	@Override
@@ -290,26 +218,33 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Exiting FilePanel");
-		FButton.resetWheelRotationAmount();
 		hovered = false;
+		hoveredComponent = null;
+		repaint();
 	}
 
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		if (e.getPoint().y > COVER_PANEL_HEIGHT) {
-			wheelRotation = (int) -(e.getWheelRotation() * SCROLL_ACCELERATION);
-			FButton.setWheelRotationAmount(wheelRotation);
-
-			if (FButton.getWheelRotationAmount() <= 0 && fileList.get(fileList.size() - 1).getExactYLoc() > getHeight()
-					- FButton.HEIGHT - BOTTOM_MARGIN) {
-
-				mouseMoved(e);
-				repaint();
-			} else {
-				FButton.setWheelRotationAmount(-wheelRotation);
-			}
+	public void recreateScrollPanel(int newHeight) {
+		if (scrollPanel != null) {
+			remove(scrollPanel);
+			createScrollPanel(newHeight);
+		} else {
+			createScrollPanel(newHeight);
 		}
+	}
 
+	public void removeScrollPanel() {
+		if (scrollPanel != null) {
+			remove(scrollPanel);
+			revalidate();
+			repaint();
+		}
+	}
+
+	private void createScrollPanel(int newHeight) {
+		// TODO Auto-generated method stub
+		scrollPanel = new ScrollPanel(0, COVER_PANEL_HEIGHT, getWidth(), newHeight - COVER_PANEL_HEIGHT, filenameList);
+		add(scrollPanel);
+		revalidate();
+		repaint();
 	}
 }

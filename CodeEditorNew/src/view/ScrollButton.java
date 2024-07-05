@@ -43,6 +43,10 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 		++buttonCounter;
 	}
+	
+	public static void resetCounter() {
+		buttonCounter = 0;
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
