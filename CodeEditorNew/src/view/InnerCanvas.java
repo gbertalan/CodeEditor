@@ -18,7 +18,7 @@ public class InnerCanvas extends JPanel {
 		setLayout(null);
 		setBounds(10, 10, 700, 300);
 		setBackground(Color.RED);
-		setOpaque(true);
+		setOpaque(false);
 	}
 	
 	@Override

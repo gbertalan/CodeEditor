@@ -8,20 +8,18 @@ public class View {
 
 	public View() {
 		window = new Window();
+		
 		Canvas canvas = new Canvas(window);
 		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(window);
-//		window.addPanel(new FilePanel(window));
-//		window.addPanel(new Panel());
+		InnerCanvas innerCanvas = new InnerCanvas(window);
+
 		window.addMainBackgroundPanel(mainBackgroundPanel);
+		window.addInnerCanvas(innerCanvas);
 		window.addCanvas(canvas);
-		/*
-		 * InnerCanvas innerCanvas = new InnerCanvas(window);
-		 * window.getContentPane().add(innerCanvas);
-		 * window.setComponentZOrder(innerCanvas, 0); window.setComponentZOrder(canvas,
-		 * 1);
-		 */
 		
 		window.getContentPane().setComponentZOrder(mainBackgroundPanel, 2);
+		window.getContentPane().setComponentZOrder(innerCanvas, 1);
+		window.getContentPane().setComponentZOrder(canvas, 0);
 
 		window.refresh();
 		printComponents();

@@ -17,6 +17,7 @@ public class Window extends JFrame {
 
 	private Canvas canvas;
 	private MainBackgroundPanel mainBackgroundPanel;
+	private InnerCanvas innerCanvas;
 
 	public int width = 800;
 	public int height = 600;
@@ -63,6 +64,15 @@ public class Window extends JFrame {
 	
 	public MainBackgroundPanel getMainBackgroundPanel() {
 		return mainBackgroundPanel;
+	}
+	
+	public void addInnerCanvas(InnerCanvas innerCanvas) {
+		this.innerCanvas = innerCanvas;
+		getContentPane().add(innerCanvas);
+	}
+	
+	public InnerCanvas getInnerCanvas() {
+		return innerCanvas;
 	}
 	
 	public void refresh() {

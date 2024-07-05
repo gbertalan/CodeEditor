@@ -42,7 +42,7 @@ public class MainBackgroundPanel extends JPanel{
 //		background.draw(g2d);
 		
 		g2d.setColor(Theme.getBackgroundColor());
-//		g2d.setColor(new Color(230, 30, 30));
+		g2d.setColor(new Color(230, 30, 30));
 
 		if (window.isMaximized()) {
 			g2d.fillRect(0, 0, window.width, window.height);
