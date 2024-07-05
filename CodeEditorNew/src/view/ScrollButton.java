@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -11,7 +9,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import utils.Globals;
@@ -27,6 +24,8 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	private static int buttonCounter = 0;
 
 	private boolean entered;
+	
+	private int ID;
 
 	public ScrollButton(String text, int width) {
 
@@ -41,6 +40,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 		addMouseWheelListener(this);
 
 		++buttonCounter;
+		this.ID = buttonCounter;
 	}
 	
 	public static void resetCounter() {
@@ -71,19 +71,19 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println(ID);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
