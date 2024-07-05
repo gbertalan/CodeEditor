@@ -16,20 +16,21 @@ public class InnerCanvas extends JPanel {
 		this.window = window;
 		
 		setLayout(null);
-		setBounds(10, 10, 700, 500);
+		setBounds(10, 10, 700, 300);
 		setBackground(Color.RED);
+		setOpaque(true);
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		setBounds(0, 0, window.width, window.height);
+		setBounds(30, 30, 600, 300);
 
 		Graphics2D g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
 		
-		g2d.setColor(Color.RED);
+		g2d.setColor(Color.YELLOW);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		
 	}

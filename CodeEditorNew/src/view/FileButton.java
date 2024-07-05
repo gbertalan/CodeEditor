@@ -30,7 +30,7 @@ public class FileButton extends Component {
 		g2d.setColor(Theme.getPanelButtonColor());
 		if (hovered) {
 			if (!done) {
-				g2d.setColor(Theme.getPanelButtonHoverColor());
+				
 
 				if (filePanel.scrollPanel != null) {
 					filePanel.recreateScrollPanel(window.height);
@@ -41,6 +41,7 @@ public class FileButton extends Component {
 
 				done = true;
 			}
+			g2d.setColor(Theme.getPanelButtonHoverColor());
 		} else {
 			done = false;
 			if (!filePanel.hovered) {

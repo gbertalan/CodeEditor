@@ -165,7 +165,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
-			return new Color(55, 55, 55);
+			return new Color(34, 34, 34);
 		default:
 			return Color.GRAY;
 		}

@@ -74,7 +74,7 @@ public class Canvas extends JPanel {
 		settingsButton.draw(g2d);
 		footer.draw(g2d);
 
-		g2d.dispose();
+//		g2d.dispose();
 	}
 
 	public void drawPanel() {

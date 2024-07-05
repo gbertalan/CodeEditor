@@ -12,9 +12,16 @@ public class View {
 //		window.addPanel(new FilePanel(window));
 //		window.addPanel(new Panel());
 		window.addCanvas(canvas);
-		
+
+		/*
+		 * InnerCanvas innerCanvas = new InnerCanvas(window);
+		 * window.getContentPane().add(innerCanvas);
+		 * window.setComponentZOrder(innerCanvas, 0); window.setComponentZOrder(canvas,
+		 * 1);
+		 */
+
 		window.refresh();
-//		printComponents();
+		printComponents();
 	}
 
 	public JFrame getWindowAsJFrame() {
@@ -28,7 +35,8 @@ public class View {
 	private void printComponents() {
 		int noOfComps = window.getContentPane().getComponentCount();
 		for (int i = 0; i < noOfComps; i++) {
-			System.out.println((i + 1) + "/" + noOfComps + ": " + "index:"+i+" - "+window.getContentPane().getComponent(i));
+			System.out.println(
+					(i + 1) + "/" + noOfComps + ": " + "index:" + i + " - " + window.getContentPane().getComponent(i));
 		}
 	}
 
