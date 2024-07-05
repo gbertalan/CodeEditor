@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import utils.Globals;
@@ -33,9 +34,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 		this.width = width; 
 
 		setLayout(null);
-		setBounds(0, buttonCounter * (HEIGHT - 1), width, HEIGHT);
-
-		setBackground(Color.CYAN);
+		setBounds(0, buttonCounter * (HEIGHT - 2), width, HEIGHT);
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -54,18 +53,18 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 		Graphics2D g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
+		
+		getParent().repaint();
 
 		if (entered)
-			g2d.setColor(Color.GREEN);
+			g2d.setColor(Theme.getPanelButtonHoverColor());
 		else
-			g2d.setColor(Color.PINK);
+			g2d.setColor(getParent().getBackground());
 		
 		g2d.fillRect(0, 0, width, HEIGHT);
 		
 		g2d.setColor(Theme.getPanelTextColor());
 		g2d.drawString(text, TEXT_LEFT_MARGIN, 20);
-		
-//		g2d.dispose();
 
 	}
 
