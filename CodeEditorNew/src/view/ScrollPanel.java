@@ -21,8 +21,6 @@ public class ScrollPanel extends JPanel {
 
 	private int height;
 
-	private boolean scrollable; // if big enough contents to be scrolled
-
 	public ScrollPanel(int x, int y, int width, int height, ArrayList<String> list) {
 
 		this.height = height;
@@ -41,18 +39,11 @@ public class ScrollPanel extends JPanel {
 
 		ScrollButton.resetCounter();
 
-		if (((buttons.size() + 1) * BUTTON_HEIGHT) > height) {
-			scrollable = true;
-		} else {
-			scrollable = false;
-		}
-
 		for (ScrollButton sb : buttons) {
-			if (scrollable)
-				sb.scroll(savedScrollAmount);
-			else
-				sb.scroll(0);
+			sb.scroll(0);
 		}
+		savedScrollAmount = 0;
+
 	}
 
 	public ArrayList<ScrollButton> getButtons() {
@@ -61,25 +52,23 @@ public class ScrollPanel extends JPanel {
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
-		if (scrollable) {
-			scrollAmount = -e.getWheelRotation() * SCROLL_FACTOR;
+		scrollAmount = -e.getWheelRotation() * SCROLL_FACTOR;
+
+		for (ScrollButton sb : buttons) {
+			sb.scroll(scrollAmount);
+		}
+		savedScrollAmount += scrollAmount;
+
+		while (savedScrollAmount > 0 || savedScrollAmount + ((buttons.size() + 2) * BUTTON_HEIGHT) < height) {
 
 			for (ScrollButton sb : buttons) {
-				sb.scroll(scrollAmount);
+				sb.scroll(-scrollAmount);
 			}
-			savedScrollAmount += scrollAmount;
-
-			while (savedScrollAmount > 0 || savedScrollAmount + ((buttons.size() + 2) * BUTTON_HEIGHT) < height) {
-
-				for (ScrollButton sb : buttons) {
-					sb.scroll(-scrollAmount);
-				}
-				savedScrollAmount -= scrollAmount;
-			}
-
-			revalidate();
-			repaint();
+			savedScrollAmount -= scrollAmount;
 		}
+
+		revalidate();
+		repaint();
 
 	}
 
