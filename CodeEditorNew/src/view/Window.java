@@ -16,6 +16,7 @@ public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private Canvas canvas;
+	private MainBackgroundPanel mainBackgroundPanel;
 
 	public int width = 800;
 	public int height = 600;
@@ -51,14 +52,25 @@ public class Window extends JFrame {
 		getContentPane().add(canvas);
 	}
 	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
+	public void addMainBackgroundPanel(MainBackgroundPanel mainBackgroundPanel) {
+		this.mainBackgroundPanel = mainBackgroundPanel;
+		getContentPane().add(mainBackgroundPanel);
+	}
+	
+	public MainBackgroundPanel getMainBackgroundPanel() {
+		return mainBackgroundPanel;
+	}
+	
 	public void refresh() {
 		revalidate();
 		repaint();
 	}
 
-	public Canvas getCanvas() {
-		return canvas;
-	}
+	
 	
 	public void addPanel(JPanel panel) {
 		getContentPane().add(panel, 0);

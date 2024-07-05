@@ -64,7 +64,7 @@ public class Canvas extends JPanel {
 		g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
 
-		background.draw(g2d);
+//		background.draw(g2d);
 		titleBar.draw(g2d);
 		closeButton.draw(g2d);
 		trayButton.draw(g2d);
