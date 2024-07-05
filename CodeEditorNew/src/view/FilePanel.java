@@ -189,7 +189,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		} else if (hoveredComponent == folderButton) {
 			System.out.println("fold clicked");
 
-			recreateScrollPanel(height);
+			recreateScrollPanel(window.height);
 
 			revalidate();
 			repaint();
@@ -223,13 +223,12 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 		repaint();
 	}
 
-	public void recreateScrollPanel(int newHeight) {
+	public void recreateScrollPanel(int windowHeight) {
 		if (scrollPanel != null) {
 			remove(scrollPanel);
-			createScrollPanel(newHeight);
-		} else {
-			createScrollPanel(newHeight);
 		}
+		createScrollPanel(windowHeight);
+
 	}
 
 	public void removeScrollPanel() {
@@ -241,8 +240,8 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	private void createScrollPanel(int newHeight) {
-		// TODO Auto-generated method stub
-		scrollPanel = new ScrollPanel(1, COVER_PANEL_HEIGHT, getWidth()-2, newHeight - COVER_PANEL_HEIGHT, filenameList);
+		scrollPanel = new ScrollPanel(1, COVER_PANEL_HEIGHT, getWidth() - 2, newHeight - COVER_PANEL_HEIGHT,
+				filenameList);
 		add(scrollPanel);
 		revalidate();
 		repaint();

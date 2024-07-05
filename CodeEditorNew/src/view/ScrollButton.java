@@ -20,7 +20,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 	private ScrollPanel parent;
 	private int width;
-	private static int HEIGHT = 30;
+	private static int HEIGHT = ScrollPanel.BUTTON_HEIGHT;
 	private static final int TEXT_LEFT_MARGIN = 30;
 
 	private String text;

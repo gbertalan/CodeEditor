@@ -32,8 +32,10 @@ public class FileButton extends Component {
 			if (!done) {
 				g2d.setColor(Theme.getPanelButtonHoverColor());
 
-				if (filePanel.scrollPanel != null)
-					filePanel.recreateScrollPanel(window.getHeight());
+				if (filePanel.scrollPanel != null) {
+					filePanel.recreateScrollPanel(window.height);
+				}
+
 				window.addPanel(filePanel);
 				window.refresh();
 
