@@ -242,7 +242,7 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	private void createScrollPanel(int newHeight) {
 		// TODO Auto-generated method stub
-		scrollPanel = new ScrollPanel(0, COVER_PANEL_HEIGHT, getWidth(), newHeight - COVER_PANEL_HEIGHT, filenameList);
+		scrollPanel = new ScrollPanel(1, COVER_PANEL_HEIGHT, getWidth()-2, newHeight - COVER_PANEL_HEIGHT, filenameList);
 		add(scrollPanel);
 		revalidate();
 		repaint();

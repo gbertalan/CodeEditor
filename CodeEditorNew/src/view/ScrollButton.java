@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -28,7 +29,6 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	private boolean entered;
 
 	private int ID;
-	private static int scrolledBy;
 
 	public ScrollButton(String text, ScrollPanel parent) {
 
@@ -38,7 +38,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 		setLayout(null);
 		setBounds(0, buttonCounter * (HEIGHT - 2), width, HEIGHT);
-//		setLocation(getX(), getY()+scrolledBy);
+		setBorder(BorderFactory.createEmptyBorder());
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -53,10 +53,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	public void scroll(int amount) {
-		System.out.println("amount: " + amount);
-		scrolledBy = getY() + amount;
-		setLocation(getX(), scrolledBy);
-
+		setLocation(getX(), getY() + amount);
 	}
 
 	@Override
@@ -100,6 +97,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseEntered(MouseEvent e) {
 		entered = true;
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		parent.repaintAllButtons();
 		repaint();
 	}
 
@@ -107,6 +105,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseExited(MouseEvent e) {
 		entered = false;
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		parent.repaintAllButtons();
 		repaint();
 	}
 

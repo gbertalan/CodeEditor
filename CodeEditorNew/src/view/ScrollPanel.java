@@ -10,10 +10,12 @@ import utils.Theme;
 public class ScrollPanel extends JPanel {
 
 	private static Color BACKGROUND_COLOR = Theme.getBackgroundColor();
+	private static int SCROLL_FACTOR = 30;
+	
 	private ArrayList<ScrollButton> buttons;
 
-	private static int scrollAmount;
-	private static int SCROLL_FACTOR = 30;
+	private int scrollAmount;
+	private static int savedScrollAmount;
 
 	public ScrollPanel(int x, int y, int width, int height, ArrayList<String> list) {
 		buttons = new ArrayList<>();
@@ -28,6 +30,10 @@ public class ScrollPanel extends JPanel {
 		}
 
 		ScrollButton.resetCounter();
+		
+		for (ScrollButton sb : buttons) {
+			sb.scroll(savedScrollAmount);
+		}
 	}
 
 	public ArrayList<ScrollButton> getButtons() {
@@ -38,6 +44,16 @@ public class ScrollPanel extends JPanel {
 		scrollAmount = -e.getWheelRotation() * SCROLL_FACTOR;
 		for (ScrollButton sb : buttons) {
 			sb.scroll(scrollAmount);
+		}
+		savedScrollAmount+=scrollAmount;
+		revalidate();
+		repaint();
+	}
+	
+	public void repaintAllButtons() {
+		for (ScrollButton sb : buttons) {
+			sb.revalidate();
+			sb.repaint();
 		}
 		revalidate();
 		repaint();
