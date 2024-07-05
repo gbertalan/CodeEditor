@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	private int width;
 	private static int HEIGHT = ScrollPanel.BUTTON_HEIGHT;
 	private static final int TEXT_LEFT_MARGIN = 30;
+	private static final int TEXT_TOP_DISTANCE = 21;
 
 	private String text;
 	private static int buttonCounter = 0;
@@ -70,8 +72,10 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 		g2d.fillRect(0, 0, width, HEIGHT);
 
+		g2d.setFont(new Font("Verdana", Font.PLAIN, 14));
+		
 		g2d.setColor(Theme.getPanelTextColor());
-		g2d.drawString(text, TEXT_LEFT_MARGIN, 20);
+		g2d.drawString(text, TEXT_LEFT_MARGIN, TEXT_TOP_DISTANCE);
 
 	}
 
