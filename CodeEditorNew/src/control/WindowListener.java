@@ -139,6 +139,8 @@ public class WindowListener extends MouseAdapter {
 				oldLocY = window.getLocation().y;
 				draggingByEdge = false;
 			}
+			
+			window.getInnerCanvas().mouseReleased();
 		}
 	}
 
@@ -316,6 +318,7 @@ public class WindowListener extends MouseAdapter {
 	}
 
 	private void updateComponents() {
+		
 		titleBar.update();
 		closeButton.update();
 		trayButton.update();

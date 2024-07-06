@@ -20,6 +20,7 @@ public class InnerCanvas extends JPanel {
 	private Window window;
 	private static int MARGIN = 2;
 	private ArrayList<FileBox> fileBoxCatalog = new ArrayList<>();
+	private FileBox activeFileBox;
 
 	public InnerCanvas(Window window) {
 		this.window = window;
@@ -38,11 +39,12 @@ public class InnerCanvas extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
 
-		g2d.setColor(new Color(255, 255, 0, 30));
+		g2d.setColor(new Color(255, 255, 0, 0));
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 
 		for (FileBox fileBox : fileBoxCatalog) {
 			fileBox.draw(g2d);
+			activeFileBox = fileBox;
 //			fileBox.update();
 		}
 
@@ -55,5 +57,13 @@ public class InnerCanvas extends JPanel {
 	
 	public void mouseDragged() {
 		System.out.println("InnerCanvas: "+"dragging on innercanvas.");
+	}
+	
+	public void mouseReleased() {
+		System.out.println("InnerCanvas: "+"released on innercanvas.");
+		if(activeFileBox!=null) {
+				activeFileBox.setGrabbed(false);
+				repaint();
+		}
 	}
 }
