@@ -22,7 +22,8 @@ public class Canvas extends JPanel {
 	private CloseButton closeButton;
 	private TrayButton trayButton;
 	private MaxButton maxButton;
-	private SidePanel sidePanel;
+	private SidePanelLeft sidePanelLeft;
+	private SidePanelRight sidePanelRight;
 	private FileButton fileButton;
 	private SettingsButton settingsButton;
 	private Footer footer;
@@ -39,7 +40,8 @@ public class Canvas extends JPanel {
 		this.closeButton = new CloseButton(window);
 		this.trayButton = new TrayButton(window);
 		this.maxButton = new MaxButton(window);
-		this.sidePanel = new SidePanel(window);
+		this.sidePanelLeft = new SidePanelLeft(window);
+		this.sidePanelRight= new SidePanelRight(window);
 		this.fileButton = new FileButton(window);
 		this.settingsButton = new SettingsButton(window);
 		this.footer = new Footer(window);
@@ -69,7 +71,8 @@ public class Canvas extends JPanel {
 		closeButton.draw(g2d);
 		trayButton.draw(g2d);
 		maxButton.draw(g2d);
-		sidePanel.draw(g2d);
+		sidePanelLeft.draw(g2d);
+		sidePanelRight.draw(g2d);
 		fileButton.draw(g2d);
 		settingsButton.draw(g2d);
 		footer.draw(g2d);
@@ -110,8 +113,12 @@ public class Canvas extends JPanel {
 		return maxButton;
 	}
 
-	public SidePanel getSidePanel() {
-		return sidePanel;
+	public SidePanelLeft getSidePanelLeft() {
+		return sidePanelLeft;
+	}
+	
+	public SidePanelRight getSidePanelRight() {
+		return sidePanelRight;
 	}
 
 	public FileButton getFileButton() {

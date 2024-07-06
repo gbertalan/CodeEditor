@@ -12,7 +12,7 @@ import java.awt.event.WindowStateListener;
 import javax.swing.JFrame;
 import view.Component;
 import view.FileButton;
-import view.SidePanel;
+import view.SidePanelLeft;
 import view.Window;
 
 /**
@@ -37,17 +37,17 @@ public class WindowListener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
-	private Component titleBar, canvasBackground, closeButton, trayButton, maxButton, sidePanel, fileButton, settingsButton, footer;
+	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, settingsButton, footer;
 
 	public WindowListener(Window window) {
 		this.window = window;
 
 		titleBar = window.getCanvas().getTitleBar();
-		canvasBackground = window.getCanvas().getCanvasBackground();
 		closeButton = window.getCanvas().getCloseButton();
 		trayButton = window.getCanvas().getTrayButton();
 		maxButton = window.getCanvas().getMaxButton();
-		sidePanel = window.getCanvas().getSidePanel();
+		sidePanelLeft = window.getCanvas().getSidePanelLeft();
+		sidePanelRight = window.getCanvas().getSidePanelRight();
 		fileButton = window.getCanvas().getFileButton();
 		settingsButton = window.getCanvas().getSettingsButton();
 		footer = window.getCanvas().getFooter();
@@ -67,7 +67,6 @@ public class WindowListener extends MouseAdapter {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			titleBar.setHovered(false);
-			canvasBackground.setHovered(false);
 			closeButton.setHovered(false);
 			trayButton.setHovered(false);
 			maxButton.setHovered(false);
@@ -294,11 +293,11 @@ public class WindowListener extends MouseAdapter {
 
 	private void updateComponents() {
 		titleBar.update();
-		canvasBackground.update();
 		closeButton.update();
 		trayButton.update();
 		maxButton.update();
-		sidePanel.update();
+		sidePanelLeft.update();
+		sidePanelRight.update();
 		footer.update();
 	}
 }

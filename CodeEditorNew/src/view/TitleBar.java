@@ -22,7 +22,7 @@ public class TitleBar extends Component {
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(Theme.getTitleBarColor());
 		drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, true);
-		
+
 		g2d.setColor(Theme.getSeparatorLineColor());
 		drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, false);
 	}
@@ -32,7 +32,8 @@ public class TitleBar extends Component {
 		width = window.width;
 	}
 
-	private void drawRectWithTwoRoundedCorners(Graphics2D g2d, int x, int y, int width, int height, int arcSize, boolean fill) {
+	private void drawRectWithTwoRoundedCorners(Graphics2D g2d, int x, int y, int width, int height, int arcSize,
+			boolean fill) {
 		GeneralPath path = new GeneralPath();
 		path.moveTo(x + arcSize, y);
 		path.lineTo(x + width - arcSize, y);
@@ -42,8 +43,8 @@ public class TitleBar extends Component {
 		path.lineTo(x, y + arcSize);
 		path.quadTo(x, y, x + arcSize, y);
 		path.closePath();
-		if(fill)
-		g2d.fill(path);
+		if (fill)
+			g2d.fill(path);
 		else
 			g2d.draw(path);
 	}
