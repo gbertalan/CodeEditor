@@ -37,7 +37,8 @@ public class WindowListener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
-	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, settingsButton, footer;
+	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton,
+			settingsButton, footer;
 
 	public WindowListener(Window window) {
 		this.window = window;
@@ -265,6 +266,7 @@ public class WindowListener extends MouseAdapter {
 			maxButton.isHovered(e, 0);
 			fileButton.isHovered(e, 0);
 			settingsButton.isHovered(e, 0);
+
 			window.getCanvas().update();
 
 		}
@@ -289,6 +291,7 @@ public class WindowListener extends MouseAdapter {
 				window.setExtendedState(previousState);
 			}
 		}
+
 	}
 
 	private void updateComponents() {

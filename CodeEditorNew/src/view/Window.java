@@ -29,6 +29,8 @@ public class Window extends JFrame {
 
 	public int frameThichness = 6;
 
+	private boolean refreshedAlready = false;
+
 	public Window() {
 		setTitle("Code Editor by Gergely Bertalan");
 		try {
@@ -46,47 +48,48 @@ public class Window extends JFrame {
 		getContentPane().setLayout(null);
 		setVisible(true);
 
+		System.out.println("Window constructor ready");
 	}
 
 	public void addCanvas(Canvas canvas) {
 		this.canvas = canvas;
 		getContentPane().add(canvas);
 	}
-	
+
 	public Canvas getCanvas() {
 		return canvas;
 	}
-	
+
 	public void addMainBackgroundPanel(MainBackgroundPanel mainBackgroundPanel) {
 		this.mainBackgroundPanel = mainBackgroundPanel;
 		getContentPane().add(mainBackgroundPanel);
 	}
-	
+
 	public MainBackgroundPanel getMainBackgroundPanel() {
 		return mainBackgroundPanel;
 	}
-	
+
 	public void addInnerCanvas(InnerCanvas innerCanvas) {
 		this.innerCanvas = innerCanvas;
 		getContentPane().add(innerCanvas);
 	}
-	
+
 	public InnerCanvas getInnerCanvas() {
 		return innerCanvas;
 	}
-	
+
 	public void refresh() {
-		revalidate();
-		repaint();
+		if (!refreshedAlready) {
+			revalidate();
+			repaint();
+			refreshedAlready = true;
+		}
 	}
 
-	
-	
 	public void addPanel(JPanel panel) {
 		getContentPane().add(panel, 0);
 	}
 
-	
 	public void removePanel(int index) {
 		getContentPane().remove(index);
 	}

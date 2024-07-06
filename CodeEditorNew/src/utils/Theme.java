@@ -88,7 +88,7 @@ public class Theme {
 		case LIGHT:
 			return Color.BLACK;
 		case DARK:
-			return new Color(24, 24, 38, 100);
+			return new Color(24, 24, 38, 130);
 		default:
 			return Color.BLACK;
 		}
@@ -110,7 +110,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
-			return new Color(24, 24, 24, 100);
+			return new Color(24, 24, 24, 130);
 		default:
 			return Color.GRAY;
 		}
@@ -121,7 +121,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200);
 		case DARK:
-			return new Color(44, 44, 44);
+			return new Color(44, 44, 44, 200);
 		default:
 			return Color.GRAY;
 		}
@@ -154,7 +154,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
-			return new Color(15, 15, 15);
+			return new Color(15, 15, 15, 150);
 		default:
 			return Color.GRAY;
 		}
@@ -165,7 +165,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
-			return new Color(34, 34, 34);
+			return new Color(34, 34, 34, 150);
 		default:
 			return Color.GRAY;
 		}

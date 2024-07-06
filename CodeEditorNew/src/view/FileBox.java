@@ -1,14 +1,26 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-public class FileBox extends JPanel{
+public class FileBox {
 
-	public FileBox() {
-		setLayout(null);
-		setBounds(10, 10, 200, 350);
-		setBackground(Color.BLUE);
+	private String fileName;
+	private int x;
+	private int y;
+	private int width = 300;
+	private int height = 400;
+
+	public FileBox(String fileName, int x, int y) {
+		this.fileName = fileName;
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void draw(Graphics2D g2d) {
+		g2d.setColor(Color.CYAN);
+		g2d.fillRect(x, y, width, height);
 	}
 }

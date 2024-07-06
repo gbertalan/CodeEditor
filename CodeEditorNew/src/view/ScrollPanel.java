@@ -13,6 +13,8 @@ public class ScrollPanel extends JPanel {
 	private static int SCROLL_FACTOR = 30;
 	public static int BUTTON_HEIGHT = 30;
 
+	private Window window;
+	
 	private ArrayList<String> list;
 	private ArrayList<ScrollButton> buttons;
 
@@ -21,8 +23,9 @@ public class ScrollPanel extends JPanel {
 
 	private int height;
 
-	public ScrollPanel(int x, int y, int width, int height, ArrayList<String> list) {
+	public ScrollPanel(Window window, int x, int y, int width, int height, ArrayList<String> list) {
 
+		this.window = window;
 		this.height = height;
 		this.list = list;
 
@@ -32,7 +35,7 @@ public class ScrollPanel extends JPanel {
 		setBounds(x, y, width, height);
 
 		for (int i = 0; i < list.size(); i++) {
-			ScrollButton sb = new ScrollButton(list.get(i), this);
+			ScrollButton sb = new ScrollButton(window, list.get(i), this);
 			buttons.add(sb);
 			add(sb);
 		}

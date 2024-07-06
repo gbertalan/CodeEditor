@@ -19,6 +19,7 @@ import utils.Theme;
 
 public class ScrollButton extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
+	private Window window;
 	private ScrollPanel parent;
 	private int width;
 	private static int HEIGHT = ScrollPanel.BUTTON_HEIGHT;
@@ -32,8 +33,9 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 
 	private int ID;
 
-	public ScrollButton(String text, ScrollPanel parent) {
-
+	public ScrollButton(Window window, String text, ScrollPanel parent) {
+		
+		this.window = window;
 		this.text = text;
 		this.parent = parent;
 		this.width = parent.getWidth();
@@ -88,7 +90,10 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(ID);
+		System.out.println(this.text);
+		window.getInnerCanvas().addFileBox(new FileBox(this.text, e.getX(), e.getY()));
+		window.getInnerCanvas().revalidate();
+		window.getInnerCanvas().repaint();
 	}
 
 	@Override
