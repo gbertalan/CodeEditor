@@ -1,9 +1,12 @@
 package view;
 
+import java.awt.AWTException;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import control.WindowListener;
 import utils.Globals;
 import utils.Theme;
 
@@ -34,7 +38,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	private int ID;
 
 	public ScrollButton(Window window, String text, ScrollPanel parent) {
-		
+
 		this.window = window;
 		this.text = text;
 		this.parent = parent;
@@ -75,7 +79,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 		g2d.fillRect(0, 0, width, HEIGHT);
 
 		g2d.setFont(new Font("Verdana", Font.PLAIN, 14));
-		
+
 		g2d.setColor(Theme.getPanelTextColor());
 		g2d.drawString(text, TEXT_LEFT_MARGIN, TEXT_TOP_DISTANCE);
 
@@ -90,16 +94,20 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(this.text);
-		window.getInnerCanvas().addFileBox(new FileBox(this.text, e.getX(), e.getY()));
-		window.getInnerCanvas().revalidate();
-		window.getInnerCanvas().repaint();
+//		window.getInnerCanvas()
+//				.addFileBox(new FileBox(
+//						window, this.text, parent.getParent().getX() + parent.getX(), parent.getParent().getY()
+//								+ parent.getY() + ((ID - 1) * (HEIGHT - 2)) + ScrollPanel.savedScrollAmount,
+//						e.getX(), e.getY(), true));
+
+
+//		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
+//		window.getCanvas().update();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -121,7 +129,29 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("dragging");
+		
+		
+		try {
+			Robot robot = new Robot();
+			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+			System.out.println("robot released");
+		} catch (AWTException ee) {
+			// TODO Auto-generated catch block
+			ee.printStackTrace();
+		}
+		window.getCanvas().update();
+		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
+		
+		
+		try {
+			Robot robot = new Robot();
+			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			System.out.println("robot pressed");
+		} catch (AWTException ee) {
+			// TODO Auto-generated catch block
+			ee.printStackTrace();
+		}
 	}
 
 	@Override

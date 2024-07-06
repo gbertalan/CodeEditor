@@ -32,8 +32,6 @@ public class InnerCanvas extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		System.out.println("InnerCanvas paint");
 		
 		setBounds(MARGIN, MARGIN, window.width - (MARGIN * 2), window.height - (MARGIN * 2));
 
@@ -45,6 +43,7 @@ public class InnerCanvas extends JPanel {
 
 		for (FileBox fileBox : fileBoxCatalog) {
 			fileBox.draw(g2d);
+//			fileBox.update();
 		}
 
 	}

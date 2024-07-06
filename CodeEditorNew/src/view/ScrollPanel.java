@@ -19,7 +19,7 @@ public class ScrollPanel extends JPanel {
 	private ArrayList<ScrollButton> buttons;
 
 	private int scrollAmount;
-	private static int savedScrollAmount;
+	public static int savedScrollAmount;
 
 	private int height;
 
@@ -83,4 +83,6 @@ public class ScrollPanel extends JPanel {
 		revalidate();
 		repaint();
 	}
+	
+	
 }

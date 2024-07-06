@@ -17,7 +17,6 @@ public class Canvas extends JPanel {
 	private Graphics2D g2d;
 
 	private Window window;
-	private Background background;
 	private TitleBar titleBar;
 	private CloseButton closeButton;
 	private TrayButton trayButton;
@@ -35,7 +34,6 @@ public class Canvas extends JPanel {
 		setBackground(new Color(0, 0, 0, 0));
 		setOpaque(false);
 
-		this.background = new Background(window);
 		this.titleBar = new TitleBar(window);
 		this.closeButton = new CloseButton(window);
 		this.trayButton = new TrayButton(window);
@@ -60,8 +58,6 @@ public class Canvas extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		System.out.println("Canvas paint");
 		
 		setBounds(0, 0, window.width, window.height);
 
@@ -93,10 +89,6 @@ public class Canvas extends JPanel {
 	private void updateAnimation() {
 		// Update the state of the animation or any other dynamic content
 		// For example, move objects, change colors, etc.
-	}
-
-	public Background getCanvasBackground() {
-		return background;
 	}
 
 	public TitleBar getTitleBar() {

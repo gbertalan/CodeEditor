@@ -15,10 +15,6 @@ public class MainBackgroundPanel extends JPanel {
 	private static int ARC_AMOUNT = 18;
 
 	private Window window;
-	private Background background;
-	private boolean windowSizeChanged;
-	private int oldWindowWidth;
-	private int oldWindowHeight;
 
 	private boolean hidden;
 
@@ -29,8 +25,6 @@ public class MainBackgroundPanel extends JPanel {
 		setBounds(0, 0, window.width, window.height);
 		setBackground(new Color(0, 250, 0, 0));
 		setOpaque(true);
-
-		this.background = new Background(window);
 	}
 
 	@Override
@@ -39,20 +33,13 @@ public class MainBackgroundPanel extends JPanel {
 
 		if (!hidden) {
 
-			System.out.println("MainBackgroundPanel paint");
-
 			setBounds(0, 0, window.width, window.height);
-
-			oldWindowWidth = window.width;
-			oldWindowHeight = window.height;
 
 			Graphics2D g2d = (Graphics2D) g;
 			Globals.setRenderingHints(g2d);
 
 			g2d.setColor(Color.GREEN);
 			g2d.fillRect(50, 50, 400, 400);
-
-//		background.draw(g2d);
 
 			g2d.setColor(Theme.getBackgroundColor());
 			g2d.setColor(new Color(130, 30, 30));
@@ -75,7 +62,11 @@ public class MainBackgroundPanel extends JPanel {
 		System.out.println("MB repaint()");
 	}
 
-	public Background getMainBackground() {
-		return background;
+	public void hide() {
+		this.hidden = true;
+	}
+
+	public void unHide() {
+		this.hidden = false;
 	}
 }

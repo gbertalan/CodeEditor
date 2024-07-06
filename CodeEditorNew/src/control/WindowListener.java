@@ -27,6 +27,10 @@ public class WindowListener extends MouseAdapter {
 	private Window window;
 
 	private Point initialClick = new Point(0, 0);
+	public static Point mouseMoved  = new Point(0, 0);
+	public static Point mouseClicked  = new Point(0, 0);
+	public static Point mouseDragged  = new Point(0, 0);
+	public static Point mouseReleased  = new Point(0, 0);
 	private Point edgeStart = new Point(0, 0);
 
 	private int oldWidth;
@@ -78,6 +82,10 @@ public class WindowListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			
+			mouseClicked = e.getPoint();
+			System.out.println("CLICKED: "+mouseClicked);
+			
 			if ((titleBar.isHovered(e, window.frameThichness) && e.getClickCount() == 2) || maxButton.isHovered(e, 0)) {
 				if (!window.isMaximized()) {
 					window.setExtendedState(window.getExtendedState() | Window.MAXIMIZED_BOTH);
@@ -119,6 +127,10 @@ public class WindowListener extends MouseAdapter {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
+			mouseReleased = e.getPoint();
+			
+			System.out.println("WindowListener RELEASING");
+			
 			draggingByTitleBar = false;
 
 			if (draggingByEdge) {
@@ -140,6 +152,9 @@ public class WindowListener extends MouseAdapter {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 
+			mouseDragged = e.getPoint();
+			System.out.println("WindowListener DRAGGING");
+			
 			if (draggingByTitleBar) {
 				window.width = oldWidth;
 				window.height = oldHeight;
@@ -240,15 +255,22 @@ public class WindowListener extends MouseAdapter {
 
 				updateComponents();
 			}
+			
+			window.getCanvas().update();
+			
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			// set resize cursor when pointing at edge of frame:
+			
+			mouseMoved = e.getPoint();
+			
+			System.out.println("WindowListener MOVING");
 
 			Cursor currentCursor = window.getCursor();
 			if (!window.isMaximized()) {
-				Window.Edge edge = window.getEdgeType(e.getPoint());
+				Window.Edge edge = window.getEdgeType(mouseMoved);
 				Cursor cursor = edge.getPredefinedResizeCursor();
 				if (currentCursor != cursor) {
 					window.setCursor(cursor);
