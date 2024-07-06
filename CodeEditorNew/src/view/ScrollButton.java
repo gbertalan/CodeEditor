@@ -100,7 +100,6 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 //								+ parent.getY() + ((ID - 1) * (HEIGHT - 2)) + ScrollPanel.savedScrollAmount,
 //						e.getX(), e.getY(), true));
 
-
 //		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
 //		window.getCanvas().update();
 	}
@@ -130,24 +129,19 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("dragging");
-		
-		
+
 		try {
 			Robot robot = new Robot();
 			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-			System.out.println("robot released");
 		} catch (AWTException ee) {
 			// TODO Auto-generated catch block
 			ee.printStackTrace();
 		}
 		window.getCanvas().update();
 		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
-		
-		
 		try {
 			Robot robot = new Robot();
 			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-			System.out.println("robot pressed");
 		} catch (AWTException ee) {
 			// TODO Auto-generated catch block
 			ee.printStackTrace();

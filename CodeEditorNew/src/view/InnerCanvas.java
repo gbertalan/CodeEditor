@@ -52,4 +52,8 @@ public class InnerCanvas extends JPanel {
 		this.fileBoxCatalog.add(fileBox);
 		System.out.println("FileBox added to the catalog. Size of fileBoxCatalog: " + fileBoxCatalog.size());
 	}
+	
+	public void mouseDragged() {
+		System.out.println("InnerCanvas: "+"dragging on innercanvas.");
+	}
 }
