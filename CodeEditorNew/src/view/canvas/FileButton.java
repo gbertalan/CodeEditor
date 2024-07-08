@@ -1,9 +1,10 @@
-package view;
+package view.canvas;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import utils.Theme;
+import view.Window;
 
 public class FileButton extends Component {
 

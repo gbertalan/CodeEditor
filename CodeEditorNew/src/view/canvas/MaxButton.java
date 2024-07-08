@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import utils.Theme;
+import view.Window;
 
 public class MaxButton extends Component {
 

@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import utils.ANSIText;
 import utils.Globals;
 import utils.Theme;
 
@@ -20,18 +21,20 @@ public class MainBackgroundPanel extends JPanel {
 	private boolean drawable = true;
 
 	public MainBackgroundPanel(Window window) {
+		System.out.println(ANSIText.green("MainBackgroundPanel constructor is called."));
+		
 		this.window = window;
 
 		setLayout(null);
 		setBounds(0, 0, window.width, window.height);
-		setBackground(new Color(0, 250, 0, 0));
+		setBackground(new Color(0, 255, 0, 0));
 		setOpaque(true);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		System.out.println(ANSIText.green("MainBackgroundPanel paintComponent() is called."));
 		if (!hidden) {
 //			if (drawable) {
 				setBounds(0, 0, window.width, window.height);
@@ -39,11 +42,9 @@ public class MainBackgroundPanel extends JPanel {
 				Graphics2D g2d = (Graphics2D) g;
 				Globals.setRenderingHints(g2d);
 
-				g2d.setColor(Color.GREEN);
-				g2d.fillRect(50, 50, 400, 400);
-
 				g2d.setColor(Theme.getBackgroundColor());
 				g2d.setColor(new Color(130, 30, 30));
+				g2d.setColor(new Color(0, 255, 0, 255));
 
 				if (window.isMaximized()) {
 					g2d.fillRect(0, 0, window.width, window.height);
@@ -61,6 +62,7 @@ public class MainBackgroundPanel extends JPanel {
 	}
 
 	public void update() {
+		System.out.println(ANSIText.green("MainBackgroundPanel update() is called."));
 		drawable = true;
 		repaint();
 		System.out.println("MB repaint()");

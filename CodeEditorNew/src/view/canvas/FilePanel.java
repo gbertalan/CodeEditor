@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 
 import utils.Globals;
 import utils.Theme;
+import view.Window;
+
 import java.awt.Color;
 
 public class FilePanel extends JPanel implements MouseListener, MouseMotionListener {
@@ -44,6 +46,8 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	public ScrollPanel scrollPanel;
 
 	public FilePanel(Window window) {
+		System.out.println("FilePanel constructor is called.");
+		
 		this.window = window;
 		this.height = window.height - TOP_MARGIN - BOTTOM_MARGIN - 1;
 		setLayout(null);
@@ -90,6 +94,8 @@ public class FilePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		System.out.println("FilePanel paintComponent() is called.");
+		
 		height = window.height - TOP_MARGIN - BOTTOM_MARGIN - 1;
 		setBounds(LEFT_MARGIN, TOP_MARGIN, WIDTH, height);
 

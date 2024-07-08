@@ -1,15 +1,21 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import utils.ANSIText;
 import utils.Globals;
+import view.Window;
 
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -17,6 +23,7 @@ public class Canvas extends JPanel {
 	private Graphics2D g2d;
 
 	private Window window;
+	
 	private TitleBar titleBar;
 	private CloseButton closeButton;
 	private TrayButton trayButton;
@@ -24,14 +31,19 @@ public class Canvas extends JPanel {
 	private SidePanelLeft sidePanelLeft;
 	private SidePanelRight sidePanelRight;
 	private FileButton fileButton;
-	private SettingsButton settingsButton;
 	private Footer footer;
+	
+//	private EmptySpace emptySpace;
+	
+	public Map<String, Component> componentMap;
 
 	public Canvas(Window window) {
+		System.out.println(ANSIText.red("Canvas constructor is called."));
+		
 		this.window = window;
 
 		setBounds(0, 0, window.width, window.height);
-		setBackground(new Color(0, 0, 0, 0));
+		setBackground(new Color(255, 0, 0, 0));
 		setOpaque(false);
 
 		this.titleBar = new TitleBar(window);
@@ -41,23 +53,36 @@ public class Canvas extends JPanel {
 		this.sidePanelLeft = new SidePanelLeft(window);
 		this.sidePanelRight= new SidePanelRight(window);
 		this.fileButton = new FileButton(window);
-		this.settingsButton = new SettingsButton(window);
 		this.footer = new Footer(window);
+		
+//		this.emptySpace = new EmptySpace(window);
 
-		/*
-		 * // Set up Timer to call actionPerformed every 16 ms (~60 FPS) Timer timer =
-		 * new Timer(16, new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { // This method will be
-		 * called every 16 milliseconds updateAnimation(); // Update any animations or
-		 * states repaint(); // Request a repaint } }); timer.start(); // Start the
-		 * timer
-		 */
+		initializeComponentMap();
+	}
+	
+	private void initializeComponentMap() {
+        componentMap = new HashMap<>();
+        componentMap.put("titleBar", titleBar);
+        componentMap.put("closeButton", closeButton);
+        componentMap.put("trayButton", trayButton);
+        componentMap.put("maxButton", maxButton);
+        componentMap.put("sidePanelLeft", sidePanelLeft);
+        componentMap.put("sidePanelRight", sidePanelRight);
+        componentMap.put("fileButton", fileButton);
+        componentMap.put("footer", footer);
+        
+//        componentMap.put("emptySpace", emptySpace);
+    }
+	
+	public Component getCanvasComponent(String componentName) {
+		return componentMap.get(componentName);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		System.out.println(ANSIText.red("Canvas paintComponent() is called."));
 		
 		setBounds(0, 0, window.width, window.height);
 
@@ -72,7 +97,6 @@ public class Canvas extends JPanel {
 		sidePanelLeft.draw(g2d);
 		sidePanelRight.draw(g2d);
 		fileButton.draw(g2d);
-		settingsButton.draw(g2d);
 		footer.draw(g2d);
 
 //		g2d.dispose();
@@ -81,9 +105,12 @@ public class Canvas extends JPanel {
 	public void drawPanel() {
 
 	}
+	
 
 	public void update() {
-		repaint();
+		System.out.println(ANSIText.red("Canvas update() is called."));
+		Rectangle rect = new Rectangle(0, 0, 100, 100);
+        repaint();
 	}
 
 	private void updateAnimation() {
@@ -117,10 +144,6 @@ public class Canvas extends JPanel {
 
 	public FileButton getFileButton() {
 		return fileButton;
-	}
-	
-	public SettingsButton getSettingsButton() {
-		return settingsButton;
 	}
 	
 	public Footer getFooter() {

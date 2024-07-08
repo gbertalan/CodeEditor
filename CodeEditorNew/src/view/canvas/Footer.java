@@ -1,10 +1,11 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import utils.Theme;
+import view.Window;
 
 public class Footer extends Component {
 

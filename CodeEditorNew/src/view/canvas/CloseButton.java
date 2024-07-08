@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.geom.GeneralPath;
 
 import utils.Theme;
+import view.Window;
 
 public class CloseButton extends Component {
 

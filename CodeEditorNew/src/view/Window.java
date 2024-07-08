@@ -12,6 +12,9 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import utils.ANSIText;
+import view.canvas.Canvas;
+
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +35,8 @@ public class Window extends JFrame {
 	private boolean refreshedAlready = false;
 
 	public Window() {
+		System.out.println(ANSIText.purple("Window constructor is called."));
+		
 		setTitle("Code Editor by Gergely Bertalan");
 		try {
 			Image icon = Toolkit.getDefaultToolkit().getImage("resources/logo.png");
@@ -47,8 +52,6 @@ public class Window extends JFrame {
 		getContentPane().setBackground(new Color(0, 0, 0, 0));
 		getContentPane().setLayout(null);
 		setVisible(true);
-
-		System.out.println("Window constructor ready");
 	}
 
 	public void addCanvas(Canvas canvas) {
@@ -79,6 +82,7 @@ public class Window extends JFrame {
 	}
 
 	public void refresh() {
+		System.out.println(ANSIText.purple("Window refresh() is called."));
 		if (!refreshedAlready) {
 			revalidate();
 			repaint();

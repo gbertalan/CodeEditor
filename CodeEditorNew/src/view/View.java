@@ -2,16 +2,21 @@ package view;
 
 import javax.swing.JFrame;
 
+import utils.ANSIText;
+import view.canvas.Canvas;
+
 public class View {
 
 	private Window window;
 
 	public View() {
+		
+		System.out.println(ANSIText.bold("View constructor is called."));
 		window = new Window();
 		
-		Canvas canvas = new Canvas(window);
 		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(window);
 		InnerCanvas innerCanvas = new InnerCanvas(window);
+		Canvas canvas = new Canvas(window);
 
 		window.addMainBackgroundPanel(mainBackgroundPanel);
 		window.addInnerCanvas(innerCanvas);
@@ -23,6 +28,10 @@ public class View {
 
 		window.refresh();
 		printComponents();
+		window.getCanvas().update();
+		
+		System.out.println(ANSIText.bold("View constructor is finished."));
+		System.out.println();
 	}
 
 	public JFrame getWindowAsJFrame() {

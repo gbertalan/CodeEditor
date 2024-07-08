@@ -1,23 +1,24 @@
-package view;
+package view.canvas;
 
 import java.awt.Graphics2D;
 
 import utils.Theme;
+import view.Window;
 
-public class SidePanelRight extends Component {
-	
+public class SidePanelLeft extends Component {
+
 	private static int TOP_MARGIN = 42;
-	private static int WIDTH = 8;
+	private static int WIDTH = 55;
 	private static int BOTTOM_MARGIN = 9;
 
-	public SidePanelRight(Window window) {
-		super(window, window.width-WIDTH-1, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
+	public SidePanelLeft(Window window) {
+		super(window, 1, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
 	}
 
 	@Override
 	public void update() {
 		height = window.height - TOP_MARGIN - BOTTOM_MARGIN;
-		locX = window.width-WIDTH-1;
+
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class SidePanelRight extends Component {
 		g2d.setColor(Theme.getSidePanelColor());
 		g2d.fillRect(locX, locY, width, height);
 		g2d.setColor(Theme.getSeparatorLineColor());
-		g2d.drawLine(locX, locY, locX, locY + height);
+		g2d.drawLine(width, locY, width, locY + height);
 	}
 
 }

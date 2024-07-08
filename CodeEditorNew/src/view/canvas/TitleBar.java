@@ -1,19 +1,23 @@
-package view;
+package view.canvas;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 import utils.Theme;
+import view.Window;
 
 public class TitleBar extends Component {
 
 	private static int TITLEBAR_HEIGHT = 42;
 	private static int ARC_SIZE = 8;
+	private static int CONTROL_BUTTON_WIDTH = 42;
 
 	public TitleBar(Window window) {
 		super(window, 0, 0, window.width, TITLEBAR_HEIGHT);
@@ -49,4 +53,9 @@ public class TitleBar extends Component {
 			g2d.draw(path);
 	}
 
+//	@Override
+//	public boolean isInRegion(MouseEvent e) {
+//		Rectangle rectangle = new Rectangle(locX, locY, width-(3*CONTROL_BUTTON_WIDTH), height);
+//		return rectangle.contains(e.getPoint()) ? true : false;
+//	}
 }

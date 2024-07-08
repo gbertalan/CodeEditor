@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 import java.awt.Graphics2D;
 
 public interface VisualComponent {

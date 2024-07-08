@@ -1,6 +1,6 @@
 package model;
 
-import view.TitleBar;
+import view.canvas.TitleBar;
 
 public class Model {
 

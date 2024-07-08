@@ -1,6 +1,7 @@
 package control;
 
 import java.awt.Cursor;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -8,12 +9,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
-import view.Component;
-import view.FileButton;
-import view.SidePanelLeft;
+
 import view.Window;
+import view.canvas.Component;
+import view.canvas.EmptySpace;
+import view.canvas.FileButton;
+import view.canvas.SidePanelLeft;
 
 /**
  * WindowListener is responsible for handling events related to the window's
@@ -31,6 +37,8 @@ public class WindowListener extends MouseAdapter {
 	public static Point mouseClicked = new Point(0, 0);
 	public static Point mouseDragged = new Point(0, 0);
 	public static Point mouseReleased = new Point(0, 0);
+	public static boolean mouseExited;
+	
 	private Point edgeStart = new Point(0, 0);
 
 	private int oldWidth;
@@ -41,21 +49,14 @@ public class WindowListener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
-	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton,
-			settingsButton, footer;
+	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer;
+
+	private ArrayList<Component> hoveredComponents = new ArrayList<>();
 
 	public WindowListener(Window window) {
 		this.window = window;
 
-		titleBar = window.getCanvas().getTitleBar();
-		closeButton = window.getCanvas().getCloseButton();
-		trayButton = window.getCanvas().getTrayButton();
-		maxButton = window.getCanvas().getMaxButton();
-		sidePanelLeft = window.getCanvas().getSidePanelLeft();
-		sidePanelRight = window.getCanvas().getSidePanelRight();
-		fileButton = window.getCanvas().getFileButton();
-		settingsButton = window.getCanvas().getSettingsButton();
-		footer = window.getCanvas().getFooter();
+		initializeComponents();
 
 		oldWidth = window.width;
 		oldHeight = window.height;
@@ -67,11 +68,32 @@ public class WindowListener extends MouseAdapter {
 		window.addWindowStateListener(new StateListener());
 	}
 
+	private void initializeComponents() {
+		titleBar = window.getCanvas().getCanvasComponent("titleBar");
+		closeButton = window.getCanvas().getCanvasComponent("closeButton");
+		trayButton = window.getCanvas().getCanvasComponent("trayButton");
+		maxButton = window.getCanvas().getCanvasComponent("maxButton");
+		sidePanelLeft = window.getCanvas().getCanvasComponent("sidePanelLeft");
+		sidePanelRight = window.getCanvas().getCanvasComponent("sidePanelRight");
+		fileButton = window.getCanvas().getCanvasComponent("fileButton");
+		footer = window.getCanvas().getCanvasComponent("footer");
+	}
+
 	private class MouseListener extends MouseAdapter {
 
 		@Override
+		public void mouseEntered(MouseEvent e) {
+
+			mouseExited = false;
+		}
+
+		@Override
 		public void mouseExited(MouseEvent e) {
+
+			mouseExited = true;
+
 			unhoverAll();
+			hoveredComponents = null;
 			window.getCanvas().update();
 		}
 
@@ -79,7 +101,6 @@ public class WindowListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
 
 			mouseClicked = e.getPoint();
-			System.out.println("CLICKED: " + mouseClicked);
 
 			if ((titleBar.isHovered(e, window.frameThichness) && e.getClickCount() == 2) || maxButton.isHovered(e, 0)) {
 				if (!window.isMaximized()) {
@@ -93,7 +114,7 @@ public class WindowListener extends MouseAdapter {
 					window.width = oldWidth;
 					window.height = oldHeight;
 				}
-				updateComponents();
+				updateComponentLocationAndSize();
 			}
 			if (closeButton.isHovered(e, 0)) {
 				System.exit(0);
@@ -124,8 +145,6 @@ public class WindowListener extends MouseAdapter {
 		public void mouseReleased(MouseEvent e) {
 			mouseReleased = e.getPoint();
 
-//			System.out.println("WindowListener RELEASING");
-
 			draggingByTitleBar = false;
 
 			if (draggingByEdge) {
@@ -139,7 +158,7 @@ public class WindowListener extends MouseAdapter {
 				oldLocY = window.getLocation().y;
 				draggingByEdge = false;
 			}
-			
+
 			window.getInnerCanvas().mouseReleased();
 		}
 	}
@@ -150,7 +169,6 @@ public class WindowListener extends MouseAdapter {
 		public void mouseDragged(MouseEvent e) {
 
 			mouseDragged = e.getPoint();
-//			System.out.println("WindowListener DRAGGING");
 
 			if (draggingByTitleBar) {
 				window.width = oldWidth;
@@ -177,7 +195,7 @@ public class WindowListener extends MouseAdapter {
 					initialClick = new Point((int) (window.width * ratio), e.getY());
 				}
 
-				updateComponents();
+				updateComponentLocationAndSize();
 			}
 
 			else if (draggingByEdge) {
@@ -250,9 +268,9 @@ public class WindowListener extends MouseAdapter {
 				window.width = newWidth;
 				window.height = newHeight;
 
-				updateComponents();
+				updateComponentLocationAndSize();
 			} else if (!closeButton.getHovered() && !trayButton.getHovered() && !maxButton.getHovered()
-					&& !fileButton.getHovered() && !settingsButton.getHovered() && !sidePanelLeft.getHovered()) {
+					&& !fileButton.getHovered() && !sidePanelLeft.getHovered()) {
 				window.getInnerCanvas().mouseDragged();
 			}
 
@@ -266,7 +284,8 @@ public class WindowListener extends MouseAdapter {
 
 			mouseMoved = e.getPoint();
 
-//			System.out.println("WindowListener MOVING");
+			updateHoveredComponents(e);
+			printHoveredComponents();
 
 			Cursor currentCursor = window.getCursor();
 			if (!window.isMaximized()) {
@@ -287,7 +306,6 @@ public class WindowListener extends MouseAdapter {
 			trayButton.isHovered(e, 0);
 			maxButton.isHovered(e, 0);
 			fileButton.isHovered(e, 0);
-			settingsButton.isHovered(e, 0);
 			sidePanelLeft.isHovered(e, 0);
 
 			window.getCanvas().update();
@@ -317,8 +335,8 @@ public class WindowListener extends MouseAdapter {
 
 	}
 
-	private void updateComponents() {
-		
+	private void updateComponentLocationAndSize() {
+
 		titleBar.update();
 		closeButton.update();
 		trayButton.update();
@@ -328,12 +346,31 @@ public class WindowListener extends MouseAdapter {
 		footer.update();
 	}
 
+	public void updateHoveredComponents(MouseEvent e) {
+		ArrayList<Component> hovered = new ArrayList<>();
+		for (Entry<String, Component> entry : window.getCanvas().componentMap.entrySet()) {
+			Component component = entry.getValue();
+			if (component.isInRegion(e)) {
+				hovered.add(component);
+			}
+		}
+		if (!hovered.equals(hoveredComponents))
+			hoveredComponents = hovered;
+	}
+
+	public void printHoveredComponents() {
+		System.out.println("Hovered component(s):");
+		for (Component component : hoveredComponents) {
+
+			System.out.println("\t" + component.toString());
+		}
+	}
+
 	private void unhoverAll() {
 		titleBar.setHovered(false);
 		closeButton.setHovered(false);
 		trayButton.setHovered(false);
 		maxButton.setHovered(false);
 		fileButton.setHovered(false);
-		settingsButton.setHovered(false);
 	}
 }

@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 
 import java.awt.AWTException;
 import java.awt.Cursor;
@@ -20,6 +20,8 @@ import javax.swing.SwingUtilities;
 import control.WindowListener;
 import utils.Globals;
 import utils.Theme;
+import view.FileBox;
+import view.Window;
 
 public class ScrollButton extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -38,7 +40,8 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	private int ID;
 
 	public ScrollButton(Window window, String text, ScrollPanel parent) {
-
+		System.out.println("ScrollButton constructor is called.");
+		
 		this.window = window;
 		this.text = text;
 		this.parent = parent;
@@ -68,6 +71,8 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		System.out.println("ScrollButton paintComponent() is called.");
+		
 		Graphics2D g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
 
@@ -94,14 +99,6 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-//		window.getInnerCanvas()
-//				.addFileBox(new FileBox(
-//						window, this.text, parent.getParent().getX() + parent.getX(), parent.getParent().getY()
-//								+ parent.getY() + ((ID - 1) * (HEIGHT - 2)) + ScrollPanel.savedScrollAmount,
-//						e.getX(), e.getY(), true));
-
-//		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
-//		window.getCanvas().update();
 	}
 
 	@Override
@@ -128,7 +125,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("dragging");
+		System.out.println("ScrollButton mouseDragged() is called.");
 
 		try {
 			Robot robot = new Robot();

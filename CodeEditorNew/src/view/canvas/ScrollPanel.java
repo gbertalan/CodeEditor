@@ -1,4 +1,4 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.event.MouseWheelEvent;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import utils.Theme;
+import view.Window;
 
 public class ScrollPanel extends JPanel {
 
@@ -24,7 +25,8 @@ public class ScrollPanel extends JPanel {
 	private int height;
 
 	public ScrollPanel(Window window, int x, int y, int width, int height, ArrayList<String> list) {
-
+		System.out.println("ScrollPanel constructor is called.");
+		
 		this.window = window;
 		this.height = height;
 		this.list = list;
@@ -76,6 +78,7 @@ public class ScrollPanel extends JPanel {
 	}
 
 	public void repaintAllButtons() {
+		System.out.println("ScrollPanel repaintAllButtons() is called.");
 		for (ScrollButton sb : buttons) {
 			sb.revalidate();
 			sb.repaint();

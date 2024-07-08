@@ -1,9 +1,11 @@
-package view;
+package view.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import view.Window;
 
 public class FilePanelMasik extends Component{
 
