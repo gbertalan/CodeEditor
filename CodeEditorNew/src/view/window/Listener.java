@@ -4,13 +4,17 @@ import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.swing.JFrame;
 
@@ -46,14 +50,16 @@ public class Listener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
+	private MainUI mainUI;
 	private UIComponent titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer;
 
 	private ArrayList<UIComponent> hoveredComponents = new ArrayList<>();
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.red("MainUIListener constructor is called."));
-		
+
 		this.window = window;
+		this.mainUI = window.getMainUI();
 
 		initializeComponents();
 
@@ -61,14 +67,9 @@ public class Listener extends MouseAdapter {
 		oldHeight = window.height;
 		oldLocX = window.locX;
 		oldLocY = window.locY;
-
-//		window.addMouseListener(new MouseListener());
-//		window.addMouseMotionListener(new MouseMotionListener());
-//		window.addWindowStateListener(new StateListener());
 	}
 
 	private void initializeComponents() {
-		MainUI mainUI = window.getMainUI();
 		titleBar = mainUI.getComponent("titleBar");
 		closeButton = mainUI.getComponent("closeButton");
 		trayButton = mainUI.getComponent("trayButton");
@@ -92,9 +93,8 @@ public class Listener extends MouseAdapter {
 
 			mouseExited = true;
 
-			unhoverAll();
-			hoveredComponents = null;
-			window.getMainUI().update();
+			unhoverAllComponents();
+			mainUI.update();
 		}
 
 		@Override
@@ -102,31 +102,33 @@ public class Listener extends MouseAdapter {
 
 			mouseClicked = e.getPoint();
 
-			if ((titleBar.isHovered(e, window.frameThichness) && e.getClickCount() == 2) || maxButton.isHovered(e, 0)) {
+			if ((hoveredComponents.contains(titleBar) && e.getClickCount() == 2)
+					|| hoveredComponents.contains(maxButton)) {
 				if (!window.isMaximized()) {
-					window.setExtendedState(window.getExtendedState() | Window.MAXIMIZED_BOTH);
+					window.setMaximized(true);
 					oldWidth = window.width;
 					oldHeight = window.height;
 					window.width = window.getWidth();
 					window.height = window.getHeight();
 				} else {
-					window.setExtendedState(window.getExtendedState() & ~Window.MAXIMIZED_BOTH);
+					window.setMaximized(false);
 					window.width = oldWidth;
 					window.height = oldHeight;
 				}
 				updateComponentLocationAndSize();
 			}
-			if (closeButton.isHovered(e, 0)) {
-				System.exit(0);
-			} else if (trayButton.isHovered(e, 0)) {
+			if (hoveredComponents.contains(closeButton)) {
+				WindowEvent windowClosing = new WindowEvent(window, WindowEvent.WINDOW_CLOSING);
+				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
+			} else if (hoveredComponents.contains(trayButton)) {
 				window.setExtendedState(JFrame.ICONIFIED);
 			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (titleBar.isHovered(e, window.frameThichness) && !trayButton.getHovered() && !maxButton.getHovered()
-					&& !closeButton.getHovered()) {
+			if (hoveredComponents.contains(titleBar) && !hoveredComponents.contains(trayButton)
+					&& !hoveredComponents.contains(maxButton) && !hoveredComponents.contains(closeButton)) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
@@ -145,7 +147,8 @@ public class Listener extends MouseAdapter {
 		public void mouseReleased(MouseEvent e) {
 			mouseReleased = e.getPoint();
 
-			draggingByTitleBar = false;
+			if (draggingByTitleBar)
+				draggingByTitleBar = false;
 
 			if (draggingByEdge) {
 				window.width = window.getWidth();
@@ -171,6 +174,7 @@ public class Listener extends MouseAdapter {
 			mouseDragged = e.getPoint();
 
 			if (draggingByTitleBar) {
+				System.out.println("draggingByTitleBar");
 				window.width = oldWidth;
 				window.height = oldHeight;
 				window.locX = oldLocX;
@@ -178,7 +182,6 @@ public class Listener extends MouseAdapter {
 
 				// if window is not maximised, drag it:
 				if (!window.isMaximized()) {
-//					Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 					Point mouseLocation = e.getLocationOnScreen();
 					int x = mouseLocation.x - initialClick.x;
 					int y = mouseLocation.y - initialClick.y;
@@ -193,14 +196,14 @@ public class Listener extends MouseAdapter {
 					double ratio = e.getX() / (double) window.getWidth();
 					window.setSize(window.width, window.height);
 					initialClick = new Point((int) (window.width * ratio), e.getY());
+					updateComponentLocationAndSize();
 				}
 
-				updateComponentLocationAndSize();
+				
 			}
 
 			else if (draggingByEdge) {
 				Cursor cursor = window.getCursor();
-//				Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 				Point mouseLocation = e.getLocationOnScreen();
 				int x = mouseLocation.x - edgeStart.x;
 				int y = mouseLocation.y - edgeStart.y;
@@ -269,12 +272,13 @@ public class Listener extends MouseAdapter {
 				window.height = newHeight;
 
 				updateComponentLocationAndSize();
+				mainUI.update();
 			} else if (!closeButton.getHovered() && !trayButton.getHovered() && !maxButton.getHovered()
 					&& !fileButton.getHovered() && !sidePanelLeft.getHovered()) {
 				window.getInnerCanvas().mouseDragged();
 			}
 
-			window.getMainUI().update();
+			
 
 		}
 
@@ -285,7 +289,7 @@ public class Listener extends MouseAdapter {
 			mouseMoved = e.getPoint();
 
 			updateHoveredComponents(e);
-			printHoveredComponents();
+			
 
 			Cursor currentCursor = window.getCursor();
 			if (!window.isMaximized()) {
@@ -302,13 +306,14 @@ public class Listener extends MouseAdapter {
 			}
 
 			// update button hovered state:
-			closeButton.isHovered(e, 0);
-			trayButton.isHovered(e, 0);
-			maxButton.isHovered(e, 0);
-			fileButton.isHovered(e, 0);
-			sidePanelLeft.isHovered(e, 0);
+//			closeButton.isHovered(e, 0);
+//			trayButton.isHovered(e, 0);
+//			maxButton.isHovered(e, 0);
+//			fileButton.isHovered(e, 0);
+//			sidePanelLeft.isHovered(e, 0);
+			setHoveredComponents();
 
-			window.getMainUI().update();
+//			mainUI.update();
 
 		}
 
@@ -336,19 +341,15 @@ public class Listener extends MouseAdapter {
 	}
 
 	private void updateComponentLocationAndSize() {
-
-		titleBar.update();
-		closeButton.update();
-		trayButton.update();
-		maxButton.update();
-		sidePanelLeft.update();
-		sidePanelRight.update();
-		footer.update();
+		allUIComponent(UIComponent -> UIComponent.update());
 	}
 
 	public void updateHoveredComponents(MouseEvent e) {
+		ArrayList<UIComponent> oldHoveredComponents = hoveredComponents;
+		
 		ArrayList<UIComponent> hovered = new ArrayList<>();
-		for (Entry<String, UIComponent> entry : window.getMainUI().componentMap.entrySet()) {
+
+		for (Entry<String, UIComponent> entry : mainUI.componentMap.entrySet()) {
 			UIComponent component = entry.getValue();
 			if (component.isInRegion(e)) {
 				hovered.add(component);
@@ -356,21 +357,43 @@ public class Listener extends MouseAdapter {
 		}
 		if (!hovered.equals(hoveredComponents))
 			hoveredComponents = hovered;
+		
+		if(!oldHoveredComponents.equals(hoveredComponents)) {
+			mainUI.update();
+			printHoveredComponents();
+		}
 	}
 
 	public void printHoveredComponents() {
 		System.out.println("Hovered component(s):");
 		for (UIComponent component : hoveredComponents) {
-
 			System.out.println("\t" + component.toString());
 		}
 	}
 
-	private void unhoverAll() {
-		titleBar.setHovered(false);
-		closeButton.setHovered(false);
-		trayButton.setHovered(false);
-		maxButton.setHovered(false);
-		fileButton.setHovered(false);
+	private void unhoverAllComponents() {
+		for (UIComponent component : hoveredComponents) {
+			component.setHovered(false);
+		}
+		hoveredComponents.clear();
+	}
+	
+	private void setHoveredComponents() {
+		allUIComponent(UIComponent->UIComponent.setHovered(false));
+		for (UIComponent component : hoveredComponents) {
+			component.setHovered(true);
+		}
+	}
+
+	/**
+	 * Apply an action to all the UIComponents. Actions are the methods of the
+	 * UIComponent class.
+	 * 
+	 * @param action
+	 */
+	private void allUIComponent(Consumer<UIComponent> action) {
+		for (Entry<String, UIComponent> entry : mainUI.componentMap.entrySet()) {
+			action.accept(entry.getValue());
+		}
 	}
 }

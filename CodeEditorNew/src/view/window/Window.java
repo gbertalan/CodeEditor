@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.Component;
@@ -54,6 +55,7 @@ public class Window extends JFrame {
 		setLocation(locX, locY);
 		setUndecorated(true);
 		setBackground(new Color(0, 0, 0, 0));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(0, 0, 0, 0));
 		getContentPane().setLayout(null);
 		setVisible(true);
@@ -164,28 +166,38 @@ public class Window extends JFrame {
 	 *         the point is outside the valid resize areas.
 	 */
 	public Edge getEdgeType(Point e) {
-		if (e.x >= frameThichness && e.x <= getWidth() - frameThichness && e.y >= getHeight() - frameThichness)
-			return Edge.S;
-		else if (e.x >= getWidth() - frameThichness && e.y >= frameThichness && e.y <= getHeight() - frameThichness)
-			return Edge.E;
-		else if (e.x <= frameThichness && e.y >= frameThichness && e.y <= getHeight() - frameThichness)
-			return Edge.W;
-		else if (e.x >= frameThichness && e.x <= getWidth() - frameThichness && e.y <= frameThichness)
-			return Edge.N;
-		else if (e.x <= frameThichness && e.y <= frameThichness)
-			return Edge.NW;
-		else if (e.x >= getWidth() - frameThichness && e.y <= frameThichness)
-			return Edge.NE;
-		else if (e.x >= getWidth() - frameThichness && e.y >= getHeight() - frameThichness)
-			return Edge.SE;
-		else if (e.x <= frameThichness && e.y >= getHeight() - frameThichness)
-			return Edge.SW;
-		else if (e.x > frameThichness && e.x < getWidth() - frameThichness && e.y > frameThichness
-				&& e.y < getHeight() - frameThichness)
-			return Edge.CENTER;
-		else {
-			return null;
-		}
+		
+		Rectangle northEdge = new Rectangle(frameThichness, 0, width - 2 * frameThichness, frameThichness);
+	    Rectangle southEdge = new Rectangle(frameThichness, height - frameThichness, width - 2 * frameThichness, frameThichness);
+	    Rectangle westEdge = new Rectangle(0, frameThichness, frameThichness, height - 2 * frameThichness);
+	    Rectangle eastEdge = new Rectangle(width - frameThichness, frameThichness, frameThichness, height - 2 * frameThichness);
+	    Rectangle northwestCorner = new Rectangle(0, 0, frameThichness, frameThichness);
+	    Rectangle northeastCorner = new Rectangle(width - frameThichness, 0, frameThichness, frameThichness);
+	    Rectangle southwestCorner = new Rectangle(0, height - frameThichness, frameThichness, frameThichness);
+	    Rectangle southeastCorner = new Rectangle(width - frameThichness, height - frameThichness, frameThichness, frameThichness);
+	    Rectangle center = new Rectangle(frameThichness, frameThichness, width - 2 * frameThichness, height - 2 * frameThichness);
+
+	    if (northEdge.contains(e)) {
+	        return Edge.N;
+	    } else if (southEdge.contains(e)) {
+	        return Edge.S;
+	    } else if (westEdge.contains(e)) {
+	        return Edge.W;
+	    } else if (eastEdge.contains(e)) {
+	        return Edge.E;
+	    } else if (northwestCorner.contains(e)) {
+	        return Edge.NW;
+	    } else if (northeastCorner.contains(e)) {
+	        return Edge.NE;
+	    } else if (southwestCorner.contains(e)) {
+	        return Edge.SW;
+	    } else if (southeastCorner.contains(e)) {
+	        return Edge.SE;
+	    } else if (center.contains(e)) {
+	        return Edge.CENTER;
+	    } else {
+	        return null;
+	    }
 	}
 
 	public boolean isEdgeHovered(MouseEvent e) {
@@ -204,6 +216,13 @@ public class Window extends JFrame {
 		} else {
 			return false;
 		}
+	}
+	
+	public void setMaximized(boolean maximized) {
+		if(maximized)
+			setExtendedState(getExtendedState() | Window.MAXIMIZED_BOTH);
+		else
+			setExtendedState(getExtendedState() & ~Window.MAXIMIZED_BOTH);
 	}
 
 }
