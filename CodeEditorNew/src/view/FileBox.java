@@ -9,8 +9,9 @@ import java.awt.event.InputEvent;
 
 import javax.swing.JPanel;
 
-import control.WindowListener;
 import utils.Theme;
+import view.window.Listener;
+import view.window.Window;
 
 public class FileBox {
 
@@ -49,8 +50,8 @@ public class FileBox {
 		} else {
 
 			if (grabbed) {
-				x = WindowListener.mouseDragged.x - clickedX;
-				y = WindowListener.mouseDragged.y - clickedY;
+				x = Listener.mouseDragged.x - clickedX;
+				y = Listener.mouseDragged.y - clickedY;
 			}
 
 			// background:

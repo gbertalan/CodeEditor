@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Color;
 import java.awt.event.MouseWheelEvent;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
 public class ScrollPanel extends JPanel {
 

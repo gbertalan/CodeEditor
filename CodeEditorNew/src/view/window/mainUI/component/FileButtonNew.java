@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Color;
 import java.awt.Graphics;

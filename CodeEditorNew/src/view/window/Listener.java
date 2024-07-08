@@ -1,4 +1,4 @@
-package control;
+package view.window;
 
 import java.awt.Cursor;
 import java.awt.Graphics2D;
@@ -10,16 +10,13 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
-import view.Window;
-import view.canvas.Component;
-import view.canvas.EmptySpace;
-import view.canvas.FileButton;
-import view.canvas.SidePanelLeft;
+import utils.ANSIText;
+import view.window.mainUI.MainUI;
+import view.window.mainUI.component.UIComponent;
 
 /**
  * WindowListener is responsible for handling events related to the window's
@@ -29,7 +26,7 @@ import view.canvas.SidePanelLeft;
  * (minimize, maximize, close) events
  */
 
-public class WindowListener extends MouseAdapter {
+public class Listener extends MouseAdapter {
 	private Window window;
 
 	private Point initialClick = new Point(0, 0);
@@ -38,7 +35,7 @@ public class WindowListener extends MouseAdapter {
 	public static Point mouseDragged = new Point(0, 0);
 	public static Point mouseReleased = new Point(0, 0);
 	public static boolean mouseExited;
-	
+
 	private Point edgeStart = new Point(0, 0);
 
 	private int oldWidth;
@@ -49,11 +46,13 @@ public class WindowListener extends MouseAdapter {
 	private boolean draggingByTitleBar;
 	private boolean draggingByEdge;
 
-	private Component titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer;
+	private UIComponent titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer;
 
-	private ArrayList<Component> hoveredComponents = new ArrayList<>();
+	private ArrayList<UIComponent> hoveredComponents = new ArrayList<>();
 
-	public WindowListener(Window window) {
+	public Listener(Window window) {
+		System.out.println(ANSIText.red("MainUIListener constructor is called."));
+		
 		this.window = window;
 
 		initializeComponents();
@@ -63,23 +62,24 @@ public class WindowListener extends MouseAdapter {
 		oldLocX = window.locX;
 		oldLocY = window.locY;
 
-		window.addMouseListener(new MouseListener());
-		window.addMouseMotionListener(new MouseMotionListener());
-		window.addWindowStateListener(new StateListener());
+//		window.addMouseListener(new MouseListener());
+//		window.addMouseMotionListener(new MouseMotionListener());
+//		window.addWindowStateListener(new StateListener());
 	}
 
 	private void initializeComponents() {
-		titleBar = window.getCanvas().getCanvasComponent("titleBar");
-		closeButton = window.getCanvas().getCanvasComponent("closeButton");
-		trayButton = window.getCanvas().getCanvasComponent("trayButton");
-		maxButton = window.getCanvas().getCanvasComponent("maxButton");
-		sidePanelLeft = window.getCanvas().getCanvasComponent("sidePanelLeft");
-		sidePanelRight = window.getCanvas().getCanvasComponent("sidePanelRight");
-		fileButton = window.getCanvas().getCanvasComponent("fileButton");
-		footer = window.getCanvas().getCanvasComponent("footer");
+		MainUI mainUI = window.getMainUI();
+		titleBar = mainUI.getComponent("titleBar");
+		closeButton = mainUI.getComponent("closeButton");
+		trayButton = mainUI.getComponent("trayButton");
+		maxButton = mainUI.getComponent("maxButton");
+		sidePanelLeft = mainUI.getComponent("sidePanelLeft");
+		sidePanelRight = mainUI.getComponent("sidePanelRight");
+		fileButton = mainUI.getComponent("fileButton");
+		footer = mainUI.getComponent("footer");
 	}
 
-	private class MouseListener extends MouseAdapter {
+	public class MouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -94,7 +94,7 @@ public class WindowListener extends MouseAdapter {
 
 			unhoverAll();
 			hoveredComponents = null;
-			window.getCanvas().update();
+			window.getMainUI().update();
 		}
 
 		@Override
@@ -163,7 +163,7 @@ public class WindowListener extends MouseAdapter {
 		}
 	}
 
-	private class MouseMotionListener extends MouseMotionAdapter {
+	public class MouseMotionListener extends MouseMotionAdapter {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -274,7 +274,7 @@ public class WindowListener extends MouseAdapter {
 				window.getInnerCanvas().mouseDragged();
 			}
 
-			window.getCanvas().update();
+			window.getMainUI().update();
 
 		}
 
@@ -308,13 +308,13 @@ public class WindowListener extends MouseAdapter {
 			fileButton.isHovered(e, 0);
 			sidePanelLeft.isHovered(e, 0);
 
-			window.getCanvas().update();
+			window.getMainUI().update();
 
 		}
 
 	}
 
-	private class StateListener implements WindowStateListener {
+	public class StateListener implements WindowStateListener {
 
 		private int previousState = JFrame.NORMAL;
 
@@ -347,9 +347,9 @@ public class WindowListener extends MouseAdapter {
 	}
 
 	public void updateHoveredComponents(MouseEvent e) {
-		ArrayList<Component> hovered = new ArrayList<>();
-		for (Entry<String, Component> entry : window.getCanvas().componentMap.entrySet()) {
-			Component component = entry.getValue();
+		ArrayList<UIComponent> hovered = new ArrayList<>();
+		for (Entry<String, UIComponent> entry : window.getMainUI().componentMap.entrySet()) {
+			UIComponent component = entry.getValue();
 			if (component.isInRegion(e)) {
 				hovered.add(component);
 			}
@@ -360,7 +360,7 @@ public class WindowListener extends MouseAdapter {
 
 	public void printHoveredComponents() {
 		System.out.println("Hovered component(s):");
-		for (Component component : hoveredComponents) {
+		for (UIComponent component : hoveredComponents) {
 
 			System.out.println("\t" + component.toString());
 		}

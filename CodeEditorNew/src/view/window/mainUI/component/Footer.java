@@ -1,13 +1,13 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
-public class Footer extends Component {
+public class Footer extends UIComponent {
 
 	private static int HEIGHT = 8;
 	private static int ARC_SIZE = 8;

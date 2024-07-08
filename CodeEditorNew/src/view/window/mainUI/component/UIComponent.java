@@ -1,12 +1,12 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import view.Window;
+import view.window.Window;
 
-public abstract class Component implements VisualComponent {
+public abstract class UIComponent implements VisualComponent {
 
     protected Window window;
     protected int locX;
@@ -15,7 +15,7 @@ public abstract class Component implements VisualComponent {
     protected int height;
     protected boolean hovered;
 
-    public Component(Window window, int locX, int locY, int width, int height) {
+    public UIComponent(Window window, int locX, int locY, int width, int height) {
         this.window = window;
         this.locX = locX;
         this.locY = locY;
@@ -67,7 +67,7 @@ public abstract class Component implements VisualComponent {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Component other = (Component) obj;
+        UIComponent other = (UIComponent) obj;
         return locX == other.locX && locY == other.locY && width == other.width && height == other.height 
                && hovered == other.hovered && (window == null ? other.window == null : window.equals(other.window));
     }

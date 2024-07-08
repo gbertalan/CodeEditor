@@ -3,39 +3,34 @@ package view;
 import javax.swing.JFrame;
 
 import utils.ANSIText;
-import view.canvas.Canvas;
+import view.window.background.MainBackgroundPanel;
+import view.window.mainUI.MainUI;
+import view.window.Listener;
+import view.window.Window;
+import view.window.workspace.InnerCanvas;
 
 public class View {
 
 	private Window window;
 
 	public View() {
-		
 		System.out.println(ANSIText.bold("View constructor is called."));
-		window = new Window();
 		
-		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(window);
-		InnerCanvas innerCanvas = new InnerCanvas(window);
-		Canvas canvas = new Canvas(window);
+		initWindow();
 
-		window.addMainBackgroundPanel(mainBackgroundPanel);
-		window.addInnerCanvas(innerCanvas);
-		window.addCanvas(canvas);
-		
-		window.getContentPane().setComponentZOrder(mainBackgroundPanel, 2);
-		window.getContentPane().setComponentZOrder(innerCanvas, 1);
-		window.getContentPane().setComponentZOrder(canvas, 0);
+//		window.refresh();
+//		printComponents(window);
+//		window.getMainUI().update();
 
-		window.refresh();
-		printComponents();
-		window.getCanvas().update();
-		
 		System.out.println(ANSIText.bold("View constructor is finished."));
 		System.out.println();
 	}
+	
+	private void initWindow() {
+		window = new Window();
 
-	public JFrame getWindowAsJFrame() {
-		return window;
+		window.attachPanels();
+		window.attachListeners();
 	}
 
 	public Window getWindow() {

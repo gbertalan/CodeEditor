@@ -1,12 +1,12 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
-public class FileButton extends Component {
+public class FileButton extends UIComponent {
 
 	private static int TOP_MARGIN = 42;
 	private static int SIZE = 55;

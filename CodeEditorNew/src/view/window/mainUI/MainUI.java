@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,16 +8,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import utils.ANSIText;
 import utils.Globals;
-import view.Window;
+import view.window.mainUI.component.CloseButton;
+import view.window.mainUI.component.UIComponent;
+import view.window.Window;
+import view.window.Listener.MouseListener;
+import view.window.Listener.MouseMotionListener;
+import view.window.Listener.StateListener;
+import view.window.mainUI.component.FileButton;
+import view.window.mainUI.component.Footer;
+import view.window.mainUI.component.MaxButton;
+import view.window.mainUI.component.SidePanelLeft;
+import view.window.mainUI.component.SidePanelRight;
+import view.window.mainUI.component.TitleBar;
+import view.window.mainUI.component.TrayButton;
 
-public class Canvas extends JPanel {
+public class MainUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Graphics2D g2d;
@@ -35,10 +45,10 @@ public class Canvas extends JPanel {
 	
 //	private EmptySpace emptySpace;
 	
-	public Map<String, Component> componentMap;
+	public Map<String, UIComponent> componentMap;
 
-	public Canvas(Window window) {
-		System.out.println(ANSIText.red("Canvas constructor is called."));
+	public MainUI(Window window) {
+		System.out.println(ANSIText.red("MainUI constructor is called."));
 		
 		this.window = window;
 
@@ -58,6 +68,12 @@ public class Canvas extends JPanel {
 //		this.emptySpace = new EmptySpace(window);
 
 		initializeComponentMap();
+		
+//		MainUIListener listener = new MainUIListener(window);
+        
+//        addMouseListener(listener.new MouseListener());
+//        addMouseMotionListener(listener.new MouseMotionListener());
+//        addWindowStateListener(listener.new StateListener());
 	}
 	
 	private void initializeComponentMap() {
@@ -74,7 +90,7 @@ public class Canvas extends JPanel {
 //        componentMap.put("emptySpace", emptySpace);
     }
 	
-	public Component getCanvasComponent(String componentName) {
+	public UIComponent getComponent(String componentName) {
 		return componentMap.get(componentName);
 	}
 
@@ -82,7 +98,7 @@ public class Canvas extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		System.out.println(ANSIText.red("Canvas paintComponent() is called."));
+		System.out.println(ANSIText.red("MainUI paintComponent() is called."));
 		
 		setBounds(0, 0, window.width, window.height);
 
@@ -108,7 +124,7 @@ public class Canvas extends JPanel {
 	
 
 	public void update() {
-		System.out.println(ANSIText.red("Canvas update() is called."));
+		System.out.println(ANSIText.red("MainUI update() is called."));
 		Rectangle rect = new Rectangle(0, 0, 100, 100);
         repaint();
 	}

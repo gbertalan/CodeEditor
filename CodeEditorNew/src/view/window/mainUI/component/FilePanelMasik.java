@@ -1,13 +1,13 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import view.Window;
+import view.window.Window;
 
-public class FilePanelMasik extends Component{
+public class FilePanelMasik extends UIComponent{
 
 	public FilePanelMasik(Window window) {
 		super(window, 300, 300, 600, 600);

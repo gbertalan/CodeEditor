@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -11,9 +11,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
-public class TitleBar extends Component {
+public class TitleBar extends UIComponent {
 
 	private static int TITLEBAR_HEIGHT = 42;
 	private static int ARC_SIZE = 8;

@@ -1,4 +1,4 @@
-package view;
+package view.window;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -13,12 +13,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import utils.ANSIText;
-import view.canvas.Canvas;
+import view.window.Listener.MouseListener;
+import view.window.Listener.MouseMotionListener;
+import view.window.Listener.StateListener;
+import view.window.background.MainBackgroundPanel;
+import view.window.mainUI.MainUI;
+import view.window.workspace.InnerCanvas;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private Canvas canvas;
+	private MainUI mainUI;
 	private MainBackgroundPanel mainBackgroundPanel;
 	private InnerCanvas innerCanvas;
 
@@ -52,18 +57,44 @@ public class Window extends JFrame {
 		getContentPane().setBackground(new Color(0, 0, 0, 0));
 		getContentPane().setLayout(null);
 		setVisible(true);
+		
+		
+	}
+	
+	public void attachPanels() {
+		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(this);
+		InnerCanvas innerCanvas = new InnerCanvas(this);
+		MainUI mainUI = new MainUI(this);
+
+		addMainBackgroundPanel(mainBackgroundPanel);
+		addInnerCanvas(innerCanvas);
+		addMainUI(mainUI);
+
+		getContentPane().setComponentZOrder(mainBackgroundPanel, 2);
+		getContentPane().setComponentZOrder(innerCanvas, 1);
+		getContentPane().setComponentZOrder(mainUI, 0);
+		
+		revalidate();
+		repaint();
+	}
+	
+	public void attachListeners() {
+		Listener listener = new Listener(this);
+		addMouseListener(listener.new MouseListener());
+		addMouseMotionListener(listener.new MouseMotionListener());
+		addWindowStateListener(listener.new StateListener());
 	}
 
-	public void addCanvas(Canvas canvas) {
-		this.canvas = canvas;
-		getContentPane().add(canvas);
+	private void addMainUI(MainUI mainUI) {
+		this.mainUI = mainUI;
+		getContentPane().add(mainUI);
 	}
 
-	public Canvas getCanvas() {
-		return canvas;
+	public MainUI getMainUI() {
+		return mainUI;
 	}
 
-	public void addMainBackgroundPanel(MainBackgroundPanel mainBackgroundPanel) {
+	private void addMainBackgroundPanel(MainBackgroundPanel mainBackgroundPanel) {
 		this.mainBackgroundPanel = mainBackgroundPanel;
 		getContentPane().add(mainBackgroundPanel);
 	}
@@ -72,7 +103,7 @@ public class Window extends JFrame {
 		return mainBackgroundPanel;
 	}
 
-	public void addInnerCanvas(InnerCanvas innerCanvas) {
+	private void addInnerCanvas(InnerCanvas innerCanvas) {
 		this.innerCanvas = innerCanvas;
 		getContentPane().add(innerCanvas);
 	}

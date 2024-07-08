@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.AWTException;
 import java.awt.Cursor;
@@ -17,11 +17,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import control.WindowListener;
 import utils.Globals;
 import utils.Theme;
 import view.FileBox;
-import view.Window;
+import view.window.Listener;
+import view.window.Window;
 
 public class ScrollButton extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -134,7 +134,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 			// TODO Auto-generated catch block
 			ee.printStackTrace();
 		}
-		window.getCanvas().update();
+		window.getMainUI().update();
 		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
 		try {
 			Robot robot = new Robot();

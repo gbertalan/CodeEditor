@@ -1,4 +1,4 @@
-package view;
+package view.window.background;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import utils.ANSIText;
 import utils.Globals;
 import utils.Theme;
+import view.window.Window;
 
 public class MainBackgroundPanel extends JPanel {
 

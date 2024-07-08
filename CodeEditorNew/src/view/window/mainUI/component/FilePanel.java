@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import utils.Globals;
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
 import java.awt.Color;
 

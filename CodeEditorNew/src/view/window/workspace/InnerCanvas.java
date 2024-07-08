@@ -1,4 +1,4 @@
-package view;
+package view.window.workspace;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 
 import utils.ANSIText;
 import utils.Globals;
+import view.FileBox;
+import view.window.Window;
 
 public class InnerCanvas extends JPanel {
 

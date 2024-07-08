@@ -1,4 +1,4 @@
-package view.canvas;
+package view.window.mainUI.component;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,9 +6,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import utils.Theme;
-import view.Window;
+import view.window.Window;
 
-public class TrayButton extends Component {
+public class TrayButton extends UIComponent {
 
 	private static int WIDTH = 42;
 	private static int HEIGHT = 42;
