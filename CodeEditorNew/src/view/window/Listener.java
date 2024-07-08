@@ -132,8 +132,12 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			
+			
 			if (hoveredComponents.contains(titleBar) && !hoveredComponents.contains(trayButton)
-					&& !hoveredComponents.contains(maxButton) && !hoveredComponents.contains(closeButton)) {
+					&& !hoveredComponents.contains(maxButton) && !hoveredComponents.contains(closeButton)
+					&& !hoveredComponents.contains(edgeWest) && !hoveredComponents.contains(edgeNorth)
+					&& !hoveredComponents.contains(edgeEast) && !hoveredComponents.contains(edgeSouth)) {
 				draggingByTitleBar = true;
 				initialClick = e.getPoint();
 			}
