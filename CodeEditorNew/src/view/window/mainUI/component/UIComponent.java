@@ -1,5 +1,6 @@
 package view.window.mainUI.component;
 
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -70,5 +71,9 @@ public abstract class UIComponent implements VisualComponent {
         UIComponent other = (UIComponent) obj;
         return locX == other.locX && locY == other.locY && width == other.width && height == other.height 
                && hovered == other.hovered && (window == null ? other.window == null : window.equals(other.window));
+    }
+    
+    public Cursor getCursor() {
+    	return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
     }
 }

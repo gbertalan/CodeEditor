@@ -1,5 +1,6 @@
 package view.window.mainUI.component;
 
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 
 import view.window.Window;
@@ -9,7 +10,7 @@ public class EdgeNorth extends UIComponent {
 	private static int EDGE_THICKNESS = 6;
 
 	public EdgeNorth(Window window) {
-		super(window, 0, EDGE_THICKNESS, window.width, EDGE_THICKNESS);
+		super(window, 0, 0, window.width, EDGE_THICKNESS);
 	}
 
 	@Override
@@ -22,4 +23,7 @@ public class EdgeNorth extends UIComponent {
 		width = window.width;
 	}
 
+	public Cursor getCursor() {
+		return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
+	}
 }

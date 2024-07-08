@@ -1,5 +1,6 @@
 package view.window.mainUI.component;
 
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 
 import view.window.Window;
@@ -23,4 +24,7 @@ public class EdgeSouth extends UIComponent {
 		width = window.width;
 	}
 
+	public Cursor getCursor() {
+		return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+	}
 }
