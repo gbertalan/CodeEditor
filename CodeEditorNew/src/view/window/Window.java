@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import utils.ANSIText;
-import view.window.background.MainBackgroundPanel;
 import view.window.mainUI.MainUI;
 import view.window.workspace.Workspace;
 
@@ -16,7 +15,6 @@ public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private MainUI mainUI;
-	private MainBackgroundPanel mainBackgroundPanel;
 	private Workspace innerCanvas;
 
 	public int width = 400;
@@ -55,15 +53,12 @@ public class Window extends JFrame {
 	}
 	
 	public void attachPanels() {
-		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(this);
 		Workspace innerCanvas = new Workspace(this);
 		MainUI mainUI = new MainUI(this);
 
-		addMainBackgroundPanel(mainBackgroundPanel);
 		addInnerCanvas(innerCanvas);
 		addMainUI(mainUI);
 
-		getContentPane().setComponentZOrder(mainBackgroundPanel, 2);
 		getContentPane().setComponentZOrder(innerCanvas, 1);
 		getContentPane().setComponentZOrder(mainUI, 0);
 		
@@ -85,15 +80,6 @@ public class Window extends JFrame {
 
 	public MainUI getMainUI() {
 		return mainUI;
-	}
-
-	private void addMainBackgroundPanel(MainBackgroundPanel mainBackgroundPanel) {
-		this.mainBackgroundPanel = mainBackgroundPanel;
-		getContentPane().add(mainBackgroundPanel);
-	}
-
-	public MainBackgroundPanel getMainBackgroundPanel() {
-		return mainBackgroundPanel;
 	}
 
 	private void addInnerCanvas(Workspace innerCanvas) {

@@ -3,7 +3,6 @@ package view;
 import javax.swing.JFrame;
 
 import utils.ANSIText;
-import view.window.background.MainBackgroundPanel;
 import view.window.mainUI.MainUI;
 import view.window.Listener;
 import view.window.Window;

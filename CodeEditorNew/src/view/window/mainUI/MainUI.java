@@ -40,7 +40,8 @@ public class MainUI extends JPanel {
 		UIComponent[] components = { new EdgeWest(window, 3), new EdgeNorth(window, 3), new EdgeEast(window, 3),
 				new EdgeSouth(window, 3), new TitleBar(window, 3), new CloseButton(window, 3),
 				new TrayButton(window, 3), new MaxButton(window, 3), new SidePanelLeft(window, 3),
-				new SidePanelRight(window, 3), new FileButton(window, 5), new Footer(window, 3) };
+				new SidePanelRight(window, 3), new FileButton(window, 5), new Footer(window, 3),
+				new Background(window, 0) };
 
 		componentMap = new HashMap<>();
 		componentList = new ArrayList<>();
@@ -56,7 +57,7 @@ public class MainUI extends JPanel {
 	public UIComponent getComponent(String componentName) {
 		return componentMap.get(componentName);
 	}
-	
+
 	public List<UIComponent> getComponentList() {
 		return componentList;
 	}
