@@ -7,7 +7,7 @@ import view.window.background.MainBackgroundPanel;
 import view.window.mainUI.MainUI;
 import view.window.Listener;
 import view.window.Window;
-import view.window.workspace.InnerCanvas;
+import view.window.workspace.Workspace;
 
 public class View {
 

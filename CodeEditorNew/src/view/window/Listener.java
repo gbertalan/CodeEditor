@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,8 +12,11 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -54,7 +58,7 @@ public class Listener extends MouseAdapter {
 	private UIComponent titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer,
 			edgeWest, edgeNorth, edgeEast, edgeSouth;
 
-	private ArrayList<UIComponent> hoveredComponents = new ArrayList<>();
+	private HashSet<UIComponent> hoveredComponents = new HashSet<>();
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.red("MainUIListener constructor is called."));
@@ -132,8 +136,7 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			
-			
+
 			if (hoveredComponents.contains(titleBar) && !hoveredComponents.contains(trayButton)
 					&& !hoveredComponents.contains(maxButton) && !hoveredComponents.contains(closeButton)
 					&& !hoveredComponents.contains(edgeWest) && !hoveredComponents.contains(edgeNorth)
@@ -144,8 +147,6 @@ public class Listener extends MouseAdapter {
 
 			// if not maximized:
 			if (!window.isMaximized()) {
-//				Window.Edge edge = window.getEdgeType(e.getPoint());
-//				if (edge != Window.Edge.CENTER) {
 				if (hoveredComponents.contains(edgeWest) || hoveredComponents.contains(edgeNorth)
 						|| hoveredComponents.contains(edgeEast) || hoveredComponents.contains(edgeSouth)) {
 					draggingByEdge = true;
@@ -185,7 +186,6 @@ public class Listener extends MouseAdapter {
 			mouseDragged = e.getPoint();
 
 			if (draggingByTitleBar) {
-				System.out.println("draggingByTitleBar");
 				window.width = oldWidth;
 				window.height = oldHeight;
 				window.locX = oldLocX;
@@ -282,7 +282,6 @@ public class Listener extends MouseAdapter {
 				window.height = newHeight;
 
 				updateComponentLocationAndSize();
-				mainUI.update();
 			} else if (!closeButton.getHovered() && !trayButton.getHovered() && !maxButton.getHovered()
 					&& !fileButton.getHovered() && !sidePanelLeft.getHovered()) {
 				window.getInnerCanvas().mouseDragged();
@@ -292,38 +291,10 @@ public class Listener extends MouseAdapter {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			// set resize cursor when pointing at edge of frame:
 
 			mouseMoved = e.getPoint();
 
 			updateHoveredComponents(e);
-
-//			Cursor currentCursor = window.getCursor();
-//			if (!window.isMaximized()) {
-//				Window.Edge edge = window.getEdgeType(mouseMoved);
-//				Cursor cursor = edge.getPredefinedResizeCursor();
-//				if (currentCursor != cursor) {
-//					window.setCursor(cursor);
-//				}
-//			} else {
-//				Cursor defaultCursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-//				if (currentCursor != defaultCursor) {
-//					window.setCursor(defaultCursor);
-//				}
-//			}
-
-			// update button hovered state:
-//			closeButton.isHovered(e, 0);
-//			trayButton.isHovered(e, 0);
-//			maxButton.isHovered(e, 0);
-//			fileButton.isHovered(e, 0);
-//			sidePanelLeft.isHovered(e, 0);
-//			setHoveredComponents();
-
-//			setCursor();
-
-//			mainUI.update();
-
 		}
 
 	}
@@ -353,33 +324,30 @@ public class Listener extends MouseAdapter {
 		allUIComponent(UIComponent -> UIComponent.update());
 	}
 
-	public void updateHoveredComponents(MouseEvent e) {
-		ArrayList<UIComponent> oldHoveredComponents = hoveredComponents;
-
-		for (UIComponent component : oldHoveredComponents) {
-			component.setHovered(false);
-		}
-
-		ArrayList<UIComponent> hovered = new ArrayList<>();
+	private void updateHoveredComponents(MouseEvent e) {
+		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);
+		Set<UIComponent> newHoveredComponents = new HashSet<>();
 
 		for (Entry<String, UIComponent> entry : mainUI.componentMap.entrySet()) {
 			UIComponent component = entry.getValue();
 			if (component.isInRegion(e)) {
-				hovered.add(component);
+				newHoveredComponents.add(component);
 				component.setHovered(true);
+			} else {
+				component.setHovered(false);
 			}
 		}
-		if (!hovered.equals(hoveredComponents))
-			hoveredComponents = hovered;
 
-		if (!oldHoveredComponents.equals(hoveredComponents)) {
+		if (!newHoveredComponents.equals(oldHoveredComponents)) {
+			hoveredComponents.clear();
+			hoveredComponents.addAll(newHoveredComponents);
 			mainUI.update();
 			printHoveredComponents();
 			setCursor();
 		}
 	}
 
-	public void printHoveredComponents() {
+	private void printHoveredComponents() {
 		System.out.println("Hovered component(s):");
 		for (UIComponent component : hoveredComponents) {
 			System.out.println("\t" + component.toString());
@@ -393,46 +361,76 @@ public class Listener extends MouseAdapter {
 		hoveredComponents.clear();
 	}
 
-//	private void setHoveredComponents() {
-//		allUIComponent(UIComponent -> UIComponent.setHovered(false));
-//		for (UIComponent component : hoveredComponents) {
-//			component.setHovered(true);
-//		}
-//	}
-
 	private void setCursor() {
-		ArrayList<Cursor> possibleCursors = new ArrayList<>();
 
-		for (UIComponent component : hoveredComponents) {
-			possibleCursors.add(component.getCursor());
-		}
-
-		System.out.println("possibleCursors: " + possibleCursors.toString());
-
-		if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR))
-				&& possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR))
-				&& possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR))
-				&& possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR))
-				&& possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-		} else if (possibleCursors.contains(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR))) {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+		if (hoveredComponents.contains(edgeSouth)) {
+			if (hoveredComponents.contains(edgeWest)) {
+				window.setCursor(edgeSouth.getCursor(Cursor.W_RESIZE_CURSOR));
+			} else if (hoveredComponents.contains(edgeEast)) {
+				window.setCursor(edgeSouth.getCursor(Cursor.E_RESIZE_CURSOR));
+			} else {
+				window.setCursor(edgeSouth.getCursor());
+			}
+		} else if (hoveredComponents.contains(edgeNorth)) {
+			if (hoveredComponents.contains(edgeWest)) {
+				window.setCursor(edgeNorth.getCursor(Cursor.W_RESIZE_CURSOR));
+			} else if (hoveredComponents.contains(edgeEast)) {
+				window.setCursor(edgeNorth.getCursor(Cursor.E_RESIZE_CURSOR));
+			} else {
+				window.setCursor(edgeNorth.getCursor());
+			}
 		} else {
-			window.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			Cursor highestPriorityCursor = null;
+			for (UIComponent component : hoveredComponents) {
+				Cursor cursor = component.getCursor();
+				if (highestPriorityCursor == null || isHigherPriority(cursor, highestPriorityCursor)) {
+					highestPriorityCursor = cursor;
+				} else if (!isHigherPriority(highestPriorityCursor, cursor)) {
+				}
+			}
+
+			if (highestPriorityCursor != null) {
+				window.setCursor(highestPriorityCursor);
+			} else {
+				window.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
 		}
 
+	}
+
+	private boolean isHigherPriority(Cursor cursor1, Cursor cursor2) {
+		int priority1 = getCursorPriority(cursor1);
+		int priority2 = getCursorPriority(cursor2);
+		return priority1 < priority2;
+	}
+
+	private int getCursorPriority(Cursor cursor) {
+		// Lower number indicates higher priority
+		switch (cursor.getType()) {
+		case Cursor.N_RESIZE_CURSOR:
+		case Cursor.S_RESIZE_CURSOR:
+		case Cursor.W_RESIZE_CURSOR:
+		case Cursor.E_RESIZE_CURSOR:
+		case Cursor.NE_RESIZE_CURSOR:
+		case Cursor.NW_RESIZE_CURSOR:
+		case Cursor.SE_RESIZE_CURSOR:
+		case Cursor.SW_RESIZE_CURSOR:
+			return 1;
+		case Cursor.HAND_CURSOR:
+			return 2;
+		case Cursor.MOVE_CURSOR:
+			return 3;
+		case Cursor.TEXT_CURSOR:
+			return 4;
+		case Cursor.WAIT_CURSOR:
+			return 5;
+		case Cursor.CROSSHAIR_CURSOR:
+			return 6;
+		case Cursor.DEFAULT_CURSOR:
+			return 7;
+		default:
+			return Integer.MAX_VALUE; // Lowest priority
+		}
 	}
 
 	/**

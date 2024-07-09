@@ -1,6 +1,7 @@
 package view.window.mainUI.component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -14,8 +15,8 @@ public class MaxButton extends UIComponent {
 	private static int HEIGHT = 42;
 	private static int MARGIN = 16;
 
-	public MaxButton(Window window) {
-		super(window, window.width - (WIDTH * 2), 0, WIDTH, HEIGHT);
+	public MaxButton(Window window, int drawPriority) {
+		super(window, drawPriority, window.width - (WIDTH * 2), 0, WIDTH, HEIGHT);
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -49,6 +50,11 @@ public class MaxButton extends UIComponent {
 	@Override
 	public void update() {
 		locX = window.width - (WIDTH * 2);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 }

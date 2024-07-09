@@ -1,4 +1,4 @@
-package view.window.mainUI.component;
+package tobedeleted;
 
 import java.awt.Color;
 import java.awt.event.MouseWheelEvent;

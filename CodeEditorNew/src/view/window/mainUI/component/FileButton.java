@@ -1,8 +1,11 @@
 package view.window.mainUI.component;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import tobedeleted.FilePanel;
 import utils.Theme;
 import view.window.Window;
 
@@ -13,10 +16,8 @@ public class FileButton extends UIComponent {
 
 	FilePanel filePanel = new FilePanel(window);
 
-	private boolean done; // to make sure code is called only ones when button is hovered
-
-	public FileButton(Window window) {
-		super(window, 0, TOP_MARGIN, SIZE, SIZE);
+	public FileButton(Window window, int drawPriority) {
+		super(window, drawPriority, 0, TOP_MARGIN, SIZE, SIZE);
 	}
 
 	@Override
@@ -30,24 +31,10 @@ public class FileButton extends UIComponent {
 
 		g2d.setColor(Theme.getPanelButtonColor());
 		if (hovered) {
-			if (!done) {
-				
-
-				if (filePanel.scrollPanel != null) {
-					filePanel.recreateScrollPanel(window.height);
-				}
-
-				window.addPanel(filePanel);
-				window.refresh();
-
-				done = true;
-			}
 			g2d.setColor(Theme.getPanelButtonHoverColor());
+			g2d.setColor(Color.YELLOW);
 		} else {
-			done = false;
 			if (!filePanel.hovered) {
-				window.getContentPane().remove(filePanel);
-				window.refresh();
 
 			} else {
 				g2d.setColor(Theme.getPanelButtonHoverColor());
@@ -60,10 +47,7 @@ public class FileButton extends UIComponent {
 		g2d.drawRect(locX, locY, width, height);
 	}
 
-	public boolean isHovered(MouseEvent e, int modifier) {
-		hovered = e.getX() > locX + modifier && e.getY() > locY + modifier && e.getX() < locX + width - modifier
-				&& e.getY() < locY + height - modifier ? true : false;
-		return hovered;
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 	}
-
 }

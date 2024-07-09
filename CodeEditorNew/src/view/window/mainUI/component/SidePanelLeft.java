@@ -1,5 +1,6 @@
 package view.window.mainUI.component;
 
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 
 import utils.Theme;
@@ -11,8 +12,8 @@ public class SidePanelLeft extends UIComponent {
 	private static int WIDTH = 55;
 	private static int BOTTOM_MARGIN = 9;
 
-	public SidePanelLeft(Window window) {
-		super(window, 1, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
+	public SidePanelLeft(Window window, int drawPriority) {
+		super(window, drawPriority, 1, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
 	}
 
 	@Override
@@ -27,6 +28,11 @@ public class SidePanelLeft extends UIComponent {
 		g2d.fillRect(locX, locY, width, height);
 		g2d.setColor(Theme.getSeparatorLineColor());
 		g2d.drawLine(width, locY, width, locY + height);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 }

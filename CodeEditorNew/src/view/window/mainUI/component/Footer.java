@@ -1,6 +1,7 @@
 package view.window.mainUI.component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
@@ -12,8 +13,8 @@ public class Footer extends UIComponent {
 	private static int HEIGHT = 8;
 	private static int ARC_SIZE = 8;
 
-	public Footer(Window window) {
-		super(window, 0, window.height - HEIGHT, window.width, HEIGHT);
+	public Footer(Window window, int drawPriority) {
+		super(window, drawPriority, 0, window.height - HEIGHT, window.width, HEIGHT);
 	}
 
 	@Override
@@ -49,5 +50,10 @@ public class Footer extends UIComponent {
 			g2d.fill(path);
 		else
 			g2d.draw(path);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 }

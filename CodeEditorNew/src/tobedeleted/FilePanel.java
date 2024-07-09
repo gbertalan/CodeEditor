@@ -1,4 +1,4 @@
-package view.window.mainUI.component;
+package tobedeleted;
 
 import java.awt.Cursor;
 import java.awt.Dimension;

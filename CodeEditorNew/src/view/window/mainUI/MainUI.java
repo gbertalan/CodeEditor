@@ -3,10 +3,9 @@ package view.window.mainUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -14,16 +13,14 @@ import javax.swing.JPanel;
 import utils.ANSIText;
 import utils.Globals;
 import view.window.mainUI.component.CloseButton;
+import view.window.mainUI.component.DrawPriorityComparator;
 import view.window.mainUI.component.EdgeEast;
 import view.window.mainUI.component.EdgeNorth;
 import view.window.mainUI.component.EdgeSouth;
 import view.window.mainUI.component.EdgeWest;
+import view.window.mainUI.component.FileButton;
 import view.window.mainUI.component.UIComponent;
 import view.window.Window;
-import view.window.Listener.MouseListener;
-import view.window.Listener.MouseMotionListener;
-import view.window.Listener.StateListener;
-import view.window.mainUI.component.FileButton;
 import view.window.mainUI.component.Footer;
 import view.window.mainUI.component.MaxButton;
 import view.window.mainUI.component.SidePanelLeft;
@@ -52,6 +49,7 @@ public class MainUI extends JPanel {
 	private Footer footer;
 
 	public Map<String, UIComponent> componentMap;
+	private List<UIComponent> componentList = new ArrayList<>();
 
 	public MainUI(Window window) {
 		System.out.println(ANSIText.red("MainUI constructor is called."));
@@ -59,23 +57,24 @@ public class MainUI extends JPanel {
 		this.window = window;
 
 		setBounds(0, 0, window.width, window.height);
-		setBackground(new Color(255, 0, 0, 0));
+		setBackground(new Color(0, 0, 0, 0));
 		setOpaque(false);
 
-		this.edgeWest = new EdgeWest(window);
-		this.edgeNorth = new EdgeNorth(window);
-		this.edgeEast = new EdgeEast(window);
-		this.edgeSouth = new EdgeSouth(window);
-		this.titleBar = new TitleBar(window);
-		this.closeButton = new CloseButton(window);
-		this.trayButton = new TrayButton(window);
-		this.maxButton = new MaxButton(window);
-		this.sidePanelLeft = new SidePanelLeft(window);
-		this.sidePanelRight = new SidePanelRight(window);
-		this.fileButton = new FileButton(window);
-		this.footer = new Footer(window);
+		this.edgeWest = new EdgeWest(window, 3);
+		this.edgeNorth = new EdgeNorth(window, 3);
+		this.edgeEast = new EdgeEast(window, 3);
+		this.edgeSouth = new EdgeSouth(window, 3);
+		this.titleBar = new TitleBar(window, 3);
+		this.closeButton = new CloseButton(window, 3);
+		this.trayButton = new TrayButton(window, 3);
+		this.maxButton = new MaxButton(window, 3);
+		this.sidePanelLeft = new SidePanelLeft(window, 3);
+		this.sidePanelRight = new SidePanelRight(window, 3);
+		this.fileButton = new FileButton(window, 5);
+		this.footer = new Footer(window, 3);
 
 		initializeComponentMap();
+		initializeComponentList();
 	}
 
 	private void initializeComponentMap() {
@@ -94,6 +93,13 @@ public class MainUI extends JPanel {
 		componentMap.put("footer", footer);
 	}
 
+	private void initializeComponentList() {
+		for (UIComponent component : componentMap.values()) {
+			componentList.add(component);
+		}
+		componentList.sort(new DrawPriorityComparator());
+	}
+
 	public UIComponent getComponent(String componentName) {
 		return componentMap.get(componentName);
 	}
@@ -109,14 +115,9 @@ public class MainUI extends JPanel {
 		g2d = (Graphics2D) g;
 		Globals.setRenderingHints(g2d);
 
-		titleBar.draw(g2d);
-		closeButton.draw(g2d);
-		trayButton.draw(g2d);
-		maxButton.draw(g2d);
-		sidePanelLeft.draw(g2d);
-		sidePanelRight.draw(g2d);
-		fileButton.draw(g2d);
-		footer.draw(g2d);
+		for (UIComponent component : componentList) {
+			component.draw(g2d);
+		}
 
 //		g2d.dispose();
 	}
@@ -129,4 +130,5 @@ public class MainUI extends JPanel {
 		System.out.println(ANSIText.red("MainUI update() is called."));
 		repaint();
 	}
+
 }

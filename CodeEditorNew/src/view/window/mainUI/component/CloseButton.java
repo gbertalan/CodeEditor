@@ -1,6 +1,7 @@
 package view.window.mainUI.component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,8 +18,8 @@ public class CloseButton extends UIComponent {
 	private static Color RED_COLOR = new Color(232, 17, 35);
 	private static int ARC_SIZE = 8;
 
-	public CloseButton(Window window) {
-		super(window, window.width - WIDTH, 0, WIDTH, HEIGHT);
+	public CloseButton(Window window, int drawPriority) {
+		super(window, drawPriority, window.width - WIDTH, 0, WIDTH, HEIGHT);
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -58,6 +59,11 @@ public class CloseButton extends UIComponent {
 	    path.lineTo(x, y);
 	    path.closePath();
 	    g2d.fill(path);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 

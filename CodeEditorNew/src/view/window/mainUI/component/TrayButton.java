@@ -1,6 +1,7 @@
 package view.window.mainUI.component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -14,8 +15,8 @@ public class TrayButton extends UIComponent {
 	private static int HEIGHT = 42;
 	private static int MARGIN = 16;
 
-	public TrayButton(Window window) {
-		super(window, window.width - (WIDTH * 3), 0, WIDTH, HEIGHT);
+	public TrayButton(Window window, int drawPriority) {
+		super(window, drawPriority, window.width - (WIDTH * 3), 0, WIDTH, HEIGHT);
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -38,6 +39,11 @@ public class TrayButton extends UIComponent {
 	@Override
 	public void update() {
 		locX = window.width - (WIDTH * 3);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 }

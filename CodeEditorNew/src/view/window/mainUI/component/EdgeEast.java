@@ -9,8 +9,8 @@ public class EdgeEast extends UIComponent {
 
 	private static int EDGE_THICKNESS = 6;
 
-	public EdgeEast(Window window) {
-		super(window, window.width - EDGE_THICKNESS, 0, EDGE_THICKNESS, window.height);
+	public EdgeEast(Window window, int drawPriority) {
+		super(window, drawPriority, window.width - EDGE_THICKNESS, 0, EDGE_THICKNESS, window.height);
 	}
 
 	@Override
@@ -24,7 +24,11 @@ public class EdgeEast extends UIComponent {
 		height = window.height;
 	}
 
-	public Cursor getCursor() {
-		return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+	public Cursor getCursor(int secondaryCursor) {
+		if (window.isMaximized())
+			return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		else 
+			return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
 	}
+
 }

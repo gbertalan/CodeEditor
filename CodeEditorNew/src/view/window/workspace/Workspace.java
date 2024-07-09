@@ -3,6 +3,7 @@ package view.window.workspace;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,19 +14,19 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import model.FileBox;
 import utils.ANSIText;
 import utils.Globals;
-import view.FileBox;
 import view.window.Window;
 
-public class InnerCanvas extends JPanel {
+public class Workspace extends JPanel {
 
 	private Window window;
 	private static int MARGIN = 2;
 	private ArrayList<FileBox> fileBoxCatalog = new ArrayList<>();
 	private FileBox activeFileBox;
 
-	public InnerCanvas(Window window) {
+	public Workspace(Window window) {
 		System.out.println(ANSIText.blue("InnerCanvas constructor is called."));
 		
 		this.window = window;

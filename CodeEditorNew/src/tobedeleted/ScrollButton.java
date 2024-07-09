@@ -1,4 +1,4 @@
-package view.window.mainUI.component;
+package tobedeleted;
 
 import java.awt.AWTException;
 import java.awt.Cursor;
@@ -17,9 +17,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import model.FileBox;
 import utils.Globals;
 import utils.Theme;
-import view.FileBox;
 import view.window.Listener;
 import view.window.Window;
 

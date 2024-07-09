@@ -2,6 +2,7 @@ package view.window.mainUI.component;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -19,8 +20,8 @@ public class TitleBar extends UIComponent {
 	private static int ARC_SIZE = 8;
 	private static int CONTROL_BUTTON_WIDTH = 42;
 
-	public TitleBar(Window window) {
-		super(window, 0, 0, window.width, TITLEBAR_HEIGHT);
+	public TitleBar(Window window, int drawPriority) {
+		super(window, drawPriority, 0, 0, window.width, TITLEBAR_HEIGHT);
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -51,6 +52,11 @@ public class TitleBar extends UIComponent {
 			g2d.fill(path);
 		else
 			g2d.draw(path);
+	}
+
+	@Override
+	public Cursor getCursor(int secondaryCursor) {
+		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 //	@Override

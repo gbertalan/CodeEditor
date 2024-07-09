@@ -9,8 +9,8 @@ public class EdgeWest extends UIComponent {
 
 	private static int EDGE_THICKNESS = 6;
 
-	public EdgeWest(Window window) {
-		super(window, 0, 0, EDGE_THICKNESS, window.height);
+	public EdgeWest(Window window, int drawPriority) {
+		super(window, drawPriority, 0, 0, EDGE_THICKNESS, window.height);
 	}
 
 	@Override
@@ -23,7 +23,11 @@ public class EdgeWest extends UIComponent {
 		height = window.height;
 	}
 
-	public Cursor getCursor() {
-		return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
+	public Cursor getCursor(int secondaryCursor) {
+		if (window.isMaximized())
+			return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		else
+			return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
 	}
+
 }

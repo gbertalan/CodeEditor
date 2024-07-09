@@ -19,19 +19,19 @@ import view.window.Listener.MouseMotionListener;
 import view.window.Listener.StateListener;
 import view.window.background.MainBackgroundPanel;
 import view.window.mainUI.MainUI;
-import view.window.workspace.InnerCanvas;
+import view.window.workspace.Workspace;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private MainUI mainUI;
 	private MainBackgroundPanel mainBackgroundPanel;
-	private InnerCanvas innerCanvas;
+	private Workspace innerCanvas;
 
-	public int width = 800;
-	public int height = 600;
+	public int width = 400;
+	public int height = 300;
 
-	public int locX = 100;
+	public int locX = 900;
 	public int locY = 100;
 
 	public static JFrame jFrame;
@@ -65,7 +65,7 @@ public class Window extends JFrame {
 	
 	public void attachPanels() {
 		MainBackgroundPanel mainBackgroundPanel = new MainBackgroundPanel(this);
-		InnerCanvas innerCanvas = new InnerCanvas(this);
+		Workspace innerCanvas = new Workspace(this);
 		MainUI mainUI = new MainUI(this);
 
 		addMainBackgroundPanel(mainBackgroundPanel);
@@ -105,12 +105,12 @@ public class Window extends JFrame {
 		return mainBackgroundPanel;
 	}
 
-	private void addInnerCanvas(InnerCanvas innerCanvas) {
+	private void addInnerCanvas(Workspace innerCanvas) {
 		this.innerCanvas = innerCanvas;
 		getContentPane().add(innerCanvas);
 	}
 
-	public InnerCanvas getInnerCanvas() {
+	public Workspace getInnerCanvas() {
 		return innerCanvas;
 	}
 
