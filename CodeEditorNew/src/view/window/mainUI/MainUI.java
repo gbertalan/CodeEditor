@@ -24,7 +24,7 @@ public class MainUI extends JPanel {
 	private List<UIComponent> componentList;
 
 	public MainUI(Window window) {
-		System.out.println(ANSIText.red("MainUI constructor is called."));
+		System.out.println(ANSIText.blue("MainUI constructor is called."));
 
 		this.window = window;
 
@@ -65,7 +65,7 @@ public class MainUI extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println(ANSIText.red("MainUI paintComponent() is called."));
+		System.out.println(ANSIText.green("MainUI paintComponent() is called."));
 
 		setBounds(0, 0, window.width, window.height);
 
@@ -80,7 +80,7 @@ public class MainUI extends JPanel {
 	}
 
 	public void update() {
-		System.out.println(ANSIText.red("MainUI update() is called."));
+		System.out.println(ANSIText.yellow("MainUI update() is called."));
 		repaint();
 	}
 }

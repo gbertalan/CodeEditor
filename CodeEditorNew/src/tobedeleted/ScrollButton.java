@@ -135,7 +135,7 @@ public class ScrollButton extends JPanel implements MouseListener, MouseMotionLi
 			ee.printStackTrace();
 		}
 		window.getMainUI().update();
-		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
+//		window.getInnerCanvas().addFileBox(new FileBox(window, this.text, e.getX(), e.getY(), true));
 		try {
 			Robot robot = new Robot();
 			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);

@@ -46,7 +46,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	}
 	
 	public String getComponentName() {
-		System.out.println("name: "+getClass().getSimpleName());
         return getClass().getSimpleName();
     }
 

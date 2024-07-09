@@ -23,7 +23,7 @@ public class Listener {
     UIComponent edgeWest, edgeNorth, edgeEast, edgeSouth;
 
     public Listener(Window window) {
-        System.out.println(ANSIText.red("MainUIListener constructor is called."));
+        System.out.println(ANSIText.purple("Listener constructor is called."));
         this.window = window;
         this.mainUI = window.getMainUI();
         initializeComponents();

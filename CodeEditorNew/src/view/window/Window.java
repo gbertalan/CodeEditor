@@ -9,13 +9,11 @@ import javax.swing.JPanel;
 
 import utils.ANSIText;
 import view.window.mainUI.MainUI;
-import view.window.workspace.Workspace;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private MainUI mainUI;
-	private Workspace innerCanvas;
 
 	public int width = 400;
 	public int height = 300;
@@ -53,14 +51,8 @@ public class Window extends JFrame {
 	}
 	
 	public void attachPanels() {
-		Workspace innerCanvas = new Workspace(this);
 		MainUI mainUI = new MainUI(this);
-
-		addInnerCanvas(innerCanvas);
 		addMainUI(mainUI);
-
-		getContentPane().setComponentZOrder(innerCanvas, 1);
-		getContentPane().setComponentZOrder(mainUI, 0);
 		
 		revalidate();
 		repaint();
@@ -80,15 +72,6 @@ public class Window extends JFrame {
 
 	public MainUI getMainUI() {
 		return mainUI;
-	}
-
-	private void addInnerCanvas(Workspace innerCanvas) {
-		this.innerCanvas = innerCanvas;
-		getContentPane().add(innerCanvas);
-	}
-
-	public Workspace getInnerCanvas() {
-		return innerCanvas;
 	}
 
 	public void refresh() {
