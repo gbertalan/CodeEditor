@@ -1,22 +1,13 @@
 package view.window;
 
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.Component;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import utils.ANSIText;
-import view.window.Listener.MouseListener;
-import view.window.Listener.MouseMotionListener;
-import view.window.Listener.StateListener;
 import view.window.background.MainBackgroundPanel;
 import view.window.mainUI.MainUI;
 import view.window.workspace.Workspace;
@@ -82,9 +73,9 @@ public class Window extends JFrame {
 	
 	public void attachListeners() {
 		Listener listener = new Listener(this);
-		addMouseListener(listener.new MouseListener());
-		addMouseMotionListener(listener.new MouseMotionListener());
-		addWindowStateListener(listener.new StateListener());
+		addMouseListener(new MouseListener(listener));
+		addMouseMotionListener(new MouseMotionListener(listener));
+		addWindowStateListener(new StateListener(listener));
 	}
 
 	private void addMainUI(MainUI mainUI) {
