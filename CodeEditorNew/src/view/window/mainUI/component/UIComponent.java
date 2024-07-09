@@ -10,6 +10,7 @@ import view.window.Window;
 public abstract class UIComponent implements VisualComponent, Comparable<UIComponent> {
 
 	private static final int MIN_PRIORITY = 0;
+	private static final int REPAINT_AREA_EXPANSION = 1;
 
 	protected Window window;
 	protected int drawPriority;
@@ -44,10 +45,10 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	public String getComponentName() {
-        return getClass().getSimpleName();
-    }
+		return getClass().getSimpleName();
+	}
 
 	@Override
 	public int compareTo(UIComponent other) {
@@ -116,10 +117,13 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public abstract Cursor getCursor(int secondaryCursor);
 
 	public Cursor getCursor() {
-		return getCursor(Cursor.DEFAULT_CURSOR); // or any default value you choose
+		return getCursor(Cursor.DEFAULT_CURSOR);
 	}
 
-	public Rectangle getAffectedRegion() {
-		return new Rectangle(locX, locY, width, height);
+	public void repaint() {
+		Rectangle area = new Rectangle(locX - REPAINT_AREA_EXPANSION, locY - REPAINT_AREA_EXPANSION,
+				width + (2 * REPAINT_AREA_EXPANSION), height + (2 * REPAINT_AREA_EXPANSION));
+		window.getMainUI().repaint(area);
 	}
+
 }
