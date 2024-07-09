@@ -2,61 +2,38 @@ package view.window;
 
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.WindowStateListener;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.swing.JFrame;
-
 import utils.ANSIText;
+import view.window.Window;
 import view.window.mainUI.MainUI;
 import view.window.mainUI.component.UIComponent;
-import view.window.Window;
 
-public class Listener extends MouseAdapter {
-    public Window window;
-
-    public Point initialPressOnTitleBar = new Point(0, 0);
-    public static Point mouseMoved = new Point(0, 0);
-    public static Point mouseClicked = new Point(0, 0);
-    public static Point mouseDragged = new Point(0, 0);
-    public static Point mouseReleased = new Point(0, 0);
-    public static boolean mouseExited;
-
-    public Point edgeStart = new Point(0, 0);
-
-    public int oldWidth;
-    public int oldHeight;
-    public int oldLocX;
-    public int oldLocY;
-
-    public boolean draggingByTitleBar;
-    public boolean draggingByEdge;
-
-    public MainUI mainUI;
-    public UIComponent titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer,
-            edgeWest, edgeNorth, edgeEast, edgeSouth;
-
-    public HashSet<UIComponent> hoveredComponents = new HashSet<>();
+public class Listener {
+    Window window;
+    MainUI mainUI;
+    Point initialPressOnTitleBar = new Point(0, 0);
+    Point edgeStart = new Point(0, 0);
+    int oldWidth, oldHeight, oldLocX, oldLocY;
+    boolean draggingByTitleBar, draggingByEdge;
+    HashSet<UIComponent> hoveredComponents = new HashSet<>();
+    
+    UIComponent titleBar, closeButton, trayButton, maxButton, sidePanelLeft, sidePanelRight, fileButton, footer;
+    UIComponent edgeWest, edgeNorth, edgeEast, edgeSouth;
 
     public Listener(Window window) {
         System.out.println(ANSIText.red("MainUIListener constructor is called."));
-
         this.window = window;
         this.mainUI = window.getMainUI();
-
         initializeComponents();
-
         oldWidth = window.width;
         oldHeight = window.height;
         oldLocX = window.locX;
         oldLocY = window.locY;
     }
 
-    public void initializeComponents() {
+    private void initializeComponents() {
         edgeWest = mainUI.getComponent("EdgeWest");
         edgeNorth = mainUI.getComponent("EdgeNorth");
         edgeEast = mainUI.getComponent("EdgeEast");
@@ -69,20 +46,19 @@ public class Listener extends MouseAdapter {
         sidePanelRight = mainUI.getComponent("SidePanelRight");
         fileButton = mainUI.getComponent("FileButton");
         footer = mainUI.getComponent("Footer");
-
     }
 
-    public void updateComponentLocationAndSize() {
-        allUIComponent(UIComponent -> UIComponent.update());
+    void updateComponentLocationAndSize() {
+        allUIComponent(UIComponent::update);
     }
 
-    private void allUIComponent(Consumer<UIComponent> action) {
+    void allUIComponent(Consumer<UIComponent> action) {
         for (UIComponent component : mainUI.getComponentList()) {
             action.accept(component);
         }
     }
 
-    public void setCursor() {
+    void setCursor() {
         if (hoveredComponents.contains(edgeSouth)) {
             if (hoveredComponents.contains(edgeWest)) {
                 window.setCursor(edgeSouth.getCursor(Cursor.W_RESIZE_CURSOR));
@@ -116,9 +92,7 @@ public class Listener extends MouseAdapter {
     }
 
     private boolean isHigherPriority(Cursor cursor1, Cursor cursor2) {
-        int priority1 = getCursorPriority(cursor1);
-        int priority2 = getCursorPriority(cursor2);
-        return priority1 < priority2;
+        return getCursorPriority(cursor1) < getCursorPriority(cursor2);
     }
 
     private int getCursorPriority(Cursor cursor) {

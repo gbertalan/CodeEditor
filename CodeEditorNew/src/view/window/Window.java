@@ -75,7 +75,7 @@ public class Window extends JFrame {
 		Listener listener = new Listener(this);
 		addMouseListener(new MouseListener(listener));
 		addMouseMotionListener(new MouseMotionListener(listener));
-		addWindowStateListener(new StateListener(listener));
+		addWindowStateListener(new StateListener(this));
 	}
 
 	private void addMainUI(MainUI mainUI) {

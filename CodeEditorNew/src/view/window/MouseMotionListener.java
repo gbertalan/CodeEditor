@@ -28,98 +28,90 @@ public class MouseMotionListener extends MouseMotionAdapter {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (listener.draggingByTitleBar) {
-            window.width = listener.oldWidth;
-            window.height = listener.oldHeight;
-            window.locX = listener.oldLocX;
-            window.locY = listener.oldLocY;
-
-            if (!window.isMaximized()) {
-                Point mouseLocation = e.getLocationOnScreen();
-                int x = mouseLocation.x - listener.initialPressOnTitleBar.x;
-                int y = mouseLocation.y - listener.initialPressOnTitleBar.y;
-
-                window.setLocation(x, y);
-                window.locX = x;
-                window.locY = y;
-                listener.oldLocX = x;
-                listener.oldLocY = y;
-            } else {
-                double ratio = e.getX() / (double) window.getWidth();
-                window.setSize(window.width, window.height);
-                listener.initialPressOnTitleBar = new Point((int) (window.width * ratio), e.getY());
-                listener.updateComponentLocationAndSize();
-            }
+            handleTitleBarDrag(e);
         } else if (listener.draggingByEdge) {
-            Cursor cursor = window.getCursor();
+            handleEdgeDrag(e);
+        }
+    }
+
+    private void handleTitleBarDrag(MouseEvent e) {
+        window.width = listener.oldWidth;
+        window.height = listener.oldHeight;
+        window.locX = listener.oldLocX;
+        window.locY = listener.oldLocY;
+
+        if (!window.isMaximized()) {
             Point mouseLocation = e.getLocationOnScreen();
-            int x = mouseLocation.x - listener.edgeStart.x;
-            int y = mouseLocation.y - listener.edgeStart.y;
+            int x = mouseLocation.x - listener.initialPressOnTitleBar.x;
+            int y = mouseLocation.y - listener.initialPressOnTitleBar.y;
 
-            int newWidth = listener.oldWidth;
-            int newHeight = listener.oldHeight;
-            int newLocX = listener.oldLocX;
-            int newLocY = listener.oldLocY;
-
-            switch (cursor.getType()) {
-                case Cursor.S_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth;
-                    newHeight = listener.oldHeight + y;
-                    newLocX = listener.oldLocX;
-                    newLocY = listener.oldLocY;
-                    break;
-                case Cursor.E_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth + x;
-                    newHeight = listener.oldHeight;
-                    newLocX = listener.oldLocX;
-                    newLocY = listener.oldLocY;
-                    break;
-                case Cursor.SE_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth + x;
-                    newHeight = listener.oldHeight + y;
-                    newLocX = listener.oldLocX;
-                    newLocY = listener.oldLocY;
-                    break;
-                case Cursor.W_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth - x;
-                    newHeight = listener.oldHeight;
-                    newLocX = listener.oldLocX + x;
-                    newLocY = listener.oldLocY;
-                    break;
-                case Cursor.N_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth;
-                    newHeight = listener.oldHeight - y;
-                    newLocX = listener.oldLocX;
-                    newLocY = listener.oldLocY + y;
-                    break;
-                case Cursor.SW_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth - x;
-                    newHeight = listener.oldHeight + y;
-                    newLocX = listener.oldLocX + x;
-                    newLocY = listener.oldLocY;
-                    break;
-                case Cursor.NW_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth - x;
-                    newHeight = listener.oldHeight - y;
-                    newLocX = listener.oldLocX + x;
-                    newLocY = listener.oldLocY + y;
-                    break;
-                case Cursor.NE_RESIZE_CURSOR:
-                    newWidth = listener.oldWidth + x;
-                    newHeight = listener.oldHeight - y;
-                    newLocX = listener.oldLocX;
-                    newLocY = listener.oldLocY + y;
-                    break;
-                default:
-                    break;
-            }
-            window.setSize(newWidth, newHeight);
-            window.setLocation(newLocX, newLocY);
-
-            window.width = newWidth;
-            window.height = newHeight;
-
+            window.setLocation(x, y);
+            window.locX = x;
+            window.locY = y;
+            listener.oldLocX = x;
+            listener.oldLocY = y;
+        } else {
+            double ratio = e.getX() / (double) window.getWidth();
+            window.setSize(window.width, window.height);
+            listener.initialPressOnTitleBar = new Point((int) (window.width * ratio), e.getY());
             listener.updateComponentLocationAndSize();
         }
+    }
+
+    private void handleEdgeDrag(MouseEvent e) {
+        Cursor cursor = window.getCursor();
+        Point mouseLocation = e.getLocationOnScreen();
+        int x = mouseLocation.x - listener.edgeStart.x;
+        int y = mouseLocation.y - listener.edgeStart.y;
+
+        int newWidth = listener.oldWidth;
+        int newHeight = listener.oldHeight;
+        int newLocX = listener.oldLocX;
+        int newLocY = listener.oldLocY;
+
+        switch (cursor.getType()) {
+            case Cursor.S_RESIZE_CURSOR:
+                newHeight = listener.oldHeight + y;
+                break;
+            case Cursor.E_RESIZE_CURSOR:
+                newWidth = listener.oldWidth + x;
+                break;
+            case Cursor.SE_RESIZE_CURSOR:
+                newWidth = listener.oldWidth + x;
+                newHeight = listener.oldHeight + y;
+                break;
+            case Cursor.W_RESIZE_CURSOR:
+                newWidth = listener.oldWidth - x;
+                newLocX = listener.oldLocX + x;
+                break;
+            case Cursor.N_RESIZE_CURSOR:
+                newHeight = listener.oldHeight - y;
+                newLocY = listener.oldLocY + y;
+                break;
+            case Cursor.SW_RESIZE_CURSOR:
+                newWidth = listener.oldWidth - x;
+                newHeight = listener.oldHeight + y;
+                newLocX = listener.oldLocX + x;
+                break;
+            case Cursor.NW_RESIZE_CURSOR:
+                newWidth = listener.oldWidth - x;
+                newHeight = listener.oldHeight - y;
+                newLocX = listener.oldLocX + x;
+                newLocY = listener.oldLocY + y;
+                break;
+            case Cursor.NE_RESIZE_CURSOR:
+                newWidth = listener.oldWidth + x;
+                newHeight = listener.oldHeight - y;
+                newLocY = listener.oldLocY + y;
+                break;
+        }
+
+        window.setSize(newWidth, newHeight);
+        window.setLocation(newLocX, newLocY);
+        window.width = newWidth;
+        window.height = newHeight;
+
+        listener.updateComponentLocationAndSize();
     }
 
     @Override
@@ -152,7 +144,7 @@ public class MouseMotionListener extends MouseMotionAdapter {
     private void printHoveredComponents() {
         System.out.println("Hovered component(s):");
         for (UIComponent component : hoveredComponents) {
-            System.out.println("\t" + component.toString());
+            System.out.println("\t" + component);
         }
     }
 }

@@ -5,16 +5,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import view.window.Window;
-
 public class StateListener implements WindowStateListener {
-    private Listener listener;
     private Window window;
     private int previousState = JFrame.NORMAL;
 
-    public StateListener(Listener listener) {
-        this.listener = listener;
-        this.window = listener.window;
+    public StateListener(Window window) {
+        this.window = window;
     }
 
     @Override
@@ -23,10 +19,8 @@ public class StateListener implements WindowStateListener {
             previousState = e.getOldState();
         }
 
-        if (e.getOldState() == JFrame.ICONIFIED
-                && (e.getNewState() == JFrame.NORMAL || e.getNewState() == JFrame.MAXIMIZED_BOTH)) {
+        if (e.getOldState() == JFrame.ICONIFIED && (e.getNewState() == JFrame.NORMAL || e.getNewState() == JFrame.MAXIMIZED_BOTH)) {
             window.setExtendedState(previousState);
         }
     }
 }
-

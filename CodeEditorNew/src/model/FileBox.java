@@ -50,8 +50,8 @@ public class FileBox {
 		} else {
 
 			if (grabbed) {
-				x = Listener.mouseDragged.x - clickedX;
-				y = Listener.mouseDragged.y - clickedY;
+//				x = Listener.mouseDragged.x - clickedX;
+//				y = Listener.mouseDragged.y - clickedY;
 			}
 
 			// background:
