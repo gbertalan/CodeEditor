@@ -75,18 +75,19 @@ public class Listener extends MouseAdapter {
 	}
 
 	private void initializeComponents() {
-		edgeWest = mainUI.getComponent("edgeWest");
-		edgeNorth = mainUI.getComponent("edgeNorth");
-		edgeEast = mainUI.getComponent("edgeEast");
-		edgeSouth = mainUI.getComponent("edgeSouth");
-		titleBar = mainUI.getComponent("titleBar");
-		closeButton = mainUI.getComponent("closeButton");
-		trayButton = mainUI.getComponent("trayButton");
-		maxButton = mainUI.getComponent("maxButton");
-		sidePanelLeft = mainUI.getComponent("sidePanelLeft");
-		sidePanelRight = mainUI.getComponent("sidePanelRight");
-		fileButton = mainUI.getComponent("fileButton");
-		footer = mainUI.getComponent("footer");
+		edgeWest = mainUI.getComponent("EdgeWest");
+		edgeNorth = mainUI.getComponent("EdgeNorth");
+		edgeEast = mainUI.getComponent("EdgeEast");
+		edgeSouth = mainUI.getComponent("EdgeSouth");
+		titleBar = mainUI.getComponent("TitleBar");
+		closeButton = mainUI.getComponent("CloseButton");
+		trayButton = mainUI.getComponent("TrayButton");
+		maxButton = mainUI.getComponent("MaxButton");
+		sidePanelLeft = mainUI.getComponent("SidePanelLeft");
+		sidePanelRight = mainUI.getComponent("SidePanelRight");
+		fileButton = mainUI.getComponent("FileButton");
+		footer = mainUI.getComponent("Footer");
+
 	}
 
 	public class MouseListener extends MouseAdapter {
@@ -328,8 +329,8 @@ public class Listener extends MouseAdapter {
 		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);
 		Set<UIComponent> newHoveredComponents = new HashSet<>();
 
-		for (Entry<String, UIComponent> entry : mainUI.componentMap.entrySet()) {
-			UIComponent component = entry.getValue();
+		for (UIComponent component : mainUI.componentList) {
+//			UIComponent component = entry.getValue();
 			if (component.isInRegion(e)) {
 				newHoveredComponents.add(component);
 				component.setHovered(true);
@@ -440,8 +441,8 @@ public class Listener extends MouseAdapter {
 	 * @param action
 	 */
 	private void allUIComponent(Consumer<UIComponent> action) {
-		for (Entry<String, UIComponent> entry : mainUI.componentMap.entrySet()) {
-			action.accept(entry.getValue());
+		for (UIComponent component : mainUI.componentList) {
+			action.accept(component);
 		}
 	}
 }
