@@ -28,11 +28,13 @@ public class MouseMotionListener extends MouseMotionAdapter {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		
 		if (listener.draggingByTitleBar) {
 			handleTitleBarDrag(e);
 		} else if (listener.draggingByEdge) {
 			handleEdgeDrag(e);
 		}
+
 	}
 
 	private void handleTitleBarDrag(MouseEvent e) {
@@ -118,7 +120,6 @@ public class MouseMotionListener extends MouseMotionAdapter {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		updateHoveredComponents(e);
-
 	}
 
 	private void updateHoveredComponents(MouseEvent e) {

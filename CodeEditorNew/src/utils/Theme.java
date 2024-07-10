@@ -88,7 +88,7 @@ public class Theme {
 		case LIGHT:
 			return Color.BLACK;
 		case DARK:
-			return new Color(24, 24, 38, 130);
+			return new Color(24, 24, 24, 220);
 		default:
 			return Color.BLACK;
 		}

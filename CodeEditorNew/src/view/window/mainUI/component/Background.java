@@ -3,13 +3,16 @@ package view.window.mainUI.component;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
+import java.awt.geom.GeneralPath;
 
 import utils.Theme;
 import view.window.Window;
 
-public class Background extends UIComponent{
-	
+public class Background extends UIComponent {
+
 	private static int ARC_AMOUNT = 18;
+	private static int ARC_SIZE = 8;
+	private static int TITLEBAR_HEIGHT = 42;
 
 	public Background(Window window, int drawPriority) {
 		super(window, drawPriority, 0, 0, window.width, window.height);
@@ -19,18 +22,35 @@ public class Background extends UIComponent{
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(Theme.getBackgroundColor());
-		g2d.setColor(new Color(130, 30, 30));
-		g2d.setColor(new Color(0, 0, 255, 55));
 
 		if (window.isMaximized()) {
 			g2d.fillRect(0, 0, window.width, window.height);
 			g2d.setColor(Theme.getSeparatorLineColor());
-			g2d.drawRect(0, 0, window.width, window.height);
+			g2d.drawRect(0, 0, window.width-1, window.height);
 		} else {
-			g2d.fillRoundRect(0, 0, window.width, window.height, ARC_AMOUNT, ARC_AMOUNT);
+			drawRectWithTwoBottomRoundedCorners(g2d, 0, TITLEBAR_HEIGHT, window.width, window.height - TITLEBAR_HEIGHT,
+					ARC_SIZE, true);
 			g2d.setColor(Theme.getSeparatorLineColor());
-			g2d.drawRoundRect(0, 0, window.width, window.height, ARC_AMOUNT, ARC_AMOUNT);
+			drawRectWithTwoBottomRoundedCorners(g2d, 0, TITLEBAR_HEIGHT, window.width-1, window.height - TITLEBAR_HEIGHT,
+					ARC_SIZE, false);
 		}
+	}
+
+	private void drawRectWithTwoBottomRoundedCorners(Graphics2D g2d, int x, int y, int width, int height, int arcSize,
+			boolean fill) {
+		GeneralPath path = new GeneralPath();
+		path.moveTo(x, y);
+		path.lineTo(x + width, y);
+		path.lineTo(x + width, y + height - arcSize);
+		path.quadTo(x + width, y + height, x + width - arcSize, y + height);
+		path.lineTo(x + arcSize, y + height);
+		path.quadTo(x, y + height, x, y + height - arcSize);
+		path.lineTo(x, y);
+		path.closePath();
+		if (fill)
+			g2d.fill(path);
+		else
+			g2d.draw(path);
 	}
 
 	@Override

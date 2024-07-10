@@ -1,15 +1,8 @@
 package view.window.mainUI.component;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.RoundRectangle2D;
 
 import utils.Theme;
 import view.window.Window;
@@ -18,7 +11,6 @@ public class TitleBar extends UIComponent {
 
 	private static int TITLEBAR_HEIGHT = 42;
 	private static int ARC_SIZE = 8;
-	private static int CONTROL_BUTTON_WIDTH = 42;
 
 	public TitleBar(Window window, int drawPriority) {
 		super(window, drawPriority, 0, 0, window.width, TITLEBAR_HEIGHT);
@@ -29,7 +21,7 @@ public class TitleBar extends UIComponent {
 		drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, true);
 
 		g2d.setColor(Theme.getSeparatorLineColor());
-		drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, false);
+		drawRectWithTwoRoundedCorners(g2d, locX, locY, width-1, height, ARC_SIZE, false);
 	}
 
 	@Override
