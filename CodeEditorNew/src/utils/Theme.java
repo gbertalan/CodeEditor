@@ -1,6 +1,9 @@
 package utils;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 
 public class Theme {
 	public enum ThemeType {
@@ -181,5 +184,65 @@ public class Theme {
 			return Color.GRAY;
 		}
 	}
+	
+	public static Color getBoxHeaderBackgroundColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(34, 34, 34);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getBoxInnerBorderColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(134, 134, 134);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getBoxArrowBorderColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(84, 84, 84);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getBoxHeaderTextColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(200, 200, 200);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Font getBoxHeaderFont() {
+		return new Font("Consolas", Font.BOLD, 18);
+	}
+	
+	public static Color getBoxBackgroundColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(34, 34, 34);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
 	
 }

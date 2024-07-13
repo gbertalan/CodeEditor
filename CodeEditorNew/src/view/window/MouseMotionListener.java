@@ -9,9 +9,12 @@ import view.window.Window;
 import view.window.mainUI.MainUI;
 import view.window.mainUI.component.CloseButton;
 import view.window.mainUI.component.UIComponent;
+import view.window.mainUI.component.box.Box;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import utils.ANSIText;
 
 public class MouseMotionListener extends MouseMotionAdapter {
 	private Listener listener;
@@ -28,11 +31,13 @@ public class MouseMotionListener extends MouseMotionAdapter {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		
+
 		if (listener.draggingByTitleBar) {
 			handleTitleBarDrag(e);
 		} else if (listener.draggingByEdge) {
 			handleEdgeDrag(e);
+		} else if (listener.draggingByBoxHeader) {
+			handleBoxDrag(e);
 		}
 
 	}
@@ -117,6 +122,13 @@ public class MouseMotionListener extends MouseMotionAdapter {
 		listener.updateComponentLocationAndSize();
 	}
 
+	private void handleBoxDrag(MouseEvent e) {
+		// TODO Auto-generated method stub
+        
+		mainUI.getComponent("Box").updateLocation(e.getX(), e.getY());
+		System.out.println(ANSIText.bold("boxdrag"));
+	}
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		updateHoveredComponents(e);
@@ -143,28 +155,34 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			printHoveredComponents();
 			listener.setCursor();
 
-//            for (UIComponent uiComponent : hoveredComponents) {
-//    			uiComponent.repaint();
-//    		}
-
-			repaintIfHoverStateChanged(listener.closeButton, hoveredComponents, oldHoveredComponents);
-			repaintIfHoverStateChanged(listener.maxButton, hoveredComponents, oldHoveredComponents);
-			repaintIfHoverStateChanged(listener.trayButton, hoveredComponents, oldHoveredComponents);
-			repaintIfHoverStateChanged(listener.fileButton, hoveredComponents, oldHoveredComponents);
+			if (isHoverStateChanged(mainUI.getComponent("CloseButton"), hoveredComponents, oldHoveredComponents)) {
+				mainUI.getComponent("CloseButton").repaint();
+			}
+			if (isHoverStateChanged(mainUI.getComponent("MaxButton"), hoveredComponents, oldHoveredComponents)) {
+				mainUI.getComponent("MaxButton").repaint();
+			}
+			if (isHoverStateChanged(mainUI.getComponent("TrayButton"), hoveredComponents, oldHoveredComponents)) {
+				mainUI.getComponent("TrayButton").repaint();
+			}
+			if (isHoverStateChanged(mainUI.getComponent("FileButton"), hoveredComponents, oldHoveredComponents)) {
+				mainUI.getComponent("FileButton").repaint();
+				if (mainUI.getComponent("FileButton").getHovered()) {
+					Box newBox = new Box(window, 1, 180, 100, "example.txt");
+					window.getMainUI().addComponent(newBox);
+				}
+			}
 
 		}
 	}
 
-	private void repaintIfHoverStateChanged(UIComponent component, Set<UIComponent> hoveredComponents,
+	private boolean isHoverStateChanged(UIComponent component, Set<UIComponent> hoveredComponents,
 			Set<UIComponent> oldHoveredComponents) {
 		boolean nowHovered = hoveredComponents.contains(component);
 		boolean previouslyHovered = oldHoveredComponents.contains(component);
 
 		boolean hoverStateChanged = nowHovered != previouslyHovered;
 
-		if (hoverStateChanged) {
-			component.repaint();
-		}
+		return hoverStateChanged;
 	}
 
 	private void printHoveredComponents() {

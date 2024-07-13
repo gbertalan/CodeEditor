@@ -16,6 +16,8 @@ public class DynamicCodeExecution extends JFrame {
     private JTextArea codeTextArea;
     private JButton executeButton;
     private Graphics2D g2d;
+    
+    public String text = "HAJAJAJA";
 
     public DynamicCodeExecution() {
         super("Dynamic Code Execution Example");

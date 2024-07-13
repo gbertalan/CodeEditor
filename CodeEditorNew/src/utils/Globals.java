@@ -2,6 +2,8 @@ package utils;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -75,4 +77,14 @@ public class Globals {
 
 		}
 	}
+
+	public static int centerTextVert(Graphics2D g2d, String text, Font font, int containerHeight) {
+		g2d.setFont(font);
+
+		// Calculate the font metrics
+		FontMetrics metrics = g2d.getFontMetrics(font);
+		int textAscent = metrics.getAscent();
+		return (containerHeight) / 2 + (textAscent/2);
+	}
+
 }

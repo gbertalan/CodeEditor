@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
+import utils.ANSIText;
 import view.window.Window;
 
 public abstract class UIComponent implements VisualComponent, Comparable<UIComponent> {
@@ -14,6 +15,7 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 
 	protected Window window;
 	protected int drawPriority;
+
 	protected int locX;
 	protected int locY;
 	protected int width;
@@ -44,6 +46,26 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 		this.locY = locY;
 		this.width = width;
 		this.height = height;
+	}
+	
+	public int getDrawPriority() {
+		return drawPriority;
+	}
+
+	public int getLocX() {
+		return locX;
+	}
+
+	public int getLocY() {
+		return locY;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 	public String getComponentName() {
@@ -121,9 +143,15 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	}
 
 	public void repaint() {
+		System.out.println(ANSIText.purple("Repaint: "+toString()));
 		Rectangle area = new Rectangle(locX - REPAINT_AREA_EXPANSION, locY - REPAINT_AREA_EXPANSION,
 				width + (2 * REPAINT_AREA_EXPANSION), height + (2 * REPAINT_AREA_EXPANSION));
 		window.getMainUI().repaint(area);
+	}
+	
+	public void updateLocation(int x, int y) {
+		locX = x;
+		locY = y;
 	}
 
 }

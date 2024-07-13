@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
 
@@ -21,7 +22,7 @@ public class MainUI extends JPanel {
 	private Window window;
 	private Graphics2D g2d;
 	private Map<String, UIComponent> componentMap;
-	private List<UIComponent> componentList;
+	private CopyOnWriteArrayList<UIComponent> componentList;
 
 	public MainUI(Window window) {
 		System.out.println(ANSIText.blue("MainUI constructor is called."));
@@ -44,21 +45,25 @@ public class MainUI extends JPanel {
 				new Background(window, 0) };
 
 		componentMap = new HashMap<>();
-		componentList = new ArrayList<>();
+		componentList = new CopyOnWriteArrayList<>();
 
 		for (UIComponent component : components) {
-			componentMap.put(component.getComponentName(), component);
-			componentList.add(component);
+			addComponent(component);
 		}
 
-		componentList.sort(new DrawPriorityComparator());
+	}
+
+	public void addComponent(UIComponent component) {
+		componentMap.put(component.getComponentName(), component);
+		componentList.add(component);
+		System.out.println(ANSIText.cyan("Component added. componentList size: " + componentList.size()));
 	}
 
 	public UIComponent getComponent(String componentName) {
 		return componentMap.get(componentName);
 	}
 
-	public List<UIComponent> getComponentList() {
+	public CopyOnWriteArrayList<UIComponent> getComponentList() {
 		return componentList;
 	}
 
@@ -71,6 +76,8 @@ public class MainUI extends JPanel {
 
 		g2d = (Graphics2D) g.create();
 		Globals.setRenderingHints(g2d);
+		
+		componentList.sort(new DrawPriorityComparator());
 
 		for (UIComponent component : componentList) {
 			component.draw(g2d);
