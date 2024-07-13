@@ -47,7 +47,7 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	public int getDrawPriority() {
 		return drawPriority;
 	}
@@ -111,7 +111,7 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [locX=" + locX + ", locY=" + locY + ", width=" + width + ", height="
-				+ height + ", hovered=" + hovered + "]";
+				+ height + ", hovered=" + hovered + ", drawPriosity=" + drawPriority + "]";
 	}
 
 	@Override
@@ -143,12 +143,12 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	}
 
 	public void repaint() {
-		System.out.println(ANSIText.purple("Repaint: "+toString()));
+		System.out.println(ANSIText.purple("Repaint: " + toString()));
 		Rectangle area = new Rectangle(locX - REPAINT_AREA_EXPANSION, locY - REPAINT_AREA_EXPANSION,
 				width + (2 * REPAINT_AREA_EXPANSION), height + (2 * REPAINT_AREA_EXPANSION));
 		window.getMainUI().repaint(area);
 	}
-	
+
 	public void updateLocation(int x, int y) {
 		locX = x;
 		locY = y;

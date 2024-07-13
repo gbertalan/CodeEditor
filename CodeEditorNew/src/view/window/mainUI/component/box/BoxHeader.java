@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import utils.Globals;
 import utils.Theme;
@@ -43,6 +44,8 @@ public class BoxHeader extends UIComponent {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
 
 	@Override
 	public Cursor getCursor(int secondaryCursor) {

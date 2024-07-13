@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import view.window.Window;
@@ -87,7 +88,8 @@ public class Box extends UIComponent {
 		initialOutputPositions.add(new int[] { boxOutput2.getLocX() - locX, boxOutput2.getLocY() - locY });
 		window.getMainUI().addComponent(boxOutput2);
 
-		window.getMainUI().update();
+//		window.getMainUI().update();
+		repaintBoxComponents();
 	}
 
 	@Override
@@ -100,9 +102,29 @@ public class Box extends UIComponent {
 	public void update() {
 		// TODO Auto-generated method stub
 	}
+	
+	public void repaintBoxComponents() {
+		
+		for (int i = 0; i < inputs.size(); i++) {
+			BoxInput input = (BoxInput) inputs.get(i);
+			input.repaint();
+			input.getArrow().repaint();
+		}
+		boxHeader.repaint();
+		boxContent.repaint();
+		boxConsole.repaint();
+		for (int i = 0; i < outputs.size(); i++) {
+			BoxOutput output = (BoxOutput) outputs.get(i);
+			output.repaint();
+		}
+	}
 
 	@Override
 	public void updateLocation(int x, int y) {
+		
+		repaintBoxComponents();
+		
+
 		int newX = x - mouseOffsetX;
 		int newY = y - mouseOffsetY;
 
@@ -111,7 +133,6 @@ public class Box extends UIComponent {
 			int[] initialPosition = initialInputPositions.get(i);
 			input.updateLocation(newX + initialPosition[0], newY + initialPosition[1]);
 			input.updateArrowLocation(newX + initialPosition[0], newY + initialPosition[1]);
-			input.repaint();
 		}
 
 		boxHeader.updateLocation(newX + initialHeaderPosition[0], newY + initialHeaderPosition[1]);
@@ -125,8 +146,8 @@ public class Box extends UIComponent {
 			output.updateArrowLocation(newX + initialPosition[0], newY + initialPosition[1]);
 		}
 
-		repaint();
-		window.getMainUI().update();
+		repaintBoxComponents();
+		
 		System.out.println("Box: " + newX);
 	}
 

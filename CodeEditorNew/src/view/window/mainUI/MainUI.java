@@ -3,6 +3,7 @@ package view.window.mainUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,5 +90,10 @@ public class MainUI extends JPanel {
 	public void update() {
 		System.out.println(ANSIText.yellow("MainUI update() is called."));
 		repaint();
+	}
+	
+	public void update(Rectangle rect) {
+		System.out.println(ANSIText.yellow("MainUI update(rect) is called."));
+		repaint(rect);
 	}
 }
