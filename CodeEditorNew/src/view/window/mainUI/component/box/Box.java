@@ -12,6 +12,8 @@ import view.window.Window;
 import view.window.mainUI.component.UIComponent;
 
 public class Box extends UIComponent {
+	
+	public static int boxCounter;
 
 	public static float LINE_THICK = 8.0f;
 	public static float LINE_NORMAL = 1.0f;

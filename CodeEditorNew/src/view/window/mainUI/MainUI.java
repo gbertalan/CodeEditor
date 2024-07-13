@@ -16,6 +16,7 @@ import utils.ANSIText;
 import utils.Globals;
 import view.window.Window;
 import view.window.mainUI.component.*;
+import view.window.mainUI.component.box.Box;
 
 public class MainUI extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -55,9 +56,23 @@ public class MainUI extends JPanel {
 	}
 
 	public void addComponent(UIComponent component) {
-		componentMap.put(component.getComponentName(), component);
+		String nameExtension;
+		if (component.getComponentName().equals("Box") || component.getComponentName().equals("BoxHeader")
+				|| component.getComponentName().equals("BoxInput") || component.getComponentName().equals("BoxArrow")
+				|| component.getComponentName().equals("BoxContent")
+				|| component.getComponentName().equals("BoxConsole")
+				|| component.getComponentName().equals("BoxOutput")) {
+			nameExtension = Integer.toString(Box.boxCounter);
+			if(component.getComponentName().equals("Box")) {
+				++Box.boxCounter;
+			}
+		} else {
+			nameExtension = "";
+		}
+		componentMap.put(component.getComponentName() + nameExtension, component);
 		componentList.add(component);
-		System.out.println(ANSIText.cyan("Component added. componentList size: " + componentList.size()));
+		System.out.println(ANSIText
+				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
 	}
 
 	public UIComponent getComponent(String componentName) {
@@ -77,7 +92,7 @@ public class MainUI extends JPanel {
 
 		g2d = (Graphics2D) g.create();
 		Globals.setRenderingHints(g2d);
-		
+
 		componentList.sort(new DrawPriorityComparator());
 
 		for (UIComponent component : componentList) {
@@ -91,7 +106,7 @@ public class MainUI extends JPanel {
 		System.out.println(ANSIText.yellow("MainUI update() is called."));
 		repaint();
 	}
-	
+
 	public void update(Rectangle rect) {
 		System.out.println(ANSIText.yellow("MainUI update(rect) is called."));
 		repaint(rect);

@@ -72,11 +72,20 @@ public class MouseListener extends MouseAdapter {
 			listener.edgeStart = e.getLocationOnScreen();
 		}
 
-		if (hoveredComponents.contains(mainUI.getComponent("BoxHeader")) && !listener.draggingByTitleBar
-				&& !listener.draggingByEdge) {
-			listener.draggingByBoxHeader = true;
-			((Box) mainUI.getComponent("Box")).setMouseOffset(e.getX() - mainUI.getComponent("BoxHeader").getLocX(),
-					e.getY() - mainUI.getComponent("BoxHeader").getLocY());
+		if (!listener.draggingByTitleBar && !listener.draggingByEdge) {
+
+			for (int i = 0; i < Box.boxCounter; i++) {
+
+				String keyWord = "BoxHeader" + Integer.toString(i);
+				if (hoveredComponents.contains(mainUI.getComponent(keyWord))) {
+					listener.draggingByBoxHeader = true;
+					listener.dragginBoxID = i;
+					((Box) mainUI.getComponent("Box" + Integer.toString(i))).setMouseOffset(
+							e.getX() - mainUI.getComponent(keyWord).getLocX(),
+							e.getY() - mainUI.getComponent(keyWord).getLocY());
+					break;
+				}
+			}
 		}
 	}
 

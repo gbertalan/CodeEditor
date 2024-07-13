@@ -124,8 +124,8 @@ public class MouseMotionListener extends MouseMotionAdapter {
 
 	private void handleBoxDrag(MouseEvent e) {
 		// TODO Auto-generated method stub
-        
-		mainUI.getComponent("Box").updateLocation(e.getX(), e.getY());
+		String keyWord = "Box" + Integer.toString(listener.dragginBoxID);
+		mainUI.getComponent(keyWord).updateLocation(e.getX(), e.getY());
 		System.out.println(ANSIText.bold("boxdrag"));
 	}
 

@@ -20,6 +20,7 @@ public class Listener {
 	int oldWidth, oldHeight, oldLocX, oldLocY;
 	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader;
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
+	public int dragginBoxID;
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.purple("Listener constructor is called."));
