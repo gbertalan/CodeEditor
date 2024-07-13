@@ -40,10 +40,10 @@ public class MainUI extends JPanel {
 
 	private void initComponents() {
 
-		UIComponent[] components = { new EdgeWest(window, 3), new EdgeNorth(window, 3), new EdgeEast(window, 3),
-				new EdgeSouth(window, 3), new TitleBar(window, 3), new CloseButton(window, 3),
-				new TrayButton(window, 3), new MaxButton(window, 3), new SidePanelLeft(window, 3),
-				new SidePanelRight(window, 3), new FileButton(window, 5), new Footer(window, 3),
+		UIComponent[] components = { new EdgeWest(window, 10), new EdgeNorth(window, 10), new EdgeEast(window, 10),
+				new EdgeSouth(window, 10), new TitleBar(window, 10), new CloseButton(window, 11),
+				new TrayButton(window, 11), new MaxButton(window, 11), new SidePanelLeft(window, 10),
+				new SidePanelRight(window, 10), new FileButton(window, 11), new Footer(window, 10),
 				new Background(window, 0) };
 
 		componentMap = new HashMap<>();

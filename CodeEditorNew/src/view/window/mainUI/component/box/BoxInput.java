@@ -17,7 +17,7 @@ public class BoxInput extends UIComponent {
 
     public BoxInput(Window window, int drawPriority, int locX, int locY, int width, int height) {
         super(window, drawPriority, locX, locY, width, height);
-        arrow = new BoxArrow(window, drawPriority + 1, locX - ARROW_WIDTH, locY, ARROW_WIDTH, height);
+        arrow = new BoxArrow(window, drawPriority, locX - ARROW_WIDTH, locY, ARROW_WIDTH, height);
         initialArrowOffsetX = arrow.getLocX() - locX;
         initialArrowOffsetY = arrow.getLocY() - locY;
         window.getMainUI().addComponent(arrow);

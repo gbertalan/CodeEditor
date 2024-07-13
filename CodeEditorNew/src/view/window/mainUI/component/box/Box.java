@@ -52,45 +52,44 @@ public class Box extends UIComponent {
 	public Box(Window window, int drawPriority, int locX, int locY, String filename) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
 
-		UIComponent boxInput0 = new BoxInput(window, drawPriority + 1, locX, locY - INPUT_HEIGHT, INPUT_WIDTH,
+		UIComponent boxInput0 = new BoxInput(window, drawPriority, locX, locY - INPUT_HEIGHT, INPUT_WIDTH,
 				INPUT_HEIGHT);
 		inputs.add(boxInput0);
 		initialInputPositions.add(new int[] { boxInput0.getLocX() - locX, boxInput0.getLocY() - locY });
 		window.getMainUI().addComponent(boxInput0);
 
-		boxHeader = new BoxHeader(window, drawPriority + 1, locX, locY, HEADER_WIDTH, HEADER_HEIGHT, filename);
+		boxHeader = new BoxHeader(window, drawPriority, locX, locY, HEADER_WIDTH, HEADER_HEIGHT, filename);
 		initialHeaderPosition = new int[] { boxHeader.getLocX() - locX, boxHeader.getLocY() - locY };
 		window.getMainUI().addComponent(boxHeader);
 
-		boxContent = new BoxContent(window, drawPriority + 1, locX, locY + HEADER_HEIGHT, CONTENT_WIDTH,
+		boxContent = new BoxContent(window, drawPriority, locX, locY + HEADER_HEIGHT, CONTENT_WIDTH,
 				CONTENT_HEIGHT);
 		initialContentPosition = new int[] { boxContent.getLocX() - locX, boxContent.getLocY() - locY };
 		window.getMainUI().addComponent(boxContent);
 
-		boxConsole = new BoxConsole(window, drawPriority + 1, locX, locY + HEADER_HEIGHT + CONTENT_HEIGHT,
+		boxConsole = new BoxConsole(window, drawPriority, locX, locY + HEADER_HEIGHT + CONTENT_HEIGHT,
 				CONSOLE_WIDTH, CONSOLE_HEIGHT);
 		initialConsolePosition = new int[] { boxConsole.getLocX() - locX, boxConsole.getLocY() - locY };
 		window.getMainUI().addComponent(boxConsole);
 
-		UIComponent boxOutput0 = new BoxOutput(window, drawPriority + 1, locX + WIDTH,
+		UIComponent boxOutput0 = new BoxOutput(window, drawPriority, locX + WIDTH,
 				boxHeader.getLocY() + (boxHeader.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
 		outputs.add(boxOutput0);
 		initialOutputPositions.add(new int[] { boxOutput0.getLocX() - locX, boxOutput0.getLocY() - locY });
 		window.getMainUI().addComponent(boxOutput0);
 
-		UIComponent boxOutput1 = new BoxOutput(window, drawPriority + 1, locX + WIDTH,
+		UIComponent boxOutput1 = new BoxOutput(window, drawPriority, locX + WIDTH,
 				boxContent.getLocY() + (boxContent.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
 		outputs.add(boxOutput1);
 		initialOutputPositions.add(new int[] { boxOutput1.getLocX() - locX, boxOutput1.getLocY() - locY });
 		window.getMainUI().addComponent(boxOutput1);
 
-		UIComponent boxOutput2 = new BoxOutput(window, drawPriority + 1, locX + WIDTH,
+		UIComponent boxOutput2 = new BoxOutput(window, drawPriority, locX + WIDTH,
 				boxConsole.getLocY() + (boxConsole.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
 		outputs.add(boxOutput2);
 		initialOutputPositions.add(new int[] { boxOutput2.getLocX() - locX, boxOutput2.getLocY() - locY });
 		window.getMainUI().addComponent(boxOutput2);
 
-//		window.getMainUI().update();
 		repaintBoxComponents();
 	}
 
