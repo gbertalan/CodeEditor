@@ -23,6 +23,11 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 
 	protected boolean hovered;
 
+	public int initialLocX;
+	public int initialLocY;
+	public int initialWidth;
+	public int initialHeight;
+
 	/**
 	 * @param window
 	 * @param drawPriority - highest priority (lowest value) is drawn first.
@@ -46,6 +51,12 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 		this.locY = locY;
 		this.width = width;
 		this.height = height;
+
+		this.initialLocX = locX;
+		this.initialLocY = locY;
+		this.initialWidth = width;
+		this.initialHeight = height;
+
 	}
 
 	public int getDrawPriority() {
@@ -152,6 +163,16 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void updateLocation(int x, int y) {
 		locX = x;
 		locY = y;
+	}
+
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+
+	public void setLocation(int x, int y) {
+		this.locX = x;
+		this.locY = y;
 	}
 
 }

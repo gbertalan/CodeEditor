@@ -8,11 +8,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import utils.ANSIText;
+import view.window.MouseWheelListener;
 import view.window.Window;
 import view.window.mainUI.component.UIComponent;
 
 public class Box extends UIComponent {
-	
+
 	public static int boxCounter;
 
 	public static float LINE_THICK = 8.0f;
@@ -49,8 +51,19 @@ public class Box extends UIComponent {
 	private int mouseOffsetX;
 	private int mouseOffsetY;
 
+	// Added to keep track of the initial sizes
+	private int initialLocX;
+	private int initialLocY;
+	private int initialWidth;
+	private int initialHeight;
+
 	public Box(Window window, int drawPriority, int locX, int locY, String filename) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
+
+		initialLocX = locX;
+		initialLocY = locY;
+		initialWidth = WIDTH;
+		initialHeight = HEIGHT;
 
 		UIComponent boxInput0 = new BoxInput(window, drawPriority, locX, locY - INPUT_HEIGHT, INPUT_WIDTH,
 				INPUT_HEIGHT);
@@ -62,13 +75,12 @@ public class Box extends UIComponent {
 		initialHeaderPosition = new int[] { boxHeader.getLocX() - locX, boxHeader.getLocY() - locY };
 		window.getMainUI().addComponent(boxHeader);
 
-		boxContent = new BoxContent(window, drawPriority, locX, locY + HEADER_HEIGHT, CONTENT_WIDTH,
-				CONTENT_HEIGHT);
+		boxContent = new BoxContent(window, drawPriority, locX, locY + HEADER_HEIGHT, CONTENT_WIDTH, CONTENT_HEIGHT);
 		initialContentPosition = new int[] { boxContent.getLocX() - locX, boxContent.getLocY() - locY };
 		window.getMainUI().addComponent(boxContent);
 
-		boxConsole = new BoxConsole(window, drawPriority, locX, locY + HEADER_HEIGHT + CONTENT_HEIGHT,
-				CONSOLE_WIDTH, CONSOLE_HEIGHT);
+		boxConsole = new BoxConsole(window, drawPriority, locX, locY + HEADER_HEIGHT + CONTENT_HEIGHT, CONSOLE_WIDTH,
+				CONSOLE_HEIGHT);
 		initialConsolePosition = new int[] { boxConsole.getLocX() - locX, boxConsole.getLocY() - locY };
 		window.getMainUI().addComponent(boxConsole);
 
@@ -103,9 +115,9 @@ public class Box extends UIComponent {
 	public void update() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	public void repaintBoxComponents() {
-		
+
 		for (int i = 0; i < inputs.size(); i++) {
 			BoxInput input = (BoxInput) inputs.get(i);
 			input.repaint();
@@ -122,9 +134,8 @@ public class Box extends UIComponent {
 
 	@Override
 	public void updateLocation(int x, int y) {
-		
+
 		repaintBoxComponents();
-		
 
 		int newX = x - mouseOffsetX;
 		int newY = y - mouseOffsetY;
@@ -148,7 +159,7 @@ public class Box extends UIComponent {
 		}
 
 		repaintBoxComponents();
-		
+
 		System.out.println("Box: " + newX);
 	}
 
@@ -163,4 +174,46 @@ public class Box extends UIComponent {
 		this.mouseOffsetX = x;
 		this.mouseOffsetY = y;
 	}
+
+	public void zoom(Point mouseLocation) {
+		repaintBoxComponents();
+		
+	    // Update location and size for each component
+		adjustComponent(boxHeader);
+		adjustComponent(boxContent);
+	    adjustComponent(boxConsole);
+
+	    repaintBoxComponents();
+	}
+
+	private void adjustComponent(UIComponent component) {
+	    component.setLocation(calcX(component), calcY(component));
+	    component.setSize(calcWidth(component), calcHeight(component));
+	}
+
+	private int calcX(UIComponent component) {
+	    double zoom = MouseWheelListener.zoomValue;
+	    int componentX = component.initialLocX;
+	    int centerX = window.width / 2;
+	    return (int) (centerX + ((componentX - centerX) * zoom));
+	}
+
+	private int calcY(UIComponent component) {
+	    double zoom = MouseWheelListener.zoomValue;
+	    int componentY = component.initialLocY;
+	    int centerY = window.height / 2;
+	    return (int) (centerY + ((componentY - centerY) * zoom));
+	}
+
+	private int calcWidth(UIComponent component) {
+	    double zoom = MouseWheelListener.zoomValue;
+	    return (int) (component.initialWidth * zoom);
+	}
+
+	private int calcHeight(UIComponent component) {
+	    double zoom = MouseWheelListener.zoomValue;
+	    return (int) (component.initialHeight * zoom);
+	}
+
+
 }
