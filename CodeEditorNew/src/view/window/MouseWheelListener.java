@@ -42,8 +42,12 @@ public class MouseWheelListener extends MouseAdapter {
 //		zoomValue = (double) Math.max(0.1, Math.min(3.0, ((double) e.getWheelRotation() * 0.01) + 1));
 
 
-		Box box0 = (Box) window.getMainUI().getComponent("Box0");
-		box0.zoom(e.getPoint());
+//		Box box0 = (Box) window.getMainUI().getComponent("Box0");
+//		box0.zoom(e.getPoint());
+		
+		for (Box box : window.getMainUI().getBoxList()) {
+			box.zoom(e.getPoint());
+		}
 
 		System.out.println(ANSIText.bold("MouseWheelListener: Scroll action performed with rotation: " + zoomValue));
 

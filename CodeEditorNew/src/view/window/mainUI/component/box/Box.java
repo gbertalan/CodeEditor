@@ -133,7 +133,7 @@ public class Box extends UIComponent {
 	}
 
 	@Override
-	public void updateLocation(int x, int y) {
+	public void updateLocation(int x, int y) { // when e.g. dragging
 
 		repaintBoxComponents();
 
@@ -159,8 +159,6 @@ public class Box extends UIComponent {
 		}
 
 		repaintBoxComponents();
-
-		System.out.println("Box: " + newX);
 	}
 
 	@Override

@@ -25,6 +25,7 @@ public class MainUI extends JPanel {
 	private Graphics2D g2d;
 	private Map<String, UIComponent> componentMap;
 	private CopyOnWriteArrayList<UIComponent> componentList;
+	private CopyOnWriteArrayList<Box> boxList;
 
 	public MainUI(Window window) {
 		System.out.println(ANSIText.blue("MainUI constructor is called."));
@@ -48,6 +49,7 @@ public class MainUI extends JPanel {
 
 		componentMap = new HashMap<>();
 		componentList = new CopyOnWriteArrayList<>();
+		boxList = new CopyOnWriteArrayList<>();
 
 		for (UIComponent component : components) {
 			addComponent(component);
@@ -62,8 +64,10 @@ public class MainUI extends JPanel {
 				|| component.getComponentName().equals("BoxContent")
 				|| component.getComponentName().equals("BoxConsole")
 				|| component.getComponentName().equals("BoxOutput")) {
+			
 			nameExtension = Integer.toString(Box.boxCounter);
-			if(component.getComponentName().equals("Box")) {
+			if (component.getComponentName().equals("Box")) {
+				boxList.add((Box)component);
 				++Box.boxCounter;
 			}
 		} else {
@@ -71,8 +75,9 @@ public class MainUI extends JPanel {
 		}
 		componentMap.put(component.getComponentName() + nameExtension, component);
 		componentList.add(component);
-		System.out.println(ANSIText
-				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
+
+//		System.out.println(ANSIText
+//				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
 	}
 
 	public UIComponent getComponent(String componentName) {
@@ -81,6 +86,10 @@ public class MainUI extends JPanel {
 
 	public CopyOnWriteArrayList<UIComponent> getComponentList() {
 		return componentList;
+	}
+	
+	public CopyOnWriteArrayList<Box> getBoxList() {
+		return boxList;
 	}
 
 	@Override

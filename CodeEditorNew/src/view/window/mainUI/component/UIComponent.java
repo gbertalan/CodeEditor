@@ -163,6 +163,8 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void updateLocation(int x, int y) {
 		locX = x;
 		locY = y;
+		initialLocX = x;
+		initialLocY = y;
 	}
 
 	public void setSize(int width, int height) {
@@ -173,6 +175,8 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void setLocation(int x, int y) {
 		this.locX = x;
 		this.locY = y;
+//		this.initialWidth = x;
+//		this.initialHeight = y;
 	}
 
 }
