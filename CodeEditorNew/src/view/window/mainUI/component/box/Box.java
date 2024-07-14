@@ -177,30 +177,28 @@ public class Box extends UIComponent {
 		repaintBoxComponents();
 		
 	    // Update location and size for each component
-		adjustComponent(boxHeader);
-		adjustComponent(boxContent);
-	    adjustComponent(boxConsole);
+		adjustComponent(boxHeader, mouseLocation);
+		adjustComponent(boxContent, mouseLocation);
+	    adjustComponent(boxConsole, mouseLocation);
 
 	    repaintBoxComponents();
 	}
 
-	private void adjustComponent(UIComponent component) {
-	    component.setLocation(calcX(component), calcY(component));
+	private void adjustComponent(UIComponent component, Point mouseLocation) {
+	    component.setLocation(calcX(component, mouseLocation.x), calcY(component, mouseLocation.y));
 	    component.setSize(calcWidth(component), calcHeight(component));
 	}
 
-	private int calcX(UIComponent component) {
+	private int calcX(UIComponent component, int mouseX) {
 	    double zoom = MouseWheelListener.zoomValue;
 	    int componentX = component.initialLocX;
-	    int centerX = window.width / 2;
-	    return (int) (centerX + ((componentX - centerX) * zoom));
+	    return (int) (mouseX + ((componentX - mouseX) * zoom));
 	}
 
-	private int calcY(UIComponent component) {
+	private int calcY(UIComponent component, int mouseY) {
 	    double zoom = MouseWheelListener.zoomValue;
 	    int componentY = component.initialLocY;
-	    int centerY = window.height / 2;
-	    return (int) (centerY + ((componentY - centerY) * zoom));
+	    return (int) (mouseY + ((componentY - mouseY) * zoom));
 	}
 
 	private int calcWidth(UIComponent component) {

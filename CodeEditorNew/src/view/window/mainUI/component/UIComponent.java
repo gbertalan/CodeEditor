@@ -175,8 +175,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void setLocation(int x, int y) {
 		this.locX = x;
 		this.locY = y;
-//		this.initialWidth = x;
-//		this.initialHeight = y;
 	}
 
 }
