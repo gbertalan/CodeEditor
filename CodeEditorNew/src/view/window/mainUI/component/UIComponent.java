@@ -23,10 +23,10 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 
 	protected boolean hovered;
 
-	public int initialLocX;
-	public int initialLocY;
-	public int initialWidth;
-	public int initialHeight;
+	public double doubleLocX;
+	public double doubleLocY;
+	public double doubleWidth;
+	public double doubleHeight;
 
 	/**
 	 * @param window
@@ -52,10 +52,10 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 		this.width = width;
 		this.height = height;
 
-		this.initialLocX = locX;
-		this.initialLocY = locY;
-		this.initialWidth = width;
-		this.initialHeight = height;
+		this.doubleLocX = locX;
+		this.doubleLocY = locY;
+		this.doubleWidth = width;
+		this.doubleHeight = height;
 
 	}
 
@@ -163,8 +163,12 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void updateLocation(int x, int y) {
 		locX = x;
 		locY = y;
-		initialLocX = x;
-		initialLocY = y;
+		setDoubleLocation(x, y);
+	}
+
+	public void setDoubleLocation(double doubleLocX, double doubleLocY) {
+		this.doubleLocX = doubleLocX;
+		this.doubleLocY = doubleLocY;
 	}
 
 	public void setSize(int width, int height) {
@@ -175,6 +179,31 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
 	public void setLocation(int x, int y) {
 		this.locX = x;
 		this.locY = y;
+	}
+
+	public void setDoubleSize(double width, double height) {
+		doubleWidth = width;
+		doubleHeight = height;
+	}
+
+	public double getDoubleLocX() {
+		// TODO Auto-generated method stub
+		return doubleLocX;
+	}
+
+	public double getDoubleLocY() {
+		// TODO Auto-generated method stub
+		return doubleLocY;
+	}
+
+	public double getDoubleWidth() {
+		// TODO Auto-generated method stub
+		return doubleWidth;
+	}
+
+	public double getDoubleHeight() {
+		// TODO Auto-generated method stub
+		return doubleHeight;
 	}
 
 }

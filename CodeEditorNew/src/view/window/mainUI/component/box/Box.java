@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import utils.ANSIText;
 import view.window.MouseWheelListener;
@@ -38,7 +39,6 @@ public class Box extends UIComponent {
 	private UIComponent boxHeader;
 	private UIComponent boxContent;
 	private UIComponent boxConsole;
-	private ArrayList<UIComponent> outputs = new ArrayList<>();
 
 	private int noOfInputs; // to handle where to draw the boxInputs
 
@@ -46,24 +46,17 @@ public class Box extends UIComponent {
 	private int[] initialHeaderPosition;
 	private int[] initialContentPosition;
 	private int[] initialConsolePosition;
-	private ArrayList<int[]> initialOutputPositions = new ArrayList<>();
 
 	private int mouseOffsetX;
 	private int mouseOffsetY;
 
-	// Added to keep track of the initial sizes
-	private int initialLocX;
-	private int initialLocY;
-	private int initialWidth;
-	private int initialHeight;
+	private CopyOnWriteArrayList<UIComponent> boxSubComponentList = new CopyOnWriteArrayList<>();
 
 	public Box(Window window, int drawPriority, int locX, int locY, String filename) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
 
-		initialLocX = locX;
-		initialLocY = locY;
-		initialWidth = WIDTH;
-		initialHeight = HEIGHT;
+		setDoubleLocation(locX, locY);
+		setDoubleSize(WIDTH, HEIGHT);
 
 		UIComponent boxInput0 = new BoxInput(window, drawPriority, locX, locY - INPUT_HEIGHT, INPUT_WIDTH,
 				INPUT_HEIGHT);
@@ -84,23 +77,11 @@ public class Box extends UIComponent {
 		initialConsolePosition = new int[] { boxConsole.getLocX() - locX, boxConsole.getLocY() - locY };
 		window.getMainUI().addComponent(boxConsole);
 
-		UIComponent boxOutput0 = new BoxOutput(window, drawPriority, locX + WIDTH,
-				boxHeader.getLocY() + (boxHeader.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
-		outputs.add(boxOutput0);
-		initialOutputPositions.add(new int[] { boxOutput0.getLocX() - locX, boxOutput0.getLocY() - locY });
-		window.getMainUI().addComponent(boxOutput0);
-
-		UIComponent boxOutput1 = new BoxOutput(window, drawPriority, locX + WIDTH,
-				boxContent.getLocY() + (boxContent.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
-		outputs.add(boxOutput1);
-		initialOutputPositions.add(new int[] { boxOutput1.getLocX() - locX, boxOutput1.getLocY() - locY });
-		window.getMainUI().addComponent(boxOutput1);
-
-		UIComponent boxOutput2 = new BoxOutput(window, drawPriority, locX + WIDTH,
-				boxConsole.getLocY() + (boxConsole.getHeight() / 2) - (OUTPUT_HEIGHT / 2), OUTPUT_WIDTH, OUTPUT_HEIGHT);
-		outputs.add(boxOutput2);
-		initialOutputPositions.add(new int[] { boxOutput2.getLocX() - locX, boxOutput2.getLocY() - locY });
-		window.getMainUI().addComponent(boxOutput2);
+		// Add all components to the boxSubComponentList
+		boxSubComponentList.add(boxInput0);
+		boxSubComponentList.add(boxHeader);
+		boxSubComponentList.add(boxContent);
+		boxSubComponentList.add(boxConsole);
 
 		repaintBoxComponents();
 	}
@@ -116,20 +97,23 @@ public class Box extends UIComponent {
 		// TODO Auto-generated method stub
 	}
 
+	public CopyOnWriteArrayList<UIComponent> getBoxSubComponentList() {
+		return boxSubComponentList;
+	}
+
 	public void repaintBoxComponents() {
+
+//		for (UIComponent uiComponent : boxSubComponentList) {
+//			uiComponent.repaint();
+//		}
 
 		for (int i = 0; i < inputs.size(); i++) {
 			BoxInput input = (BoxInput) inputs.get(i);
 			input.repaint();
-			input.getArrow().repaint();
 		}
 		boxHeader.repaint();
 		boxContent.repaint();
 		boxConsole.repaint();
-		for (int i = 0; i < outputs.size(); i++) {
-			BoxOutput output = (BoxOutput) outputs.get(i);
-			output.repaint();
-		}
 	}
 
 	@Override
@@ -144,19 +128,11 @@ public class Box extends UIComponent {
 			BoxInput input = (BoxInput) inputs.get(i);
 			int[] initialPosition = initialInputPositions.get(i);
 			input.updateLocation(newX + initialPosition[0], newY + initialPosition[1]);
-			input.updateArrowLocation(newX + initialPosition[0], newY + initialPosition[1]);
 		}
 
 		boxHeader.updateLocation(newX + initialHeaderPosition[0], newY + initialHeaderPosition[1]);
 		boxContent.updateLocation(newX + initialContentPosition[0], newY + initialContentPosition[1]);
 		boxConsole.updateLocation(newX + initialConsolePosition[0], newY + initialConsolePosition[1]);
-
-		for (int i = 0; i < outputs.size(); i++) {
-			BoxOutput output = (BoxOutput) outputs.get(i);
-			int[] initialPosition = initialOutputPositions.get(i);
-			output.updateLocation(newX + initialPosition[0], newY + initialPosition[1]);
-			output.updateArrowLocation(newX + initialPosition[0], newY + initialPosition[1]);
-		}
 
 		repaintBoxComponents();
 	}
@@ -175,41 +151,59 @@ public class Box extends UIComponent {
 
 	public void zoom(Point mouseLocation) {
 		repaintBoxComponents();
-		
-	    // Update location and size for each component
+
+//		if (!mouseLocation.equals(oldMouseLocation)) {
+//			setInitialLocation(locX-(mouseLocation.x- locX), locY-(mouseLocation.y- locY));
+//			oldMouseLocation = mouseLocation;
+//		}
+
+		// Update location and size for each component
 		adjustComponent(boxHeader, mouseLocation);
 		adjustComponent(boxContent, mouseLocation);
-	    adjustComponent(boxConsole, mouseLocation);
+		adjustComponent(boxConsole, mouseLocation);
+		
+		
 
-	    repaintBoxComponents();
+		repaintBoxComponents();
+		
+		System.out.println(ANSIText.cyan("Box.getLocX(): "+ boxHeader.getDoubleLocX()));
+		System.out.println(ANSIText.cyan("Box.getLocY(): "+ boxHeader.getDoubleLocY()));
+		System.out.println(ANSIText.cyan("Box.getWidth(): "+ boxHeader.getDoubleWidth()));
+		System.out.println(ANSIText.cyan("Box.getHeight(): "+ boxHeader.getDoubleHeight()));
 	}
 
 	private void adjustComponent(UIComponent component, Point mouseLocation) {
-	    component.setLocation(calcX(component, mouseLocation.x), calcY(component, mouseLocation.y));
-	    component.setSize(calcWidth(component), calcHeight(component));
+//		component.setInitialLocation(component.getLocX(), component.getLocY());
+		component.setLocation((int)Math.round(calcX(component, mouseLocation.x)), (int)Math.round(calcY(component, mouseLocation.y)));
+		component.setDoubleLocation(calcX(component, mouseLocation.x), calcY(component, mouseLocation.y));
+
+//		component.setInitialSize(component.getWidth(), component.getHeight());
+		component.setSize((int)Math.round(calcWidth(component)), (int)Math.round(calcHeight(component)));
+		component.setDoubleSize(calcWidth(component), calcHeight(component));
+
+		
 	}
 
-	private int calcX(UIComponent component, int mouseX) {
-	    double zoom = MouseWheelListener.zoomValue;
-	    int componentX = component.initialLocX;
-	    return (int) (mouseX + ((componentX - mouseX) * zoom));
+	private double calcX(UIComponent component, int mouseX) {
+		double zoom = MouseWheelListener.zoomValue;
+		double componentX = component.getDoubleLocX();
+		return (mouseX + ((componentX - mouseX) * zoom));
 	}
 
-	private int calcY(UIComponent component, int mouseY) {
-	    double zoom = MouseWheelListener.zoomValue;
-	    int componentY = component.initialLocY;
-	    return (int) (mouseY + ((componentY - mouseY) * zoom));
+	private double calcY(UIComponent component, int mouseY) {
+		double zoom = MouseWheelListener.zoomValue;
+		double componentY = component.getDoubleLocY();
+		return (mouseY + ((componentY - mouseY) * zoom));
 	}
 
-	private int calcWidth(UIComponent component) {
-	    double zoom = MouseWheelListener.zoomValue;
-	    return (int) (component.initialWidth * zoom);
+	private double calcWidth(UIComponent component) {
+		double zoom = MouseWheelListener.zoomValue;
+		return (component.getDoubleWidth() * zoom);
 	}
 
-	private int calcHeight(UIComponent component) {
-	    double zoom = MouseWheelListener.zoomValue;
-	    return (int) (component.initialHeight * zoom);
+	private double calcHeight(UIComponent component) {
+		double zoom = MouseWheelListener.zoomValue;
+		return (component.getDoubleHeight() * zoom);
 	}
-
 
 }

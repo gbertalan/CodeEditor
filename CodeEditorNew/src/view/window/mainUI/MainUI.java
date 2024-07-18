@@ -76,8 +76,8 @@ public class MainUI extends JPanel {
 		componentMap.put(component.getComponentName() + nameExtension, component);
 		componentList.add(component);
 
-//		System.out.println(ANSIText
-//				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
+		System.out.println(ANSIText
+				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
 	}
 
 	public UIComponent getComponent(String componentName) {

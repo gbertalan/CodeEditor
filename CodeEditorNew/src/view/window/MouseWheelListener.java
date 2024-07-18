@@ -18,6 +18,7 @@ public class MouseWheelListener extends MouseAdapter {
 	private HashSet<UIComponent> hoveredComponents;
 
 	public static double zoomValue = 1.0;
+	public static int zoomLevel = 0;
 
 	public MouseWheelListener(Listener listener) {
 		this.listener = listener;
@@ -38,18 +39,25 @@ public class MouseWheelListener extends MouseAdapter {
 
 //		zoomValue = ((double) e.getWheelRotation() * 0.01f) +1;
 		zoomValue += ((double) e.getWheelRotation() * 0.01f);
-		
-//		zoomValue = (double) Math.max(0.1, Math.min(3.0, ((double) e.getWheelRotation() * 0.01) + 1));
 
+		if (e.getWheelRotation() > 0) {
+			zoomValue = 0.8;
+			++zoomLevel;
+		} else {
+			zoomValue = 1.25;
+			--zoomLevel;
+		}
+		System.out.println(ANSIText.bold("\tZoomLevel: " + zoomLevel));
+
+//		zoomValue = (double) Math.max(0.1, Math.min(3.0, ((double) e.getWheelRotation() * 0.01) + 1));
 
 //		Box box0 = (Box) window.getMainUI().getComponent("Box0");
 //		box0.zoom(e.getPoint());
-		
+
 		for (Box box : window.getMainUI().getBoxList()) {
 			box.zoom(e.getPoint());
 		}
 
 		System.out.println(ANSIText.bold("MouseWheelListener: Scroll action performed with rotation: " + zoomValue));
-
 	}
 }

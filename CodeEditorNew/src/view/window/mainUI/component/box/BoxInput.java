@@ -9,26 +9,8 @@ import view.window.mainUI.component.UIComponent;
 
 public class BoxInput extends UIComponent {
 
-    private static int ARROW_WIDTH = 30;
-
-    private UIComponent arrow;
-    private int initialArrowOffsetX;
-    private int initialArrowOffsetY;
-
     public BoxInput(Window window, int drawPriority, int locX, int locY, int width, int height) {
         super(window, drawPriority, locX, locY, width, height);
-        arrow = new BoxArrow(window, drawPriority, locX - ARROW_WIDTH, locY, ARROW_WIDTH, height);
-        initialArrowOffsetX = arrow.getLocX() - locX;
-        initialArrowOffsetY = arrow.getLocY() - locY;
-        window.getMainUI().addComponent(arrow);
-    }
-
-    public UIComponent getArrow() {
-        return arrow;
-    }
-
-    public void updateArrowLocation(int boxLocX, int boxLocY) {
-        arrow.updateLocation(boxLocX + initialArrowOffsetX, boxLocY + initialArrowOffsetY);
     }
 
     @Override
