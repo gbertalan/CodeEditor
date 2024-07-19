@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 
 import view.window.MouseWheelListener;
 import view.window.Window;
@@ -16,6 +17,8 @@ public class Box extends UIComponent {
     private static final int WIDTH = 280;
     private static final int HEIGHT = 640;
 
+    protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
+    
     private int mouseOffsetX;
     private int mouseOffsetY;
     
@@ -23,6 +26,10 @@ public class Box extends UIComponent {
 
     public Box(Window window, int drawPriority, int locX, int locY) {
         super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
+        this.doubleLocX = locX;
+        this.doubleLocY = locY;
+        this.doubleWidth = width;
+        this.doubleHeight = height;
         repaint();
     }
 
@@ -43,7 +50,6 @@ public class Box extends UIComponent {
 
     }
 
-    @Override
     public void updateLocation(int x, int y) {
         repaint();
         int newX = x - mouseOffsetX;
@@ -65,35 +71,66 @@ public class Box extends UIComponent {
 
     public void zoom(Point mouseLocation) {
         repaint();
-        adjustComponent(this, mouseLocation);
+        adjustComponent(mouseLocation);
         repaint();
     }
 
-    private void adjustComponent(UIComponent component, Point mouseLocation) {
-        component.setLocation((int) Math.round(calcX(component, mouseLocation.x)),
-                              (int) Math.round(calcY(component, mouseLocation.y)));
-        component.setDoubleLocation(calcX(component, mouseLocation.x), calcY(component, mouseLocation.y));
-        component.setSize((int) Math.round(calcWidth(component)), (int) Math.round(calcHeight(component)));
-        component.setDoubleSize(calcWidth(component), calcHeight(component));
+    private void adjustComponent(Point mouseLocation) {
+        setLocation((int) Math.round(calcX(mouseLocation.x)),
+                              (int) Math.round(calcY(mouseLocation.y)));
+        setDoubleLocation(calcX(mouseLocation.x), calcY(mouseLocation.y));
+        setSize((int) Math.round(calcWidth()), (int) Math.round(calcHeight()));
+        setDoubleSize(calcWidth(), calcHeight());
     }
 
-    private double calcX(UIComponent component, int mouseX) {
+    private double calcX(int mouseX) {
         double zoom = MouseWheelListener.zoomValue;
-        double componentX = component.getDoubleLocX();
+        double componentX = getDoubleLocX();
         return mouseX + ((componentX - mouseX) * zoom);
     }
 
-    private double calcY(UIComponent component, int mouseY) {
+    private double calcY(int mouseY) {
         double zoom = MouseWheelListener.zoomValue;
-        double componentY = component.getDoubleLocY();
+        double componentY = getDoubleLocY();
         return mouseY + ((componentY - mouseY) * zoom);
     }
 
-    private double calcWidth(UIComponent component) {
-        return component.getDoubleWidth() * MouseWheelListener.zoomValue;
+    private double calcWidth() {
+        return getDoubleWidth() * MouseWheelListener.zoomValue;
     }
 
-    private double calcHeight(UIComponent component) {
-        return component.getDoubleHeight() * MouseWheelListener.zoomValue;
+    private double calcHeight() {
+        return getDoubleHeight() * MouseWheelListener.zoomValue;
     }
+    
+    public void setDoubleLocation(double doubleLocX, double doubleLocY) {
+        this.doubleLocX = doubleLocX;
+        this.doubleLocY = doubleLocY;
+    }
+    
+    public void setDoubleSize(double width, double height) {
+        this.doubleWidth = width;
+        this.doubleHeight = height;
+    }
+
+    public double getDoubleLocX() {
+        return doubleLocX;
+    }
+
+    public double getDoubleLocY() {
+        return doubleLocY;
+    }
+
+    public double getDoubleWidth() {
+        return doubleWidth;
+    }
+
+    public double getDoubleHeight() {
+        return doubleHeight;
+    }
+    
+    public void mouseMoved(MouseEvent e) {
+//    	System.out.println("mouse on box: "+e.getX());
+    }
+    
 }

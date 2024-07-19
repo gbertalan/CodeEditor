@@ -17,7 +17,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
     protected int drawPriority;
     protected int locX, locY, width, height;
     protected boolean hovered;
-    protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
 
     /**
      * @param window
@@ -37,10 +36,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
         this.locY = locY;
         this.width = width;
         this.height = height;
-        this.doubleLocX = locX;
-        this.doubleLocY = locY;
-        this.doubleWidth = width;
-        this.doubleHeight = height;
     }
 
     public int getDrawPriority() {
@@ -138,15 +133,7 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
         window.getMainUI().repaint(area);
     }
 
-    public void updateLocation(int x, int y) {
-        setLocation(x, y);
-        setDoubleLocation(x, y);
-    }
-
-    public void setDoubleLocation(double doubleLocX, double doubleLocY) {
-        this.doubleLocX = doubleLocX;
-        this.doubleLocY = doubleLocY;
-    }
+    
 
     public void setSize(int width, int height) {
         this.width = width;
@@ -158,25 +145,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
         this.locY = y;
     }
 
-    public void setDoubleSize(double width, double height) {
-        this.doubleWidth = width;
-        this.doubleHeight = height;
-    }
-
-    public double getDoubleLocX() {
-        return doubleLocX;
-    }
-
-    public double getDoubleLocY() {
-        return doubleLocY;
-    }
-
-    public double getDoubleWidth() {
-        return doubleWidth;
-    }
-
-    public double getDoubleHeight() {
-        return doubleHeight;
-    }
+    
 
 }
