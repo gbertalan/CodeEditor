@@ -1,3 +1,8 @@
+/**
+ * I don't use this file anymore, I just leave it here for a while,
+ * because there are valuable solutions in it.
+ */
+
 package model;
 
 import java.awt.AWTException;

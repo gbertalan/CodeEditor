@@ -132,5 +132,9 @@ public class Box extends UIComponent {
     public void mouseMoved(MouseEvent e) {
 //    	System.out.println("mouse on box: "+e.getX());
     }
+
+	public BoxHeader getBoxHeader() {
+		return this.boxHeader;
+	}
     
 }
