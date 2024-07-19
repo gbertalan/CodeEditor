@@ -13,14 +13,13 @@ public class Box extends UIComponent {
 
     public static int boxCounter;
 
-    public static final float LINE_THICK = 8.0f;
-    public static final float LINE_NORMAL = 1.0f;
-
     private static final int WIDTH = 280;
     private static final int HEIGHT = 640;
 
     private int mouseOffsetX;
     private int mouseOffsetY;
+    
+    private BoxHeader boxHeader = new BoxHeader();
 
     public Box(Window window, int drawPriority, int locX, int locY) {
         super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
@@ -32,6 +31,8 @@ public class Box extends UIComponent {
     	
     	g2d.setColor(Color.GRAY);
         g2d.fillRect(locX, locY, width, height);
+        
+        boxHeader.draw(g2d, locX, locY, width, height);
         
         g2d.setColor(Color.WHITE);
         g2d.drawRect(locX, locY, width, height);
