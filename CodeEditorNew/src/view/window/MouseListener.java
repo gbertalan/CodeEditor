@@ -76,7 +76,8 @@ public class MouseListener extends MouseAdapter {
 
 			for (int i = 0; i < Box.boxCounter; i++) {
 
-				String keyWord = "BoxHeader" + Integer.toString(i);
+//				String keyWord = "BoxHeader" + Integer.toString(i);
+				String keyWord = "Box" + Integer.toString(i);
 				if (hoveredComponents.contains(mainUI.getComponent(keyWord))) {
 					listener.draggingByBoxHeader = true;
 					listener.dragginBoxID = i;
