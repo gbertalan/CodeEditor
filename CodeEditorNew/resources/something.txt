@@ -1,6 +1,9 @@
 #include <stdio.h>
 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN
 
+RSTUVWXYZ0123456789abcdefghijklmnopqrstuvwx*bcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
+
+
 int main(void) {
   printf("Hello, World!\n");
   return 0;

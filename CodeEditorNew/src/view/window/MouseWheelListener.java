@@ -47,6 +47,16 @@ public class MouseWheelListener extends MouseAdapter {
 			zoomValue = 1.25;
 			--zoomLevel;
 		}
+
+		if (zoomLevel > 10) {
+			zoomValue = 1.0;
+			zoomLevel = 10;
+		} else if (zoomLevel < -1) {
+			zoomValue = 1.0;
+			zoomLevel = -1;
+		}
+
+		System.out.println(ANSIText.bold("\tZoomValue: " + zoomValue));
 		System.out.println(ANSIText.bold("\tZoomLevel: " + zoomLevel));
 
 //		zoomValue = (double) Math.max(0.1, Math.min(3.0, ((double) e.getWheelRotation() * 0.01) + 1));

@@ -15,7 +15,7 @@ public class Box extends UIComponent {
 
     public static int boxCounter;
 
-    private static final int WIDTH = 280;
+    private static final int WIDTH = 530;
     private static final int HEIGHT = 640;
 
     protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
