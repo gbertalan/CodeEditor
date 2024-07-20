@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import view.window.MouseWheelListener;
 import view.window.Window;
@@ -23,19 +24,25 @@ public class Box extends UIComponent {
     private int mouseOffsetY;
     
     private BoxHeader boxHeader;
-
+    private BoxContent boxContent;
 	
 
-    public Box(Window window, int drawPriority, int locX, int locY, String headerText) {
+    public Box(Window window, int drawPriority, int locX, int locY) {
         super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
         this.doubleLocX = locX;
         this.doubleLocY = locY;
         this.doubleWidth = width;
         this.doubleHeight = height;
-        
-        boxHeader = new BoxHeader(headerText);
-        repaint();
     }
+    
+    public void createHeader(String headerText) {
+    	 boxHeader = new BoxHeader(this, headerText);
+    }
+    
+    public void createContent(ArrayList<String> contentLineList) {
+    	boxContent = new BoxContent(this, contentLineList);
+    }
+    
 
     @Override
     public void draw(Graphics2D g2d) {
@@ -43,7 +50,8 @@ public class Box extends UIComponent {
     	g2d.setColor(Color.GRAY);
         g2d.fillRect(locX, locY, width, height);
         
-        boxHeader.draw(g2d, locX, locY, width, height);
+        boxHeader.draw(g2d);
+        boxContent.draw(g2d);
         
         g2d.setColor(Color.WHITE);
         g2d.drawRect(locX, locY, width, height);
@@ -139,6 +147,10 @@ public class Box extends UIComponent {
 
 	public BoxHeader getBoxHeader() {
 		return this.boxHeader;
+	}
+	
+	public BoxContent getBoxContent() {
+		return this.boxContent;
 	}
     
 }

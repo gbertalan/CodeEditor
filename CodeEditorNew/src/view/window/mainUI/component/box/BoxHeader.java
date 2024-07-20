@@ -6,28 +6,31 @@ import java.awt.Graphics2D;
 import utils.Globals;
 import utils.Theme;
 
-public class BoxHeader {
+public class BoxHeader implements BoxComponent{
 
 	private static int HEIGHT_DIVISOR = 16;
 	private static int TEXT_LEFT_MARGIN_DIVISOR = 20;
 
-//	private String headerText = "proba.szoveg";
 	private String headerText;
+	private Box box;
 
-	public BoxHeader(String headerText) {
+	public BoxHeader(Box box, String headerText) {
+		this.box = box;
 		this.headerText = headerText;
 	}
 
-	public void draw(Graphics2D g2d, int boxLocX, int boxLocY, int boxWidth, int boxHeight) {
+	public void draw(Graphics2D g2d) {
 		g2d.setColor(Color.GREEN);
-		g2d.fillRect(boxLocX, boxLocY, boxWidth, boxHeight / HEIGHT_DIVISOR);
+		g2d.fillRect(box.getLocX(), box.getLocY(), box.getWidth(), box.getHeight() / HEIGHT_DIVISOR);
 
 		g2d.setColor(Color.BLUE);
-//		g2d.drawString(headerText, boxLocX + boxWidth / TEXT_LEFT_MARGIN_DIVISOR, boxLocY
-//				+ Globals.centerTextVert(g2d, headerText, Theme.getBoxHeaderFont(), boxHeight / HEIGHT_DIVISOR));
 
-		Globals.drawCenteredText(g2d, boxLocX, boxLocY, boxWidth / TEXT_LEFT_MARGIN_DIVISOR, boxWidth, boxHeight / HEIGHT_DIVISOR,
+		Globals.drawCenteredText(g2d, box.getLocX(), box.getLocY(), box.getWidth() / TEXT_LEFT_MARGIN_DIVISOR, box.getWidth(), box.getHeight() / HEIGHT_DIVISOR,
 				headerText);
+	}
+	
+	public int getHeight() {
+		return box.getHeight() / HEIGHT_DIVISOR;
 	}
 
 }
