@@ -7,8 +7,9 @@ import utils.Globals;
 
 public class ContentLine implements BoxComponent {
 
-	private static int HEIGHT_DIVISOR = 16;
-	private static int CONTENT_LINE_HEIGHT;
+	private static int TOP_MARGIN_DIVISOR = 16;
+	private static int HEIGHT_DIVISOR = 26;
+	private static int CONTENT_LINE_HEIGHT = 30;
 	private static int TEXT_LEFT_MARGIN_DIVISOR = 20;
 
 	private Box box;
@@ -19,18 +20,19 @@ public class ContentLine implements BoxComponent {
 
 	public ContentLine(Box box) {
 		this.box = box;
-		CONTENT_LINE_HEIGHT = box.getBoxHeader().getHeight();
+//		CONTENT_LINE_HEIGHT = box.getBoxHeader().getHeight();
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(Color.RED);
 		int locX = box.getLocX();
-		int locY = box.getLocY() + CONTENT_LINE_HEIGHT + (CONTENT_LINE_HEIGHT * lineIndex);
+		int locY = box.getLocY() + (box.getHeight() / TOP_MARGIN_DIVISOR)
+				+ ((box.getHeight() / HEIGHT_DIVISOR) * lineIndex);
 		int width = box.getWidth();
-		int height = CONTENT_LINE_HEIGHT;
+		int height = box.getHeight() / HEIGHT_DIVISOR;
 		g2d.fillRect(locX, locY, width, height);
-		
+
 		g2d.setColor(Color.CYAN);
 		Globals.drawCenteredText(g2d, locX, locY, box.getWidth() / TEXT_LEFT_MARGIN_DIVISOR, box.getWidth(),
 				box.getHeight() / HEIGHT_DIVISOR, lineText);
