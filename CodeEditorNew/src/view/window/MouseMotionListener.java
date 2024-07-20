@@ -174,8 +174,7 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			if (isHoverStateChanged(mainUI.getComponent("FileButton"), hoveredComponents, oldHoveredComponents)) {
 				mainUI.getComponent("FileButton").repaint();
 				if (mainUI.getComponent("FileButton").isHovered()) {
-					Box newBox = new Box(window, 1, 180, 100);
-					window.getMainUI().addComponent(newBox);
+					listener.boxController.createBox();
 				}
 			}
 

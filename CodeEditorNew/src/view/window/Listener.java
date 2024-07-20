@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
+import control.BoxController;
 import utils.ANSIText;
 import view.window.Window;
 import view.window.mainUI.MainUI;
@@ -21,6 +22,7 @@ public class Listener {
 	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader;
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
 	public int dragginBoxID;
+	public BoxController boxController;
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.purple("Listener constructor is called."));
@@ -114,4 +116,8 @@ public class Listener {
 		}
 		hoveredComponents.clear();
 	}
+	
+	public void setBoxController(BoxController boxController) {
+        this.boxController = boxController;
+    }
 }

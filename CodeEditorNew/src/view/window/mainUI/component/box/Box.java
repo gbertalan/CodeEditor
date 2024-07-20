@@ -22,14 +22,18 @@ public class Box extends UIComponent {
     private int mouseOffsetX;
     private int mouseOffsetY;
     
-    private BoxHeader boxHeader = new BoxHeader();
+    private BoxHeader boxHeader;
 
-    public Box(Window window, int drawPriority, int locX, int locY) {
+	
+
+    public Box(Window window, int drawPriority, int locX, int locY, String headerText) {
         super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
         this.doubleLocX = locX;
         this.doubleLocY = locY;
         this.doubleWidth = width;
         this.doubleHeight = height;
+        
+        boxHeader = new BoxHeader(headerText);
         repaint();
     }
 

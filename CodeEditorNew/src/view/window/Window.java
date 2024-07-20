@@ -27,9 +27,11 @@ public class Window extends JFrame {
 
 	private boolean refreshedAlready = false;
 
+	private Listener listener;
+
 	public Window() {
 		System.out.println(ANSIText.purple("Window constructor is called."));
-		
+
 		setTitle("Code Editor by Gergely Bertalan");
 		try {
 			Image icon = Toolkit.getDefaultToolkit().getImage("resources/logo.png");
@@ -46,20 +48,19 @@ public class Window extends JFrame {
 		getContentPane().setBackground(new Color(0, 0, 0, 0));
 		getContentPane().setLayout(null);
 		setVisible(true);
-		
-		
+
 	}
-	
+
 	public void attachPanels() {
 		MainUI mainUI = new MainUI(this);
 		addMainUI(mainUI);
-		
+
 		revalidate();
 		repaint();
 	}
-	
+
 	public void attachListeners() {
-		Listener listener = new Listener(this);
+		listener = new Listener(this);
 		addMouseListener(new MouseListener(listener));
 		addMouseMotionListener(new MouseMotionListener(listener));
 		addWindowStateListener(new StateListener(this));
@@ -92,7 +93,6 @@ public class Window extends JFrame {
 		getContentPane().remove(index);
 	}
 
-
 	public boolean isMaximized() {
 		int state = this.getExtendedState();
 		int maximized = Window.MAXIMIZED_BOTH;
@@ -102,12 +102,16 @@ public class Window extends JFrame {
 			return false;
 		}
 	}
-	
+
 	public void setMaximized(boolean maximized) {
-		if(maximized)
+		if (maximized)
 			setExtendedState(getExtendedState() | Window.MAXIMIZED_BOTH);
 		else
 			setExtendedState(getExtendedState() & ~Window.MAXIMIZED_BOTH);
+	}
+
+	public Listener getListener() {
+		return this.listener;
 	}
 
 }

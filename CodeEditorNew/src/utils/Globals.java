@@ -78,13 +78,56 @@ public class Globals {
 		}
 	}
 
+	/**
+	 * Returns the y coordinate of the text so that it is vertically centered to its
+	 * containing component
+	 * 
+	 * @param g2d
+	 * @param text
+	 * @param font
+	 * @param containerHeight
+	 * @return
+	 */
 	public static int centerTextVert(Graphics2D g2d, String text, Font font, int containerHeight) {
 		g2d.setFont(font);
 
 		// Calculate the font metrics
 		FontMetrics metrics = g2d.getFontMetrics(font);
 		int textAscent = metrics.getAscent();
-		return (containerHeight) / 2 + (textAscent/2);
+		return (containerHeight) / 2 + (textAscent / 2);
+	}
+
+	public static void drawCenteredText(Graphics2D g2d, int x, int y, int leftMargin, int containingComponentWidth,
+			int containingComponentHeight, String text) {
+		int fontSize = (int) Math.round(containingComponentHeight / 1.5);
+
+
+		Font font = new Font("Consolas", Font.BOLD, fontSize);
+		g2d.setFont(font);
+
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+		FontMetrics metrics = g2d.getFontMetrics(font);
+		int maxTextWidth = containingComponentWidth - 2 * leftMargin;
+
+		String truncatedText = text;
+		if (metrics.stringWidth(text) > maxTextWidth) {
+			String ellipsis = "...";
+			int ellipsisWidth = metrics.stringWidth(ellipsis);
+			int textWidth = metrics.stringWidth(text);
+
+			while (textWidth + ellipsisWidth > maxTextWidth && truncatedText.length() > 0) {
+				truncatedText = truncatedText.substring(0, truncatedText.length() - 1);
+				textWidth = metrics.stringWidth(truncatedText);
+			}
+
+			truncatedText += ellipsis;
+		}
+
+		int xx = x + leftMargin;
+		int yy = (int) Math.round(y + containingComponentHeight - (containingComponentHeight / 3.5));
+
+		g2d.drawString(truncatedText, xx, yy);
 	}
 
 }

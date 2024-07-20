@@ -17,23 +17,9 @@ public class BoxController {
         this.control = control;
     }
 
-    
-
-    public void loadHeaderText(String filePath) {
-        try {
-        	model.getBoxModel().loadHeaderTextFromFile(filePath);
-            updateBox(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, e.g., show an error message in the view
-        }
+    public void createBox() {
+    	Box newBox = new Box(view.getWindow(), 1, 180, 100, model.getBoxModel().getHeaderText());
+    	view.getWindow().getMainUI().addComponent(newBox);
     }
-    
-    public void updateBox(int boxID) {
-    	Box box = view.getWindow().getMainUI().getBoxList().get(boxID); 
-		box.getBoxHeader().setHeaderText(model.getBoxModel().getHeaderText());
-		box.repaint();
-	}
 
-    // Additional methods to handle user interaction
 }

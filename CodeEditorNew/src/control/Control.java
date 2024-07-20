@@ -14,7 +14,11 @@ public class Control {
 		this.model = model;
 		this.view = view;
 		boxController = new BoxController(model, view, this);
-
+		view.getWindow().getListener().setBoxController(boxController);
+	}
+	
+	public BoxController getBoxController() {
+		return boxController;
 	}
 
 	
