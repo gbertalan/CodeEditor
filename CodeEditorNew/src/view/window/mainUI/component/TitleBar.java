@@ -17,11 +17,16 @@ public class TitleBar extends UIComponent {
 	}
 
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Theme.getTitleBarColor());
-		drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, true);
+		if (window.isMaximized()) {
+			g2d.setColor(Theme.getTitleBarColor());
+			drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, true);
+		} else {
+			g2d.setColor(Theme.getBackgroundColor());
+			drawRectWithTwoRoundedCorners(g2d, locX, locY, width, height, ARC_SIZE, true);
+		}
 
 		g2d.setColor(Theme.getSeparatorLineColor());
-		drawRectWithTwoRoundedCorners(g2d, locX, locY, width-1, height, ARC_SIZE, false);
+		drawRectWithTwoRoundedCorners(g2d, locX, locY, width - 1, height, ARC_SIZE, false);
 	}
 
 	@Override
@@ -51,9 +56,4 @@ public class TitleBar extends UIComponent {
 		return Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
-//	@Override
-//	public boolean isInRegion(MouseEvent e) {
-//		Rectangle rectangle = new Rectangle(locX, locY, width-(3*CONTROL_BUTTON_WIDTH), height);
-//		return rectangle.contains(e.getPoint()) ? true : false;
-//	}
 }

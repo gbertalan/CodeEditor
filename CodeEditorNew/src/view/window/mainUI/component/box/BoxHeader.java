@@ -20,13 +20,16 @@ public class BoxHeader implements BoxComponent{
 	}
 
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Color.GREEN);
+		g2d.setColor(Theme.getBoxHeaderBackgroundColor());
 		g2d.fillRect(box.getLocX(), box.getLocY(), box.getWidth(), box.getHeight() / HEIGHT_DIVISOR);
 
-		g2d.setColor(Color.BLUE);
+		g2d.setColor(Theme.getBoxHeaderTextColor());
 
 		Globals.drawCenteredText(g2d, box.getLocX(), box.getLocY(), box.getWidth() / TEXT_LEFT_MARGIN_DIVISOR, box.getWidth(), box.getHeight() / HEIGHT_DIVISOR,
 				headerText);
+		
+		g2d.setColor(Theme.getSeparatorLineColor());
+		g2d.drawRect(box.getLocX(), box.getLocY(), box.getWidth(), box.getHeight() / HEIGHT_DIVISOR);
 	}
 	
 	public int getHeight() {

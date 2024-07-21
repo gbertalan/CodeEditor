@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import utils.Globals;
+import utils.Theme;
 
 public class BoxContent implements BoxComponent {
 
@@ -18,7 +19,7 @@ public class BoxContent implements BoxComponent {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Color.YELLOW);
+		g2d.setColor(Theme.getBoxBackgroundColor());
 		int locX = box.getLocX();
 		int locY = box.getLocY() + box.getBoxHeader().getHeight();
 		int width = box.getWidth();

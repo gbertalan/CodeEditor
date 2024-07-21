@@ -12,12 +12,13 @@ import view.window.Window;
 public class FileButton extends UIComponent {
 
 	private static int TOP_MARGIN = 42;
-	private static int SIZE = 55;
+	private static int WIDTH = 8;
+	private static int HEIGHT = 55;
 
 	FilePanel filePanel = new FilePanel(window);
 
 	public FileButton(Window window, int drawPriority) {
-		super(window, drawPriority, 0, TOP_MARGIN, SIZE, SIZE);
+		super(window, drawPriority, 0, TOP_MARGIN, WIDTH, HEIGHT);
 	}
 
 	@Override

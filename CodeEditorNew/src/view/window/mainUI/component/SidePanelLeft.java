@@ -9,7 +9,7 @@ import view.window.Window;
 public class SidePanelLeft extends UIComponent {
 
 	private static int TOP_MARGIN = 42;
-	private static int WIDTH = 55;
+	private static int WIDTH = 8;
 	private static int BOTTOM_MARGIN = 9;
 
 	public SidePanelLeft(Window window, int drawPriority) {

@@ -133,10 +133,14 @@ public class MouseMotionListener extends MouseMotionAdapter {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		updateHoveredComponents(e);
-		
-		for (Box box : window.getMainUI().getBoxList()) {
-			if(hoveredComponents.contains(box)) {
+
+		// ezt meg lehet gyorsabbra ugy, h csak azt nezzuk, h mi van hoverelve.
+
+		for (UIComponent uiComponent : hoveredComponents) {
+			if (uiComponent.toString().startsWith("Box")) {
+				Box box = (Box) uiComponent;
 				box.mouseMoved(e);
+				break;
 			}
 		}
 	}
@@ -157,7 +161,6 @@ public class MouseMotionListener extends MouseMotionAdapter {
 		if (!newHoveredComponents.equals(oldHoveredComponents)) {
 			hoveredComponents.clear();
 			hoveredComponents.addAll(newHoveredComponents);
-//            mainUI.update();
 
 			printHoveredComponents();
 			listener.setCursor();
@@ -178,6 +181,12 @@ public class MouseMotionListener extends MouseMotionAdapter {
 				}
 			}
 
+			for (Box box : window.getMainUI().getBoxList()) {
+				if (isHoverStateChanged(box, hoveredComponents, oldHoveredComponents))
+					if (!hoveredComponents.contains(box))
+						box.unhoverCloseButton();
+			}
+
 		}
 	}
 
@@ -185,10 +194,7 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			Set<UIComponent> oldHoveredComponents) {
 		boolean nowHovered = hoveredComponents.contains(component);
 		boolean previouslyHovered = oldHoveredComponents.contains(component);
-
-		boolean hoverStateChanged = nowHovered != previouslyHovered;
-
-		return hoverStateChanged;
+		return nowHovered != previouslyHovered;
 	}
 
 	private void printHoveredComponents() {
