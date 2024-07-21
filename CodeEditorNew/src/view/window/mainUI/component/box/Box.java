@@ -58,18 +58,21 @@ public class Box extends UIComponent {
 		boxContent.draw(g2d);
 
 		// close button:
-		closeButtonSize = height / 16;
-		closeButtonX = locX + width - closeButtonSize;
-		closeButtonY = locY;
-		int closeButtonPadding = (int) (closeButtonSize / 2.6); // Adjust closeButtonPadding to make the "X" smaller
+		closeButtonSize = (height / 16) - 2;
+		closeButtonX = locX + width - closeButtonSize - 1;
+		closeButtonY = locY + 1;
+		int closeButtonPadding = (int) (closeButtonSize / 2.6);
 
 		if (closeButtonHovered)
-			g2d.setColor(Color.BLUE);
+			g2d.setColor(Theme.getBoxCloseButtonColor());
 		else
-			g2d.setColor(Color.YELLOW);
+			g2d.setColor(Theme.getBackgroundColor());
 		g2d.fillRect(closeButtonX, closeButtonY, closeButtonSize, closeButtonSize);
 
-		g2d.setColor(Color.BLACK);
+		if (closeButtonHovered)
+			g2d.setColor(Theme.getCloseButtonSymbolColorUnhovered());
+		else
+			g2d.setColor(Theme.getCloseButtonSymbolColor());
 		g2d.drawLine(closeButtonX + closeButtonPadding, closeButtonY + closeButtonPadding,
 				closeButtonX + closeButtonSize - closeButtonPadding,
 				closeButtonY + closeButtonSize - closeButtonPadding);
@@ -170,7 +173,7 @@ public class Box extends UIComponent {
 			closeButtonHovered = true;
 		else
 			closeButtonHovered = false;
-		
+
 		repaint();// ne hivjuk meg folyton
 	}
 

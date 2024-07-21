@@ -15,7 +15,6 @@ public class CloseButton extends UIComponent {
 	private static int WIDTH = 42;
 	private static int HEIGHT = 42;
 	private static int MARGIN = 16;
-	private static Color RED_COLOR = new Color(232, 17, 35);
 	private static int ARC_SIZE = 8;
 
 	public CloseButton(Window window, int drawPriority) {
@@ -25,7 +24,7 @@ public class CloseButton extends UIComponent {
 	public void draw(Graphics2D g2d) {
 
 		if (hovered) {
-			g2d.setColor(RED_COLOR);
+			g2d.setColor(Theme.getFrameCloseButtonColor());
 
 			if (window.isMaximized()) {
 				g2d.fillRect(locX, locY, WIDTH, HEIGHT);
@@ -37,7 +36,7 @@ public class CloseButton extends UIComponent {
 		if (hovered)
 			g2d.setColor(Theme.getFrameButtonSymbolColor());
 		else
-			g2d.setColor(Color.LIGHT_GRAY);
+			g2d.setColor(Theme.getFrameButtonSymbolColorUnhovered());
 
 		// Draw the 'X' in the middle of the button
 		g2d.drawLine(locX + MARGIN, locY + MARGIN, locX + width - MARGIN, locY + height - MARGIN);

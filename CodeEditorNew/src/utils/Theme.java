@@ -81,6 +81,17 @@ public class Theme {
 			return Color.BLACK;
 		}
 	}
+	
+	public static Color getFrameButtonSymbolColorUnhovered() {
+		switch (currentTheme) {
+		case LIGHT:
+			return Color.BLACK;
+		case DARK:
+			return Color.LIGHT_GRAY;
+		default:
+			return Color.BLACK;
+		}
+	}
 
 	public static Color getDEBUGColor() {
 		return Color.RED;
@@ -241,6 +252,50 @@ public class Theme {
 			return new Color(21, 21, 21);
 		default:
 			return Color.GRAY;
+		}
+	}
+	
+	public static Color getFrameCloseButtonColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(232, 17, 35);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getBoxCloseButtonColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200, 100);
+		case DARK:
+			return new Color(232, 232, 35);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
+	public static Color getCloseButtonSymbolColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return Color.BLACK;
+		case DARK:
+			return Color.LIGHT_GRAY;
+		default:
+			return Color.BLACK;
+		}
+	}
+	
+	public static Color getCloseButtonSymbolColorUnhovered() {
+		switch (currentTheme) {
+		case LIGHT:
+			return Color.WHITE;
+		case DARK:
+			return Color.BLACK;
+		default:
+			return Color.WHITE;
 		}
 	}
 	
