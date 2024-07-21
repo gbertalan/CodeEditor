@@ -21,6 +21,7 @@ public class Listener {
 	int oldWidth, oldHeight, oldLocX, oldLocY;
 	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader;
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
+	UIComponent hoveredTopPriorityComponent;
 	public int dragginBoxID;
 	public BoxController boxController;
 
@@ -116,8 +117,8 @@ public class Listener {
 		}
 		hoveredComponents.clear();
 	}
-	
+
 	public void setBoxController(BoxController boxController) {
-        this.boxController = boxController;
-    }
+		this.boxController = boxController;
+	}
 }
