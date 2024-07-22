@@ -64,10 +64,10 @@ public class MainUI extends JPanel {
 				|| component.getComponentName().equals("BoxContent")
 				|| component.getComponentName().equals("BoxConsole")
 				|| component.getComponentName().equals("BoxOutput")) {
-			
+
 			nameExtension = Integer.toString(Box.boxCounter);
 			if (component.getComponentName().equals("Box")) {
-				boxList.add((Box)component);
+				boxList.add((Box) component);
 				++Box.boxCounter;
 			}
 		} else {
@@ -77,7 +77,18 @@ public class MainUI extends JPanel {
 		componentList.add(component);
 
 		System.out.println(ANSIText
+				.cyan("Component added: " + component.toString() + " ComponentMap size: " + componentMap.size()));
+		System.out.println(ANSIText
 				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
+	}
+
+	public void removeComponent(Box box) {
+		System.out.println("MainUI:removeComponent(): componentMap.size() before:" + componentMap.size());
+		System.out.println("MainUI:removeComponent(): componentList.size() before:" + componentList.size());
+		componentMap.remove(box);
+		componentList.remove(box);
+		System.out.println("MainUI:removeComponent(): componentMap.size() after:" + componentMap.size());
+		System.out.println("MainUI:removeComponent(): componentList.size() after:" + componentList.size());
 	}
 
 	public UIComponent getComponent(String componentName) {
@@ -87,7 +98,7 @@ public class MainUI extends JPanel {
 	public CopyOnWriteArrayList<UIComponent> getComponentList() {
 		return componentList;
 	}
-	
+
 	public CopyOnWriteArrayList<Box> getBoxList() {
 		return boxList;
 	}
@@ -120,4 +131,5 @@ public class MainUI extends JPanel {
 		System.out.println(ANSIText.yellow("MainUI update(rect) is called."));
 		repaint(rect);
 	}
+
 }

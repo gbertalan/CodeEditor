@@ -13,6 +13,8 @@ import view.window.mainUI.component.box.Box;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import utils.ANSIText;
 
@@ -132,74 +134,17 @@ public class MouseMotionListener extends MouseMotionAdapter {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-//		updateHoveredComponents(e);
-		
-		listener.hoveredTopPriorityComponent = mainUI.getComponent("Background");
-		updateTopPriorityComponent(e);
+		updateHoveredComponents(e);
 
-		for (UIComponent uiComponent : hoveredComponents) {
-			if (uiComponent.toString().startsWith("Box")) {
-				Box box = (Box) uiComponent;
-				box.mouseMoved(e);
-				break;
-			}
-		}
+		listener.propagateMouseEvent(e, Box::mouseMoved);
 	}
 
-	private void updateTopPriorityComponent(MouseEvent e) {
-		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);
-		Set<UIComponent> newHoveredComponents = new HashSet<>();
-		
-		for (UIComponent component : mainUI.getComponentList()) {
-			if (component.isInRegion(e)) {
-				newHoveredComponents.add(component);
-				component.setHovered(true);
-			} else {
-				component.setHovered(false);
-			}
-		}
-		
-		if (!newHoveredComponents.equals(oldHoveredComponents)) {
-			hoveredComponents.clear();
-			hoveredComponents.addAll(newHoveredComponents);
-		}
-		
-		/////
-		
-		UIComponent oldHoveredTopPriorityComponent = listener.hoveredTopPriorityComponent;
-		
-		int priority = 0;
-		for (UIComponent uiComponent : newHoveredComponents) {
-			if (uiComponent.getDrawPriority() > priority) {
-				priority = uiComponent.getDrawPriority();
-				listener.hoveredTopPriorityComponent = uiComponent;
-			}
-		}
-		
-		
-//		System.out.println(
-//				ANSIText.underline("listener.hoveredTopPriorityComponent: " + listener.hoveredTopPriorityComponent));
-		
-		if(oldHoveredTopPriorityComponent!=listener.hoveredTopPriorityComponent) {
-//			oldHoveredTopPriorityComponent.setHovered(false);
-			oldHoveredTopPriorityComponent.repaint();
-//			listener.hoveredTopPriorityComponent.setHovered(true);
-			listener.hoveredTopPriorityComponent.repaint();
-			listener.setCursor();
-		}
-		
-		printHoveredComponents();
-		System.out.println("Top PRIORITY: "+listener.hoveredTopPriorityComponent.toString());
-		
-		
-	}
+	
 
 	private void updateHoveredComponents(MouseEvent e) {
 		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);
 		Set<UIComponent> newHoveredComponents = new HashSet<>();
 
-		
-
 		for (UIComponent component : mainUI.getComponentList()) {
 			if (component.isInRegion(e)) {
 				newHoveredComponents.add(component);
@@ -208,8 +153,6 @@ public class MouseMotionListener extends MouseMotionAdapter {
 				component.setHovered(false);
 			}
 		}
-
-		
 
 		if (!newHoveredComponents.equals(oldHoveredComponents)) {
 			hoveredComponents.clear();

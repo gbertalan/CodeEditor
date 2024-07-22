@@ -2,8 +2,10 @@ package view.window;
 
 import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import control.BoxController;
@@ -21,7 +23,6 @@ public class Listener {
 	int oldWidth, oldHeight, oldLocX, oldLocY;
 	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader;
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
-	UIComponent hoveredTopPriorityComponent;
 	public int dragginBoxID;
 	public BoxController boxController;
 
@@ -120,5 +121,24 @@ public class Listener {
 
 	public void setBoxController(BoxController boxController) {
 		this.boxController = boxController;
+	}
+
+	/**
+	 * Propagates a mouse event to the first hovered component that is a Box. The
+	 * propagated method is sent in as a parameter.
+	 *
+	 * @param e                 the MouseEvent to be propagated
+	 * @param mouseEventHandler the method we want to call. e.g. Box::mouseClicked
+	 *                          calls the mouseClicked() method of the Box class.
+	 */
+
+	public void propagateMouseEvent(MouseEvent e, BiConsumer<Box, MouseEvent> mouseEventHandler) {
+		for (UIComponent uiComponent : hoveredComponents) {
+			if (uiComponent.toString().startsWith("Box")) {
+				Box box = (Box) uiComponent;
+				mouseEventHandler.accept(box, e);
+				break;
+			}
+		}
 	}
 }

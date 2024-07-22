@@ -25,13 +25,18 @@ public class BoxController {
 	public void createBox() {
 		String filename = "something.txt";
 		model.createBoxModel(filename);
-		Box newBox = new Box(view.getWindow(), 1, 180, 100);
+		Box newBox = new Box(view.getWindow(), 1, 180, 100, this);
 		newBox.createHeader(model.getBoxModel().getHeaderText());
 		model.getBoxModel().setAllLinesList(ReadWrite.readFileInResourcesAsArrayList(filename));
 		
 		newBox.createContent(model.getBoxModel().getContentLineList(0, 3));
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();
+	}
+	
+	public void closeBox(Box box) {
+		view.getWindow().getMainUI().removeComponent(box);
+		box.repaint();
 	}
 
 }

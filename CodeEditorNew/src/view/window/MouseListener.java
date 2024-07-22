@@ -17,14 +17,12 @@ public class MouseListener extends MouseAdapter {
 	private Window window;
 	private MainUI mainUI;
 	private HashSet<UIComponent> hoveredComponents;
-	private UIComponent hoveredTopPriorityComponent;
 
 	public MouseListener(Listener listener) {
 		this.listener = listener;
 		this.window = listener.window;
 		this.mainUI = listener.mainUI;
 		this.hoveredComponents = listener.hoveredComponents;
-		this.hoveredTopPriorityComponent = listener.hoveredTopPriorityComponent;
 	}
 
 	@Override
@@ -35,19 +33,17 @@ public class MouseListener extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (listener.hoveredTopPriorityComponent != null) {
-			System.out.println("Clicked: hoveredTopPriorityComponent : " + listener.hoveredTopPriorityComponent.toString());
-			System.out.println("Clicked: CloseButton : " + mainUI.getComponent("CloseButton").toString());
-			if (listener.hoveredTopPriorityComponent.equals(mainUI.getComponent("CloseButton"))) {
-				Toolkit.getDefaultToolkit().getSystemEventQueue()
-						.postEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-			} else if (hoveredComponents.contains(mainUI.getComponent("TrayButton"))) {
-				window.setExtendedState(JFrame.ICONIFIED);
-			} else if (hoveredComponents.contains(mainUI.getComponent("MaxButton"))
-					|| (hoveredComponents.contains(mainUI.getComponent("TitleBar")) && e.getClickCount() == 2)) {
-				toggleMaximizeWindow();
-			}
+		if (hoveredComponents.contains(mainUI.getComponent("CloseButton"))) {
+			Toolkit.getDefaultToolkit().getSystemEventQueue()
+					.postEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+		} else if (hoveredComponents.contains(mainUI.getComponent("TrayButton"))) {
+			window.setExtendedState(JFrame.ICONIFIED);
+		} else if (hoveredComponents.contains(mainUI.getComponent("MaxButton"))
+				|| (hoveredComponents.contains(mainUI.getComponent("TitleBar")) && e.getClickCount() == 2)) {
+			toggleMaximizeWindow();
 		}
+		
+		listener.propagateMouseEvent(e, Box::mouseClicked);
 	}
 
 	private void toggleMaximizeWindow() {

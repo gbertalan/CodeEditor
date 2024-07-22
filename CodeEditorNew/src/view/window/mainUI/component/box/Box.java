@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import control.BoxController;
 import utils.Theme;
 import view.window.MouseWheelListener;
 import view.window.Window;
@@ -32,12 +33,15 @@ public class Box extends UIComponent {
 	private int closeButtonY;
 	private boolean closeButtonHovered;
 
-	public Box(Window window, int drawPriority, int locX, int locY) {
+	private BoxController boxController;
+
+	public Box(Window window, int drawPriority, int locX, int locY, BoxController boxController) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
 		this.doubleLocX = locX;
 		this.doubleLocY = locY;
 		this.doubleWidth = width;
 		this.doubleHeight = height;
+		this.boxController = boxController;
 	}
 
 	public void createHeader(String headerText) {
@@ -191,4 +195,9 @@ public class Box extends UIComponent {
 		repaint();
 	}
 
+	public void mouseClicked(MouseEvent e) {
+		if(closeButtonHovered) {
+			boxController.closeBox(this);
+		}
+	}
 }
