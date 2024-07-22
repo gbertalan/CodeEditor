@@ -33,13 +33,13 @@ public class MouseListener extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (hoveredComponents.contains(mainUI.getComponent("CloseButton"))) {
+		if (hoveredComponents.contains(listener.closeButton)){
 			Toolkit.getDefaultToolkit().getSystemEventQueue()
 					.postEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-		} else if (hoveredComponents.contains(mainUI.getComponent("TrayButton"))) {
+		} else if (hoveredComponents.contains(listener.trayButton)) {
 			window.setExtendedState(JFrame.ICONIFIED);
-		} else if (hoveredComponents.contains(mainUI.getComponent("MaxButton"))
-				|| (hoveredComponents.contains(mainUI.getComponent("TitleBar")) && e.getClickCount() == 2)) {
+		} else if (hoveredComponents.contains(listener.maxButton)
+				|| (hoveredComponents.contains(listener.titleBar) && e.getClickCount() == 2)) {
 			toggleMaximizeWindow();
 		}
 
@@ -63,7 +63,7 @@ public class MouseListener extends MouseAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (hoveredComponents.contains(mainUI.getComponent("TitleBar")) && !isOnWindowControlButton()
+		if (hoveredComponents.contains(listener.titleBar) && !isOnWindowControlButton()
 				&& !isOnWindowEdge()) {
 			listener.draggingByTitleBar = true;
 			listener.initialPressOnTitleBar = e.getPoint();
@@ -91,16 +91,16 @@ public class MouseListener extends MouseAdapter {
 	}
 
 	private boolean isOnWindowControlButton() {
-		return hoveredComponents.contains(mainUI.getComponent("TrayButton"))
-				|| hoveredComponents.contains(mainUI.getComponent("MaxButton"))
-				|| hoveredComponents.contains(mainUI.getComponent("CloseButton"));
+		return hoveredComponents.contains(listener.trayButton)
+				|| hoveredComponents.contains(listener.maxButton)
+				|| hoveredComponents.contains(listener.closeButton);
 	}
 
 	private boolean isOnWindowEdge() {
-		return hoveredComponents.contains(mainUI.getComponent("EdgeWest"))
-				|| hoveredComponents.contains(mainUI.getComponent("EdgeNorth"))
-				|| hoveredComponents.contains(mainUI.getComponent("EdgeEast"))
-				|| hoveredComponents.contains(mainUI.getComponent("EdgeSouth"));
+		return hoveredComponents.contains(listener.edgeWest)
+				|| hoveredComponents.contains(listener.edgeNorth)
+				|| hoveredComponents.contains(listener.edgeEast)
+				|| hoveredComponents.contains(listener.edgeSouth);
 	}
 
 	@Override

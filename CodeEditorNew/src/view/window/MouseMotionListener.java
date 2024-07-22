@@ -158,18 +158,18 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			printHoveredComponents();
 			listener.setCursor();
 
-			if (isHoverStateChanged(mainUI.getComponent("CloseButton"), hoveredComponents, oldHoveredComponents)) {
-				mainUI.getComponent("CloseButton").repaint();
+			if (isHoverStateChanged(listener.closeButton, hoveredComponents, oldHoveredComponents)) {
+				listener.closeButton.repaint();
 			}
-			if (isHoverStateChanged(mainUI.getComponent("MaxButton"), hoveredComponents, oldHoveredComponents)) {
-				mainUI.getComponent("MaxButton").repaint();
+			if (isHoverStateChanged(listener.maxButton, hoveredComponents, oldHoveredComponents)) {
+				listener.maxButton.repaint();
 			}
-			if (isHoverStateChanged(mainUI.getComponent("TrayButton"), hoveredComponents, oldHoveredComponents)) {
-				mainUI.getComponent("TrayButton").repaint();
+			if (isHoverStateChanged(listener.trayButton, hoveredComponents, oldHoveredComponents)) {
+				listener.trayButton.repaint();
 			}
-			if (isHoverStateChanged(mainUI.getComponent("FileButton"), hoveredComponents, oldHoveredComponents)) {
-				mainUI.getComponent("FileButton").repaint();
-				if (mainUI.getComponent("FileButton").isHovered()) {
+			if (isHoverStateChanged(listener.fileButton, hoveredComponents, oldHoveredComponents)) {
+				listener.fileButton.repaint();
+				if (listener.fileButton.isHovered()) {
 					listener.boxController.createBox();
 				}
 			}

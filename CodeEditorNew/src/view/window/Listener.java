@@ -25,6 +25,8 @@ public class Listener {
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
 	public int dragginBoxID;
 	public BoxController boxController;
+	public UIComponent closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
+			sidePanelLeft, sidePanelRight, titleBar, trayButton;
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.purple("Listener constructor is called."));
@@ -35,6 +37,24 @@ public class Listener {
 		oldHeight = window.height;
 		oldLocX = window.locX;
 		oldLocY = window.locY;
+
+		initializeComponents();
+
+	}
+
+	void initializeComponents() {
+		closeButton = mainUI.getComponent("CloseButton");
+		edgeEast = mainUI.getComponent("EdgeEast");
+		edgeNorth = mainUI.getComponent("EdgeNorth");
+		edgeSouth = mainUI.getComponent("EdgeSouth");
+		edgeWest = mainUI.getComponent("EdgeWest");
+		fileButton = mainUI.getComponent("FileButton");
+		footer = mainUI.getComponent("Footer");
+		maxButton = mainUI.getComponent("MaxButton");
+		sidePanelLeft = mainUI.getComponent("SidePanelLeft");
+		sidePanelRight = mainUI.getComponent("SidePanelRight");
+		titleBar = mainUI.getComponent("TitleBar");
+		trayButton = mainUI.getComponent("TrayButton");
 	}
 
 	void updateComponentLocationAndSize() {
