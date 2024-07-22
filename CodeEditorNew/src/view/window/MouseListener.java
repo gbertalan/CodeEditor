@@ -33,7 +33,7 @@ public class MouseListener extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (hoveredComponents.contains(listener.closeButton)){
+		if (hoveredComponents.contains(listener.closeButton)) {
 			Toolkit.getDefaultToolkit().getSystemEventQueue()
 					.postEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 		} else if (hoveredComponents.contains(listener.trayButton)) {
@@ -63,8 +63,7 @@ public class MouseListener extends MouseAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (hoveredComponents.contains(listener.titleBar) && !isOnWindowControlButton()
-				&& !isOnWindowEdge()) {
+		if (hoveredComponents.contains(listener.titleBar) && !isOnWindowControlButton() && !isOnWindowEdge()) {
 			listener.draggingByTitleBar = true;
 			listener.initialPressOnTitleBar = e.getPoint();
 		}
@@ -76,14 +75,16 @@ public class MouseListener extends MouseAdapter {
 
 		if (!listener.draggingByTitleBar && !listener.draggingByEdge) {
 
+			
+
 			int noOfBoxes = listener.boxController.getNoOfBoxes();
-			for (int i = 0; i < noOfBoxes; i++) {
-				Box box = listener.boxController.getBoxById(i);
+			System.out.println("noOfBoxes: " + noOfBoxes);
+			for (Box box : listener.boxController.getBoxMap().values()) {
 				if (hoveredComponents.contains(box)) {
 					listener.draggingByBoxHeader = true;
-					listener.dragginBoxID = i;
+					listener.dragginBoxID = box.getId();
 					box.setMouseOffset(e.getX() - box.getLocX(), e.getY() - box.getLocY());
-					System.out.println("pressed on box: "+i);
+					System.out.println("pressed on box: " + box.getId());
 					break;
 				}
 
@@ -92,16 +93,13 @@ public class MouseListener extends MouseAdapter {
 	}
 
 	private boolean isOnWindowControlButton() {
-		return hoveredComponents.contains(listener.trayButton)
-				|| hoveredComponents.contains(listener.maxButton)
+		return hoveredComponents.contains(listener.trayButton) || hoveredComponents.contains(listener.maxButton)
 				|| hoveredComponents.contains(listener.closeButton);
 	}
 
 	private boolean isOnWindowEdge() {
-		return hoveredComponents.contains(listener.edgeWest)
-				|| hoveredComponents.contains(listener.edgeNorth)
-				|| hoveredComponents.contains(listener.edgeEast)
-				|| hoveredComponents.contains(listener.edgeSouth);
+		return hoveredComponents.contains(listener.edgeWest) || hoveredComponents.contains(listener.edgeNorth)
+				|| hoveredComponents.contains(listener.edgeEast) || hoveredComponents.contains(listener.edgeSouth);
 	}
 
 	@Override

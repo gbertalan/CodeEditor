@@ -45,6 +45,10 @@ public class BoxController {
 		--noOfBoxes;
 	}
 	
+	public Map<Integer, Box> getBoxMap() {
+	    return boxMap;
+	}
+	
 	public Box getBoxById(int id) {
 		return boxMap.get(id);
 	}
