@@ -182,13 +182,15 @@ public class Box extends UIComponent {
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		boolean oldCloseButtonHovered = closeButtonHovered;
 		if (e.getX() > closeButtonX && e.getX() < closeButtonX + closeButtonSize && e.getY() > closeButtonY
 				&& e.getY() < closeButtonY + closeButtonSize)
 			closeButtonHovered = true;
 		else
 			closeButtonHovered = false;
 
-		repaint();// ne hivjuk meg folyton
+		if (oldCloseButtonHovered != closeButtonHovered)
+			repaint();
 	}
 
 	public BoxHeader getBoxHeader() {
@@ -201,8 +203,10 @@ public class Box extends UIComponent {
 
 	public void unhoverCloseButton() {
 		System.out.println("Box.unhoverCloseButton is called");
-		closeButtonHovered = false;
-		repaint();
+		if (closeButtonHovered) {
+			closeButtonHovered = false;
+			repaint();
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {

@@ -32,7 +32,7 @@ public class BoxController {
 		newBox.createHeader(model.getBoxModel().getHeaderText());
 		model.getBoxModel().setAllLinesList(ReadWrite.readFileInResourcesAsArrayList(filename));
 		
-		newBox.createContent(model.getBoxModel().getContentLineList(0, 3));
+		newBox.createContent(model.getBoxModel().getContentLineList(0, 10));
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();
 		++noOfBoxes;

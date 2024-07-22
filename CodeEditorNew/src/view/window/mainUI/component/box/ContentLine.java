@@ -1,6 +1,5 @@
 package view.window.mainUI.component.box;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import utils.Globals;
@@ -10,10 +9,9 @@ public class ContentLine implements BoxComponent {
 
 	private static int TOP_MARGIN_DIVISOR = 12;
 	private static int HEIGHT_DIVISOR = 26;
-	private static int TEXT_LEFT_MARGIN_DIVISOR = 20;
+	static int TEXT_LEFT_MARGIN_DIVISOR = 20;
 
 	private Box box;
-	private String line;
 	private int lineIndex;
 
 	private String lineText;

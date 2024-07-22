@@ -29,15 +29,7 @@ public class MouseWheelListener extends MouseAdapter {
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		// Handle the mouse wheel movement
-		if (hoveredComponents != null) {
-			for (UIComponent component : hoveredComponents) {
-				// Example: If you have a method to handle scroll in your UIComponent
-//				component.handleScroll(e);
-			}
-		}
 
-//		zoomValue = ((double) e.getWheelRotation() * 0.01f) +1;
 		zoomValue += ((double) e.getWheelRotation() * 0.01f);
 
 		if (e.getWheelRotation() > 0) {
@@ -58,11 +50,6 @@ public class MouseWheelListener extends MouseAdapter {
 
 		System.out.println(ANSIText.bold("\tZoomValue: " + zoomValue));
 		System.out.println(ANSIText.bold("\tZoomLevel: " + zoomLevel));
-
-//		zoomValue = (double) Math.max(0.1, Math.min(3.0, ((double) e.getWheelRotation() * 0.01) + 1));
-
-//		Box box0 = (Box) window.getMainUI().getComponent("Box0");
-//		box0.zoom(e.getPoint());
 
 		for (Box box : window.getMainUI().getBoxList()) {
 			box.zoom(e.getPoint());

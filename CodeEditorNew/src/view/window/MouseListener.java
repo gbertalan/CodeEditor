@@ -83,6 +83,7 @@ public class MouseListener extends MouseAdapter {
 					listener.draggingByBoxHeader = true;
 					listener.dragginBoxID = i;
 					box.setMouseOffset(e.getX() - box.getLocX(), e.getY() - box.getLocY());
+					System.out.println("pressed on box: "+i);
 					break;
 				}
 
