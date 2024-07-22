@@ -19,117 +19,97 @@ import view.window.mainUI.component.*;
 import view.window.mainUI.component.box.Box;
 
 public class MainUI extends JPanel {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Window window;
-	private Graphics2D g2d;
-	private Map<String, UIComponent> componentMap;
-	private CopyOnWriteArrayList<UIComponent> componentList;
-	private CopyOnWriteArrayList<Box> boxList;
+    private Window window;
+    private Graphics2D g2d;
+    private Map<String, UIComponent> componentMap;
+    private CopyOnWriteArrayList<UIComponent> componentList;
 
-	public MainUI(Window window) {
-		System.out.println(ANSIText.blue("MainUI constructor is called."));
+    public MainUI(Window window) {
+        System.out.println(ANSIText.blue("MainUI constructor is called."));
 
-		this.window = window;
+        this.window = window;
 
-		initComponents();
+        initComponents();
 
-		setOpaque(false);
-		setBackground(new Color(0, 0, 0, 0));
-		setBounds(0, 0, window.width, window.height);
-	}
+        setOpaque(false);
+        setBackground(new Color(0, 0, 0, 0));
+        setBounds(0, 0, window.width, window.height);
+    }
 
-	private void initComponents() {
+    private void initComponents() {
+        UIComponent[] components = { new EdgeWest(window, 10), new EdgeNorth(window, 10), new EdgeEast(window, 10),
+                new EdgeSouth(window, 10), new TitleBar(window, 10), new CloseButton(window, 11),
+                new TrayButton(window, 11), new MaxButton(window, 11), new SidePanelLeft(window, 10),
+                new SidePanelRight(window, 10), new FileButton(window, 11), new Footer(window, 10),
+                new Background(window, 0) };
 
-		UIComponent[] components = { new EdgeWest(window, 10), new EdgeNorth(window, 10), new EdgeEast(window, 10),
-				new EdgeSouth(window, 10), new TitleBar(window, 10), new CloseButton(window, 11),
-				new TrayButton(window, 11), new MaxButton(window, 11), new SidePanelLeft(window, 10),
-				new SidePanelRight(window, 10), new FileButton(window, 11), new Footer(window, 10),
-				new Background(window, 0) };
+        componentMap = new HashMap<>();
+        componentList = new CopyOnWriteArrayList<>();
 
-		componentMap = new HashMap<>();
-		componentList = new CopyOnWriteArrayList<>();
-		boxList = new CopyOnWriteArrayList<>();
+        for (UIComponent component : components) {
+            addComponent(component);
+        }
+    }
 
-		for (UIComponent component : components) {
-			addComponent(component);
-		}
+    public void addComponent(UIComponent component) {
+        componentMap.put(component.getComponentName(), component);
+        componentList.add(component);
 
-	}
+        System.out.println(ANSIText
+                .cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
+    }
 
-	public void addComponent(UIComponent component) {
-		String nameExtension;
-		if (component.getComponentName().equals("Box") || component.getComponentName().equals("BoxHeader")
-				|| component.getComponentName().equals("BoxInput") || component.getComponentName().equals("BoxArrow")
-				|| component.getComponentName().equals("BoxContent")
-				|| component.getComponentName().equals("BoxConsole")
-				|| component.getComponentName().equals("BoxOutput")) {
+    public void removeComponent(Box box) {
+        componentMap.values().remove(box);
+        componentList.remove(box);
+    }
 
-			nameExtension = Integer.toString(Box.boxCounter);
-			if (component.getComponentName().equals("Box")) {
-				boxList.add((Box) component);
-				++Box.boxCounter;
-			}
-		} else {
-			nameExtension = "";
-		}
-		componentMap.put(component.getComponentName() + nameExtension, component);
-		componentList.add(component);
+    public UIComponent getComponent(String componentName) {
+        return componentMap.get(componentName);
+    }
 
-		System.out.println(ANSIText
-				.cyan("Component added: " + component.toString() + " ComponentMap size: " + componentMap.size()));
-		System.out.println(ANSIText
-				.cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
-	}
+    public CopyOnWriteArrayList<UIComponent> getComponentList() {
+        return componentList;
+    }
 
-	public void removeComponent(Box box) {
-		System.out.println("MainUI:removeComponent(): componentMap.size() before:" + componentMap.size());
-		System.out.println("MainUI:removeComponent(): componentList.size() before:" + componentList.size());
-		componentMap.remove(box);
-		componentList.remove(box);
-		System.out.println("MainUI:removeComponent(): componentMap.size() after:" + componentMap.size());
-		System.out.println("MainUI:removeComponent(): componentList.size() after:" + componentList.size());
-	}
+    public List<Box> getBoxList() {
+        List<Box> boxes = new ArrayList<>();
+        for (UIComponent component : componentList) {
+            if (component instanceof Box) {
+                boxes.add((Box) component);
+            }
+        }
+        return boxes;
+    }
 
-	public UIComponent getComponent(String componentName) {
-		return componentMap.get(componentName);
-	}
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        System.out.println(ANSIText.green("MainUI paintComponent() is called."));
 
-	public CopyOnWriteArrayList<UIComponent> getComponentList() {
-		return componentList;
-	}
+        setBounds(0, 0, window.width, window.height);
 
-	public CopyOnWriteArrayList<Box> getBoxList() {
-		return boxList;
-	}
+        g2d = (Graphics2D) g.create();
+        Globals.setRenderingHints(g2d);
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		System.out.println(ANSIText.green("MainUI paintComponent() is called."));
+        componentList.sort(new DrawPriorityComparator());
 
-		setBounds(0, 0, window.width, window.height);
+        for (UIComponent component : componentList) {
+            component.draw(g2d);
+        }
 
-		g2d = (Graphics2D) g.create();
-		Globals.setRenderingHints(g2d);
+        g2d.dispose();
+    }
 
-		componentList.sort(new DrawPriorityComparator());
+    public void update() {
+        System.out.println(ANSIText.yellow("MainUI update() is called."));
+        repaint();
+    }
 
-		for (UIComponent component : componentList) {
-			component.draw(g2d);
-		}
-
-		g2d.dispose();
-	}
-
-	public void update() {
-		System.out.println(ANSIText.yellow("MainUI update() is called."));
-		repaint();
-	}
-
-	public void update(Rectangle rect) {
-		System.out.println(ANSIText.yellow("MainUI update(rect) is called."));
-		repaint(rect);
-	}
-
+    public void update(Rectangle rect) {
+        System.out.println(ANSIText.yellow("MainUI update(rect) is called."));
+        repaint(rect);
+    }
 }

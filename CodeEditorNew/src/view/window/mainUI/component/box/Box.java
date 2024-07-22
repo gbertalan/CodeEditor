@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import control.BoxController;
 import utils.Theme;
@@ -14,6 +15,9 @@ import view.window.Window;
 import view.window.mainUI.component.UIComponent;
 
 public class Box extends UIComponent {
+
+	private static final AtomicInteger idGenerator = new AtomicInteger(0);
+	private final int id;
 
 	public static int boxCounter;
 
@@ -37,11 +41,17 @@ public class Box extends UIComponent {
 
 	public Box(Window window, int drawPriority, int locX, int locY, BoxController boxController) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
+		this.id = idGenerator.incrementAndGet() - 1;
 		this.doubleLocX = locX;
 		this.doubleLocY = locY;
 		this.doubleWidth = width;
 		this.doubleHeight = height;
 		this.boxController = boxController;
+		System.out.println("New Box created with ID: " + id);
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public void createHeader(String headerText) {
@@ -196,7 +206,7 @@ public class Box extends UIComponent {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if(closeButtonHovered) {
+		if (closeButtonHovered) {
 			boxController.closeBox(this);
 		}
 	}

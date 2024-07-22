@@ -42,7 +42,7 @@ public class MouseListener extends MouseAdapter {
 				|| (hoveredComponents.contains(mainUI.getComponent("TitleBar")) && e.getClickCount() == 2)) {
 			toggleMaximizeWindow();
 		}
-		
+
 		listener.propagateMouseEvent(e, Box::mouseClicked);
 	}
 
@@ -76,18 +76,16 @@ public class MouseListener extends MouseAdapter {
 
 		if (!listener.draggingByTitleBar && !listener.draggingByEdge) {
 
-			for (int i = 0; i < Box.boxCounter; i++) {
-
-//				String keyWord = "BoxHeader" + Integer.toString(i);
-				String keyWord = "Box" + Integer.toString(i);
-				if (hoveredComponents.contains(mainUI.getComponent(keyWord))) {
+			int noOfBoxes = listener.boxController.getNoOfBoxes();
+			for (int i = 0; i < noOfBoxes; i++) {
+				Box box = listener.boxController.getBoxById(i);
+				if (hoveredComponents.contains(box)) {
 					listener.draggingByBoxHeader = true;
 					listener.dragginBoxID = i;
-					((Box) mainUI.getComponent("Box" + Integer.toString(i))).setMouseOffset(
-							e.getX() - mainUI.getComponent(keyWord).getLocX(),
-							e.getY() - mainUI.getComponent(keyWord).getLocY());
+					box.setMouseOffset(e.getX() - box.getLocX(), e.getY() - box.getLocY());
 					break;
 				}
+
 			}
 		}
 	}
