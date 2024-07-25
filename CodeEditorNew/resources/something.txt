@@ -1,14 +1,88 @@
-#include <stdio.h>
-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN
+a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z
+package view.window.mainUI.component.box;
 
-RSTUVWXYZ0123456789abcdefghijklmnopqrstuvwx*bcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-int main(void) {
-  printf("Hello, World!\n"); printfffffff("Hello, World!\n"); printf("Hello, World!\n"); printf("Hello, World!\n"); printfffffff("Hello, World!\n"); printf("Hello, World!\n"); printf("Hello, World!\n"); printfffffff("Hello, World!\n"); printf("Hello, World!\n"); printf("Hello, World!\n"); printfffffff("Hello, World!\n"); printf("Hello, World!\n");
-  return 0;
-}
+import utils.Theme;
 
-int main(void) {
-  printf("Hello, World!\n");
-  return 0;
+public class BoxContent implements BoxComponent {
+
+	private Box box;
+	private ArrayList<String> contentLineList;
+
+	private static int LINE_LIMIT = 23;
+	ContentLine contentLine;
+
+	public BoxContent(Box box, ArrayList<String> contentLineList) {
+		this.box = box;
+		this.contentLineList = contentLineList;
+		
+	}
+
+	@Override
+	public void draw(Graphics2D g2d) {
+		g2d.setColor(Theme.getBoxBackgroundColor());
+		int locX = box.getLocX();
+		int locY = box.getLocY() + box.getBoxHeader().getHeight();
+		int width = box.getWidth();
+		int height = box.getHeight() - box.getBoxHeader().getHeight();
+		g2d.fillRect(locX, locY, width, height);
+
+		contentLine = new ContentLine(box);
+
+		for (String line : contentLineList) {
+			if (line.equals("")) {
+				contentLine.incrementLineIndex();
+			} else {
+				ArrayList<String> brokenLines = breakLine(line, g2d);
+				for (String brokenLine : brokenLines) {
+					contentLine.incrementLineIndex();
+					if (contentLine.getLineIndex() > LINE_LIMIT) {
+						break;
+					}
+					contentLine.setlineText(brokenLine);
+					contentLine.draw(g2d);
+				}
+			}
+		}
+	}
+
+	private ArrayList<String> breakLine(String line, Graphics2D g2d) {
+		ArrayList<String> brokenLines = new ArrayList<>();
+		int width = box.getWidth();
+		double leftMargin = (width / ContentLine.TEXT_LEFT_MARGIN_DIVISOR);
+		double maxTextWidth = width - 2 * leftMargin;
+
+		// Tokenize the line into words
+		StringTokenizer tokenizer = new StringTokenizer(line);
+		StringBuilder currentLine = new StringBuilder();
+		FontMetrics metrics = g2d.getFontMetrics();
+
+		currentLine.append("");
+		while (tokenizer.hasMoreTokens()) {
+			String word = tokenizer.nextToken();
+			String testLine = currentLine + " " + word;
+
+			// If the test line width exceeds the maximum width, break the line
+			if (metrics.stringWidth(testLine) > maxTextWidth) {
+				if (currentLine.length() > 0) {
+					brokenLines.add(currentLine.toString());
+					currentLine = new StringBuilder(word);
+				} else {
+					// If a single word is too long, add it anyway and proceed
+					brokenLines.add(word);
+				}
+			} else {
+				currentLine.append(currentLine.length() > 0 ? " " : "").append(word);
+			}
+		}
+		if (currentLine.length() > 0) {
+			brokenLines.add(currentLine.toString());
+		}
+
+		return brokenLines;
+	}
 }

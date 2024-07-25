@@ -1,76 +1,69 @@
 package view.window.mainUI.component.box;
 
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import utils.Theme;
 
 public class BoxContent implements BoxComponent {
 
-    private Box box;
-    private ArrayList<String> contentLineList;
+	private Box box;
 
-    public BoxContent(Box box, ArrayList<String> contentLineList) {
-        this.box = box;
-        this.contentLineList = contentLineList;
-    }
+	private int locX;
+	private int locY;
+	private int width;
+	private int height;
 
-    @Override
-    public void draw(Graphics2D g2d) {
-        g2d.setColor(Theme.getBoxBackgroundColor());
-        int locX = box.getLocX();
-        int locY = box.getLocY() + box.getBoxHeader().getHeight();
-        int width = box.getWidth();
-        int height = box.getHeight() - box.getBoxHeader().getHeight();
-        g2d.fillRect(locX, locY, width, height);
+	private ArrayList<DisplayedLine> displayedLines;
 
-        ContentLine contentLine = new ContentLine(box);
-        int currentIndex = 0;
 
-        for (String line : contentLineList) {
-            ArrayList<String> brokenLines = breakLine(line, g2d);
-            for (String brokenLine : brokenLines) {
-                contentLine.setLineIndex(currentIndex++);
-                contentLine.setlineText(brokenLine);
-                contentLine.draw(g2d);
-            }
-        }
-    }
+	public BoxContent(Box box, ArrayList<String> fileLineList, int startFileLineIndex) {
+		this.box = box;
+		this.displayedLines = new ArrayList<>();
 
-    private ArrayList<String> breakLine(String line, Graphics2D g2d) {
-        ArrayList<String> brokenLines = new ArrayList<>();
-        int width = box.getWidth();
-        int leftMargin = width / ContentLine.TEXT_LEFT_MARGIN_DIVISOR;
-        int maxTextWidth = width - 2 * leftMargin;
+		// create displayed lines, unbroken:
+		int lineIndex = 0;
+		for (String fileLine : fileLineList) {
+			displayedLines.add(new DisplayedLine(box, startFileLineIndex + lineIndex + 1, fileLine, lineIndex));
+			++lineIndex;
+		}
+	}
 
-        // Tokenize the line into words
-        StringTokenizer tokenizer = new StringTokenizer(line);
-        StringBuilder currentLine = new StringBuilder();
-        FontMetrics metrics = g2d.getFontMetrics();
+	private void updateLocationAndSize() {
+		locX = box.getLocX();
+		locY = box.getLocY() + box.getBoxHeader().getHeight();
+		width = box.getWidth();
+		height = box.getHeight() - box.getBoxHeader().getHeight();
+	}
 
-        while (tokenizer.hasMoreTokens()) {
-            String word = tokenizer.nextToken();
-            String testLine = currentLine.length() > 0 ? currentLine + " " + word : word;
+	@Override
+	public void draw(Graphics2D g2d) {
 
-            // If the test line width exceeds the maximum width, break the line
-            if (metrics.stringWidth(testLine) > maxTextWidth) {
-                if (currentLine.length() > 0) {
-                    brokenLines.add(currentLine.toString());
-                    currentLine = new StringBuilder(word);
-                } else {
-                    // If a single word is too long, add it anyway and proceed
-                    brokenLines.add(word);
-                }
-            } else {
-                currentLine.append(currentLine.length() > 0 ? " " : "").append(word);
-            }
-        }
-        if (currentLine.length() > 0) {
-            brokenLines.add(currentLine.toString());
-        }
+		// background:
+		g2d.setColor(Theme.getBoxBackgroundColor());
+		updateLocationAndSize();
+		g2d.fillRect(locX, locY, width, height);
 
-        return brokenLines;
-    }
+		// displayed lines:
+
+		for (DisplayedLine displayedLine : displayedLines) {
+			displayedLine.draw(g2d);
+		}
+	}
+
+	public int getLocX() {
+		return locX;
+	}
+
+	public int getLocY() {
+		return locY;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 }

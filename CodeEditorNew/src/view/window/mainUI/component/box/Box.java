@@ -1,6 +1,5 @@
 package view.window.mainUI.component.box;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -22,7 +21,7 @@ public class Box extends UIComponent {
 	public static int boxCounter;
 
 	private static final int WIDTH = 530;
-	private static final int HEIGHT = 640;
+	private static final int HEIGHT = 664;
 
 	protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
 
@@ -38,6 +37,7 @@ public class Box extends UIComponent {
 	private boolean closeButtonHovered;
 
 	private BoxController boxController;
+	Graphics2D g;
 
 	public Box(Window window, int drawPriority, int locX, int locY, BoxController boxController) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
@@ -58,13 +58,15 @@ public class Box extends UIComponent {
 		boxHeader = new BoxHeader(this, headerText);
 	}
 
-	public void createContent(ArrayList<String> contentLineList) {
-		boxContent = new BoxContent(this, contentLineList);
+	public void createContent(ArrayList<String> contentLineList, int startLineIndex) {
+		boxContent = new BoxContent(this, contentLineList, startLineIndex);
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
 
+		this.g = g2d;
+		
 		g2d.setColor(Theme.getBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 
@@ -214,4 +216,12 @@ public class Box extends UIComponent {
 			boxController.closeBox(this);
 		}
 	}
+
+	public Graphics2D getGraphics() {
+		// TODO Auto-generated method stub
+		return this.g;
+	}
+	
+	
+	
 }

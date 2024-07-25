@@ -25,7 +25,7 @@ public class BoxHeader implements BoxComponent{
 
 		g2d.setColor(Theme.getBoxHeaderTextColor());
 
-		Globals.drawCenteredText(g2d, box.getLocX(), box.getLocY(), box.getWidth() / TEXT_LEFT_MARGIN_DIVISOR, box.getWidth(), box.getHeight() / HEIGHT_DIVISOR,
+		Globals.drawVerticallyCenteredText(g2d, box.getLocX(), box.getLocY(), box.getWidth() / TEXT_LEFT_MARGIN_DIVISOR, box.getWidth(), box.getHeight() / HEIGHT_DIVISOR,
 				headerText);
 		
 		g2d.setColor(Theme.getSeparatorLineColor());

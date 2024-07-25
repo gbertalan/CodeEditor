@@ -3,6 +3,7 @@ package control;
 import model.Model;
 import view.View;
 import view.window.Listener;
+import view.window.mainUI.component.box.Box;
 
 public class Control {
 
