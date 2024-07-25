@@ -219,7 +219,7 @@ public class Box extends UIComponent {
 
 	public Graphics2D getGraphics() {
 		// TODO Auto-generated method stub
-		return this.g;
+		return (Graphics2D) window.getMainUI().getGraphics();
 	}
 	
 	

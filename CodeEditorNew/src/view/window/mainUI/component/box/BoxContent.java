@@ -49,6 +49,7 @@ public class BoxContent implements BoxComponent {
 		for (DisplayedLine displayedLine : displayedLines) {
 			displayedLine.draw(g2d);
 		}
+		
 	}
 
 	public int getLocX() {
