@@ -31,13 +31,15 @@ public class LineNumberContainer implements BoxComponent {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Theme.getBoxBackgroundColor());
+//		g2d.setColor(Theme.getBoxBackgroundColor());
 		locX = box.getLocX();
+		locX = 0;
 		locY = (int) Math.round(box.getLocY() + (box.getHeight() / TOP_MARGIN_DIVISOR)
 				+ ((box.getHeight() / HEIGHT_DIVISOR) * lineIndex));
+		locY = (int) Math.round((box.getHeight() / HEIGHT_DIVISOR) * lineIndex);
 		width = box.getWidth() / 8;
 		height = (int) Math.round(box.getHeight() / HEIGHT_DIVISOR);
-		g2d.fillRect(locX, locY, width, height);
+//		g2d.fillRect(locX, locY, width, height);
 
 		g2d.setColor(SyntaxColor.getLineNumberColor());
 		Globals.drawCenteredText(g2d, locX, locY, width, height, Integer.toString(lineNumber));

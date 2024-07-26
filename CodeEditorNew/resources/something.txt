@@ -30,7 +30,7 @@ public class BoxContent implements BoxComponent {
 		int width = box.getWidth();
 		int height = box.getHeight() - box.getBoxHeader().getHeight();
 		g2d.fillRect(locX, locY, width, height);
-
+		// Just a filling comment
 		contentLine = new ContentLine(box);
 
 		for (String line : contentLineList) {

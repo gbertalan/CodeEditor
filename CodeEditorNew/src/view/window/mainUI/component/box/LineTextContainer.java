@@ -34,17 +34,17 @@ public class LineTextContainer {
         this.box = box;
         this.lineText = lineText.replace("\t", "\u00A0\u00A0\u00A0\u00A0");
         this.lineNumberContainer = lineNumberContainer;
-        
+
         updateLocationAndSize();
 
         // Set the font size based on initial height
-        this.fontSize = (int) Math.round(box.getHeight() / HEIGHT_DIVISOR); // You might want to adjust this divisor
+        this.fontSize = (int) Math.round(box.getHeight() / HEIGHT_DIVISOR);
         this.font = new Font("Consolas", Font.BOLD, fontSize);
 
         // Initialize subText here since we need metrics in draw() to be accurate
         this.subText = "";
     }
-    
+
     private void updateLocationAndSize() {
         locX = lineNumberContainer.getLocX() + lineNumberContainer.getWidth();
         locY = lineNumberContainer.getLocY();
@@ -53,10 +53,9 @@ public class LineTextContainer {
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.setColor(Theme.getBoxBackgroundColor());
-
+//        g2d.setColor(Theme.getBoxBackgroundColor());
         updateLocationAndSize();
-        g2d.fillRect(locX, locY, width, height);
+//        g2d.fillRect(locX, locY, width, height);
 
         g2d.setColor(SyntaxColor.getDefaultTextColor());
         g2d.setFont(font);
@@ -64,31 +63,23 @@ public class LineTextContainer {
         // Ensure metrics is initialized correctly with the current graphics context
         metrics = g2d.getFontMetrics(font);
 
-        // Calculate subText with the correct font metrics
-        this.subText = calculateSubText(g2d);
-
-        int textHeight = locY + metrics.getAscent();
-        g2d.drawString(subText, locX, textHeight); // Adjust y-coordinate as needed
-    }
-
-    private String calculateSubText(Graphics2D g2d) {
-        FontMetrics metrics = g2d.getFontMetrics(font);
-        double maxTextWidth = width; // Use width instead of recalculating
-
-        String truncatedText = lineText;
-        if (metrics.stringWidth(lineText) > maxTextWidth) {
-            String ellipsis = "...";
-            int ellipsisWidth = metrics.stringWidth(ellipsis);
-            int textWidth = metrics.stringWidth(lineText);
-
-            while (textWidth + ellipsisWidth > maxTextWidth && truncatedText.length() > 0) {
-                truncatedText = truncatedText.substring(0, truncatedText.length() - 1);
-                textWidth = metrics.stringWidth(truncatedText);
+        subText = "";
+        int textWidth = 0;
+        for (char c : lineText.toCharArray()) {
+            int charWidth = metrics.charWidth(c);
+            if (textWidth + charWidth > width) {
+                break;
             }
-
-            truncatedText += ellipsis;
+            subText += c;
+            textWidth += charWidth;
         }
 
-        return truncatedText;
+        int textHeight = locY + metrics.getAscent();
+        int drawX = locX;
+        for (char c : subText.toCharArray()) {
+            g2d.drawString(String.valueOf(c), drawX, textHeight);
+            drawX += metrics.charWidth(c);
+        }
     }
+
 }
