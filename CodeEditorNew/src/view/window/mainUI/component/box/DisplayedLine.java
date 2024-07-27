@@ -16,4 +16,8 @@ public class DisplayedLine {
 		lineTextContainer.draw(g2d);
 		lineNumberContainer.draw(g2d);
 	}
+	
+	public LineNumberContainer getLineNumberContainer() {
+		return lineNumberContainer;
+	}
 }

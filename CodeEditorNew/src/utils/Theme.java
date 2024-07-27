@@ -255,6 +255,17 @@ public class Theme {
 		}
 	}
 	
+	public static Color getLineNumberBackgroundColor() {
+		switch (currentTheme) {
+		case LIGHT:
+			return new Color(200, 200, 200);
+		case DARK:
+			return new Color(21, 21, 21);
+		default:
+			return Color.GRAY;
+		}
+	}
+	
 	public static Color getFrameCloseButtonColor() {
 		switch (currentTheme) {
 		case LIGHT:
@@ -304,7 +315,7 @@ public class Theme {
 		case LIGHT:
 			return Color.WHITE;
 		case DARK:
-			return new Color(21, 21, 21, 140);
+			return new Color(21, 21, 21, 120);
 		default:
 			return Color.WHITE;
 		}
@@ -315,7 +326,7 @@ public class Theme {
 		case LIGHT:
 			return Color.WHITE;
 		case DARK:
-			return new Color(121, 121, 121, 120);
+			return new Color(121, 121, 121, 110);
 		default:
 			return Color.WHITE;
 		}
