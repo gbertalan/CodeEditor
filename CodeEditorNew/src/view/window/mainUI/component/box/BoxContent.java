@@ -18,9 +18,22 @@ public class BoxContent implements BoxComponent {
 
     private ArrayList<DisplayedLine> displayedLines;
     private BufferedImage contentImage;
+    
+    private ScrollerVertical scrollerVertical;
 
-    public BoxContent(Box box, ArrayList<String> fileLineList, int startFileLineIndex) {
+	private int noOfAllLines;
+
+	private int noOfDisplayedLines;
+
+    public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines, int noOfAllLines) {
         this.box = box;
+        
+        System.out.println();
+        System.out.println("noOfDisplayedLines: "+noOfDisplayedLines+" noOfAllLines: "+noOfAllLines);
+        
+        this.noOfDisplayedLines = noOfDisplayedLines;
+        this.noOfAllLines = noOfAllLines;
+        
         this.displayedLines = new ArrayList<>();
 
         // Initialize location and size
@@ -28,16 +41,22 @@ public class BoxContent implements BoxComponent {
 
         // Create displayed lines, unbroken:
         int lineIndex = 0;
-        for (String fileLine : fileLineList) {
-            displayedLines.add(new DisplayedLine(box, startFileLineIndex + lineIndex + 1, fileLine, lineIndex));
+        for (String line : lineList) {
+            displayedLines.add(new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex));
             ++lineIndex;
         }
 
         // Create image
         createImage();
+        
+        scrollerVertical = new ScrollerVertical(this);
     }
 
-    private void updateLocationAndSize() {
+    public int getNoOfAllLines() {
+		return noOfAllLines;
+	}
+
+	private void updateLocationAndSize() {
         locX = box.getLocX();
         locY = box.getLocY() + box.getBoxHeader().getHeight();
         width = box.getWidth();
@@ -74,6 +93,8 @@ public class BoxContent implements BoxComponent {
         }
 
         g2d.drawImage(imageToDraw, locX, locY, null);
+        
+        scrollerVertical.draw(g2d);
     }
 
     public int getLocX() {
@@ -91,4 +112,12 @@ public class BoxContent implements BoxComponent {
     public int getHeight() {
         return height;
     }
+
+	public int getNoOfDisplayedLines() {
+		return noOfDisplayedLines;
+	}
+
+	public Box getBox() {
+		return box;
+	}
 }

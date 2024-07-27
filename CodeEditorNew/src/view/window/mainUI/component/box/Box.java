@@ -58,8 +58,8 @@ public class Box extends UIComponent {
 		boxHeader = new BoxHeader(this, headerText);
 	}
 
-	public void createContent(ArrayList<String> contentLineList, int startLineIndex) {
-		boxContent = new BoxContent(this, contentLineList, startLineIndex);
+	public void createContent(ArrayList<String> contentLineList, int startLineIndex, int noOfDisplayedLines, int noOfAllLines) {
+		boxContent = new BoxContent(this, contentLineList, startLineIndex, noOfDisplayedLines, noOfAllLines);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Box extends UIComponent {
 
 		this.g = g2d;
 		
-		g2d.setColor(Theme.getBackgroundColor());
+		g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 
 		boxHeader.draw(g2d);
@@ -82,7 +82,7 @@ public class Box extends UIComponent {
 		if (closeButtonHovered)
 			g2d.setColor(Theme.getBoxCloseButtonColor());
 		else
-			g2d.setColor(Theme.getBackgroundColor());
+			g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(closeButtonX, closeButtonY, closeButtonSize, closeButtonSize);
 
 		if (closeButtonHovered)

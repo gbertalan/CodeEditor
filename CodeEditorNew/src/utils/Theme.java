@@ -249,7 +249,7 @@ public class Theme {
 		case LIGHT:
 			return new Color(200, 200, 200, 100);
 		case DARK:
-			return new Color(21, 21, 21);
+			return new Color(21, 21, 21, 100);
 		default:
 			return Color.GRAY;
 		}
@@ -294,6 +294,28 @@ public class Theme {
 			return Color.WHITE;
 		case DARK:
 			return Color.BLACK;
+		default:
+			return Color.WHITE;
+		}
+	}
+	
+	public static Color getScrollBarColorBig() {
+		switch (currentTheme) {
+		case LIGHT:
+			return Color.WHITE;
+		case DARK:
+			return new Color(21, 21, 21, 140);
+		default:
+			return Color.WHITE;
+		}
+	}
+	
+	public static Color getScrollBarColorSmall() {
+		switch (currentTheme) {
+		case LIGHT:
+			return Color.WHITE;
+		case DARK:
+			return new Color(121, 121, 121, 120);
 		default:
 			return Color.WHITE;
 		}

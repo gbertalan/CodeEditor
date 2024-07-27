@@ -34,7 +34,7 @@ public class LineNumberContainer implements BoxComponent {
 
     @Override
     public void draw(Graphics2D g2d) {
-    	g2d.setColor(Color.YELLOW);
+    	g2d.setColor(Color.BLACK);
     	g2d.fillRect(locX, locY, width, height);
         g2d.setColor(SyntaxColor.getLineNumberColor());
         Globals.drawCenteredText(g2d, locX, locY, width, height, Integer.toString(lineNumber));

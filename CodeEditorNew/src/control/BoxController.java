@@ -33,31 +33,29 @@ public class BoxController {
 
 		boxMap.put(newBox.getId(), newBox);
 		newBox.createHeader(model.getBoxModel().getHeaderText());
-		
-		
+
 		ArrayList<String> readInLines = ReadWrite.readFileInResourcesAsArrayList(filename);
 //		ArrayList<String> replacedSpaces = replaceSpacesWithNonBreakingSpaces(readInLines);
-		
+
 		model.getBoxModel().setAllLinesList(readInLines);
 
-		
 		ArrayList<String> linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
-		newBox.createContent(linesToDisplay, startIndex);
+		newBox.createContent(linesToDisplay, startIndex, endIndex - startIndex, readInLines.size());
 
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();
 		++noOfBoxes;
 	}
-	
+
 	private ArrayList<String> replaceSpacesWithNonBreakingSpaces(ArrayList<String> lines) {
-        ArrayList<String> modifiedLines = new ArrayList<>();
-        for (String line : lines) {
-            // Replace spaces with non-breaking spaces
-            String modifiedLine = line.replace(" ", "\u00A0");
-            modifiedLines.add(modifiedLine);
-        }
-        return modifiedLines;
-    }
+		ArrayList<String> modifiedLines = new ArrayList<>();
+		for (String line : lines) {
+			// Replace spaces with non-breaking spaces
+			String modifiedLine = line.replace(" ", "\u00A0");
+			modifiedLines.add(modifiedLine);
+		}
+		return modifiedLines;
+	}
 
 	public void closeBox(Box box) {
 		boxMap.remove(box.getId());
