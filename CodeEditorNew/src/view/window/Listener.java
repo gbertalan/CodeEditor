@@ -3,6 +3,7 @@ package view.window;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.BiConsumer;
@@ -161,4 +162,29 @@ public class Listener {
 			}
 		}
 	}
+	
+	public void propagateMouseWheelEvent(MouseWheelEvent e, BiConsumer<Box, MouseWheelEvent> mouseEventHandler) {
+		for (UIComponent uiComponent : hoveredComponents) {
+			if (uiComponent.toString().startsWith("Box")) {
+				Box box = (Box) uiComponent;
+				mouseEventHandler.accept(box, e);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Returns the UIComponent with the highest priority
+	 * @return the UIComponent with the highest priority, or null if no components are hovered
+	 */
+	public UIComponent getTopHoveredComponent() {
+	    UIComponent top = null;
+	    for (UIComponent uiComponent : hoveredComponents) {
+	        if (top == null || uiComponent.getDrawPriority() > top.getDrawPriority()) {
+	            top = uiComponent;
+	        }
+	    }
+	    return top;
+	}
+
 }

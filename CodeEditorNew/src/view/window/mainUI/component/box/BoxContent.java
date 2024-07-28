@@ -1,6 +1,9 @@
 package view.window.mainUI.component.box;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -35,9 +38,6 @@ public class BoxContent implements BoxComponent {
 			int noOfAllLines) {
 		this.box = box;
 
-		System.out.println();
-		System.out.println("noOfDisplayedLines: " + noOfDisplayedLines + " noOfAllLines: " + noOfAllLines);
-
 		this.noOfDisplayedLines = noOfDisplayedLines;
 		this.noOfAllLines = noOfAllLines;
 
@@ -67,7 +67,7 @@ public class BoxContent implements BoxComponent {
 		height = box.getHeight() - box.getBoxHeader().getHeight();
 	}
 
-	private void createImage() {
+	public void createImage() {
 		updateLocationAndSize();
 
 		contentImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -144,5 +144,18 @@ public class BoxContent implements BoxComponent {
 
 	public int getLineNumberContainerWidth() {
 		return box.getWidth() / 8;
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("Mouse in boxContent moved.");
+
+		if (e.getX() > scrollerVertical.getLocX())
+			scrollerVertical.mouseMoved(e);
+		else if (e.getY() > scrollerHorizontal.getLocY())
+			scrollerHorizontal.mouseMoved(e);
+	}
+
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		System.out.println("MouseWheel in boxContent moved.");
 	}
 }

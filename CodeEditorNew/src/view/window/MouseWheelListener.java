@@ -30,31 +30,36 @@ public class MouseWheelListener extends MouseAdapter {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
-		zoomValue += ((double) e.getWheelRotation() * 0.01f);
-
-		if (e.getWheelRotation() > 0) {
-			zoomValue = 0.8;
-			++zoomLevel;
+		String top = listener.getTopHoveredComponent().toString();
+		if (top.startsWith("Box")) {
+			listener.propagateMouseWheelEvent(e, Box::mouseWheelMoved);
 		} else {
-			zoomValue = 1.25;
-			--zoomLevel;
+
+			zoomValue += ((double) e.getWheelRotation() * 0.01f);
+
+			if (e.getWheelRotation() > 0) {
+				zoomValue = 0.8;
+				++zoomLevel;
+			} else {
+				zoomValue = 1.25;
+				--zoomLevel;
+			}
+
+			if (zoomLevel > 10) {
+				zoomValue = 1.0;
+				zoomLevel = 10;
+			} else if (zoomLevel < -1) {
+				zoomValue = 1.0;
+				zoomLevel = -1;
+			}
+
+			for (Box box : window.getMainUI().getBoxList()) {
+				box.zoom(e.getPoint());
+			}
+
+			System.out.println(ANSIText.bold("MouseWheelListener: Scroll action performed with rotation: " + zoomValue
+					+ ". The zoom level is: " + zoomLevel));
 		}
 
-		if (zoomLevel > 10) {
-			zoomValue = 1.0;
-			zoomLevel = 10;
-		} else if (zoomLevel < -1) {
-			zoomValue = 1.0;
-			zoomLevel = -1;
-		}
-
-		System.out.println(ANSIText.bold("\tZoomValue: " + zoomValue));
-		System.out.println(ANSIText.bold("\tZoomLevel: " + zoomLevel));
-
-		for (Box box : window.getMainUI().getBoxList()) {
-			box.zoom(e.getPoint());
-		}
-
-		System.out.println(ANSIText.bold("MouseWheelListener: Scroll action performed with rotation: " + zoomValue));
 	}
 }

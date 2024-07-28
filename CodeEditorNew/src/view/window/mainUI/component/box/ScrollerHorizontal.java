@@ -2,6 +2,7 @@ package view.window.mainUI.component.box;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
@@ -15,6 +16,8 @@ public class ScrollerHorizontal {
 	private Color smallColor = Theme.getScrollBarColorSmall();
 
 	private BoxContent boxContent;
+	private int bigLocX;
+	private int bigLocY;
 
 	public ScrollerHorizontal(BoxContent boxContent) {
 		this.boxContent = boxContent;
@@ -23,11 +26,11 @@ public class ScrollerHorizontal {
 	public void draw(Graphics2D g2d) {
 
 		// Draw the big rectangle
-		this.bigHeight = (boxContent.getBox().getHeight() / 16) - 2;
+		this.bigHeight = (boxContent.getBox().getHeight() / 46) - 2;
 		this.bigWidth = boxContent.getWidth();
 		g2d.setColor(bigColor);
-		int bigLocX = boxContent.getLocX()+boxContent.getLineNumberContainerWidth();
-		int bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
+		bigLocX = boxContent.getLocX() + boxContent.getLineNumberContainerWidth();
+		bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
 		g2d.fillRect(bigLocX, bigLocY, bigWidth, bigHeight);
 
 		// Draw the small rectangle
@@ -38,7 +41,7 @@ public class ScrollerHorizontal {
 		// top border:
 		g2d.setColor(Theme.getSeparatorLineColor());
 //		g2d.drawLine(bigLocX, bigLocY, bigWidth-boxContent.getLineNumberContainerWidth(), bigLocY);
-		g2d.drawRect(bigLocX, bigLocY, bigWidth-boxContent.getLineNumberContainerWidth(), bigHeight);
+		g2d.drawRect(bigLocX, bigLocY, bigWidth - boxContent.getLineNumberContainerWidth(), bigHeight);
 	}
 
 	public void calculateSmallWidth() {
@@ -50,5 +53,25 @@ public class ScrollerHorizontal {
 		}
 
 		smallWidth = (int) Math.round(boxContent.getWidth() * lineRatio);
+	}
+
+	public int getLocX() {
+		return bigLocX;
+	}
+
+	public int getLocY() {
+		return bigLocY;
+	}
+
+	public int getWidth() {
+		return bigWidth;
+	}
+
+	public int getHeight() {
+		return bigHeight;
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("Mouse in scrollHorizontal moved.");
 	}
 }

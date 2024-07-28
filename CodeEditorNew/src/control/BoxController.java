@@ -40,7 +40,7 @@ public class BoxController {
 		model.getBoxModel().setAllLinesList(readInLines);
 
 		ArrayList<String> linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
-		newBox.createContent(linesToDisplay, startIndex, endIndex - startIndex, readInLines.size());
+		newBox.createContent(linesToDisplay, startIndex, endIndex - startIndex + 1, readInLines.size());
 
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();

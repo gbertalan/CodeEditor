@@ -3,7 +3,9 @@ package view.window.mainUI.component.box;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,7 +60,8 @@ public class Box extends UIComponent {
 		boxHeader = new BoxHeader(this, headerText);
 	}
 
-	public void createContent(ArrayList<String> contentLineList, int startLineIndex, int noOfDisplayedLines, int noOfAllLines) {
+	public void createContent(ArrayList<String> contentLineList, int startLineIndex, int noOfDisplayedLines,
+			int noOfAllLines) {
 		boxContent = new BoxContent(this, contentLineList, startLineIndex, noOfDisplayedLines, noOfAllLines);
 	}
 
@@ -66,7 +69,7 @@ public class Box extends UIComponent {
 	public void draw(Graphics2D g2d) {
 
 		this.g = g2d;
-		
+
 		g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 
@@ -193,6 +196,13 @@ public class Box extends UIComponent {
 
 		if (oldCloseButtonHovered != closeButtonHovered)
 			repaint();
+		// the closeButton-t can be placed in a separate class later, and repaint can be
+		// called on it.
+
+		Rectangle rect = new Rectangle(boxContent.getLocX(), boxContent.getLocY(), boxContent.getWidth(),
+				boxContent.getHeight());
+		if (rect.contains(e.getPoint()))
+			boxContent.mouseMoved(e);
 	}
 
 	public BoxHeader getBoxHeader() {
@@ -216,12 +226,17 @@ public class Box extends UIComponent {
 			boxController.closeBox(this);
 		}
 	}
+	
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		Rectangle rect = new Rectangle(boxContent.getLocX(), boxContent.getLocY(), boxContent.getWidth(),
+				boxContent.getHeight());
+		if (rect.contains(e.getPoint()))
+			boxContent.mouseWheelMoved(e);
+	}
 
 	public Graphics2D getGraphics() {
 		// TODO Auto-generated method stub
 		return (Graphics2D) window.getMainUI().getGraphics();
 	}
-	
-	
-	
+
 }
