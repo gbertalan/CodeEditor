@@ -70,13 +70,15 @@ public class ScrollerVertical {
 	}
 
 	public void scroll(int value) {
-		smallY += value;
-		if (smallY < 0) {
-			smallY = 0;
-		} else if (smallY + smallHeight > bigHeight) {
-			smallY = bigHeight - smallHeight;
-		}
+		int scrollFactor = 5;
+	    smallY += value * scrollFactor;
+	    if (smallY < 0) {
+	        smallY = 0;
+	    } else if (smallY + smallHeight > bigHeight) {
+	        smallY = bigHeight - smallHeight;
+	    }
 	}
+
 
 	public void mouseMoved(MouseEvent e) {
 		System.out.println("Mouse in scrollVertical moved.");
