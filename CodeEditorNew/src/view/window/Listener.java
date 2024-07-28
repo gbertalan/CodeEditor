@@ -145,32 +145,21 @@ public class Listener {
 	}
 
 	/**
-	 * Propagates a mouse event to the first hovered component that is a Box. The
+	 * Propagates an event to the first hovered component that is a Box. The
 	 * propagated method is sent in as a parameter.
 	 *
-	 * @param e                 the MouseEvent to be propagated
-	 * @param mouseEventHandler the method we want to call. e.g. Box::mouseClicked
-	 *                          calls the mouseClicked() method of the Box class.
+	 * @param <E> the type of event to be propagated
+	 * @param e the event to be propagated
+	 * @param eventHandler the method we want to call. e.g. Box::mouseClicked or Box::mouseWheelMoved
 	 */
-
-	public void propagateMouseEvent(MouseEvent e, BiConsumer<Box, MouseEvent> mouseEventHandler) {
-		for (UIComponent uiComponent : hoveredComponents) {
-			if (uiComponent.toString().startsWith("Box")) {
-				Box box = (Box) uiComponent;
-				mouseEventHandler.accept(box, e);
-				break;
-			}
-		}
-	}
-	
-	public void propagateMouseWheelEvent(MouseWheelEvent e, BiConsumer<Box, MouseWheelEvent> mouseEventHandler) {
-		for (UIComponent uiComponent : hoveredComponents) {
-			if (uiComponent.toString().startsWith("Box")) {
-				Box box = (Box) uiComponent;
-				mouseEventHandler.accept(box, e);
-				break;
-			}
-		}
+	public <E> void propagateEvent(E e, BiConsumer<Box, E> eventHandler) {
+	    for (UIComponent uiComponent : hoveredComponents) {
+	        if (uiComponent.toString().startsWith("Box")) {
+	            Box box = (Box) uiComponent;
+	            eventHandler.accept(box, e);
+	            break;
+	        }
+	    }
 	}
 	
 	/**

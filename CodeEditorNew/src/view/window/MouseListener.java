@@ -43,7 +43,7 @@ public class MouseListener extends MouseAdapter {
 			toggleMaximizeWindow();
 		}
 
-		listener.propagateMouseEvent(e, Box::mouseClicked);
+		listener.propagateEvent(e, Box::mouseClicked);
 	}
 
 	private void toggleMaximizeWindow() {

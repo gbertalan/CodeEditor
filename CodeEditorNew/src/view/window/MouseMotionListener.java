@@ -133,7 +133,7 @@ public class MouseMotionListener extends MouseMotionAdapter {
 	public void mouseMoved(MouseEvent e) {
 		updateHoveredComponents(e);
 
-		listener.propagateMouseEvent(e, Box::mouseMoved);
+		listener.propagateEvent(e, Box::mouseMoved);
 	}
 
 	

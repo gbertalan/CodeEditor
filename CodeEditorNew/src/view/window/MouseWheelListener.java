@@ -32,7 +32,7 @@ public class MouseWheelListener extends MouseAdapter {
 
 		String top = listener.getTopHoveredComponent().toString();
 		if (top.startsWith("Box")) {
-			listener.propagateMouseWheelEvent(e, Box::mouseWheelMoved);
+			listener.propagateEvent(e, Box::mouseWheelMoved);
 		} else {
 
 			zoomValue += ((double) e.getWheelRotation() * 0.01f);
