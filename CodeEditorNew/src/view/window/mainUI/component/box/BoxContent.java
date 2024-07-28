@@ -157,7 +157,12 @@ public class BoxContent implements BoxComponent {
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		System.out.println("MouseWheel in boxContent moved.");
-		scrollerVertical.scroll(e.getUnitsToScroll());
-		box.repaint();
+		if (!e.isShiftDown()) {
+			scrollerVertical.scroll(e.getUnitsToScroll());
+			box.repaint();
+		} else {
+			scrollerHorizontal.scroll(e.getUnitsToScroll());
+			box.repaint();
+		}
 	}
 }

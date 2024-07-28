@@ -27,7 +27,7 @@ public class ScrollerHorizontal {
 
 		// Draw the big rectangle
 		this.bigHeight = (boxContent.getBox().getHeight() / 46) - 2;
-		this.bigWidth = boxContent.getWidth();
+		this.bigWidth = boxContent.getWidth()-boxContent.getLineNumberContainerWidth();
 		g2d.setColor(bigColor);
 		bigLocX = boxContent.getLocX() + boxContent.getLineNumberContainerWidth();
 		bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
@@ -40,8 +40,8 @@ public class ScrollerHorizontal {
 
 		// top border:
 		g2d.setColor(Theme.getSeparatorLineColor());
-//		g2d.drawLine(bigLocX, bigLocY, bigWidth-boxContent.getLineNumberContainerWidth(), bigLocY);
-		g2d.drawRect(bigLocX, bigLocY, bigWidth - boxContent.getLineNumberContainerWidth(), bigHeight);
+//		g2d.drawLine(bigLocX, bigLocY, bigLocX+bigWidth, bigLocY);
+		g2d.drawRect(bigLocX, bigLocY, bigWidth, bigHeight);
 	}
 
 	public void calculateSmallWidth() {
@@ -69,6 +69,16 @@ public class ScrollerHorizontal {
 
 	public int getHeight() {
 		return bigHeight;
+	}
+
+	public void scroll(int value) {
+		int scrollFactor = 5;
+		smallX += value * scrollFactor;
+		if (smallX < 0) {
+			smallX = 0;
+		} else if (smallX + smallWidth > bigWidth) {
+			smallX = bigWidth - smallWidth;
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
