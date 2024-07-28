@@ -2,22 +2,22 @@ package view.window.mainUI.component.box;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
 public class ScrollerHorizontal {
 
-	private int bigHeight;
 	private int bigWidth;
-	private int smallWidth = 50;
-	private int smallX = 0;
+	private int bigHeight;
+	private int smallWidth;
+	private int smallX;
 	private Color bigColor = Theme.getScrollBarColorBig();
 	private Color smallColor = Theme.getScrollBarColorSmall();
+	private int xShift;
 
 	private BoxContent boxContent;
-	private int bigLocX;
-	private int bigLocY;
+	private double xShiftRatio;
+	private int scrollSpeed = 5;
 
 	public ScrollerHorizontal(BoxContent boxContent) {
 		this.boxContent = boxContent;
@@ -27,21 +27,22 @@ public class ScrollerHorizontal {
 
 		// Draw the big rectangle
 		this.bigHeight = (boxContent.getBox().getHeight() / 46) - 2;
-		this.bigWidth = boxContent.getWidth()-boxContent.getLineNumberContainerWidth();
+		this.bigWidth = boxContent.getWidth() - boxContent.getLineNumberContainerWidth() - bigHeight;
 		g2d.setColor(bigColor);
-		bigLocX = boxContent.getLocX() + boxContent.getLineNumberContainerWidth();
-		bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
+		int bigLocX = boxContent.getLocX() + boxContent.getLineNumberContainerWidth();
+		int bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
 		g2d.fillRect(bigLocX, bigLocY, bigWidth, bigHeight);
 
 		// Draw the small rectangle
 		calculateSmallWidth();
+		updateXShift();
 		g2d.setColor(smallColor);
-		g2d.fillRect(bigLocX + smallX, bigLocY, smallWidth, bigHeight);
+		g2d.fillRect(bigLocX + smallX + xShift, bigLocY, smallWidth, bigHeight);
 
 		// top border:
 		g2d.setColor(Theme.getSeparatorLineColor());
-//		g2d.drawLine(bigLocX, bigLocY, bigLocX+bigWidth, bigLocY);
-		g2d.drawRect(bigLocX, bigLocY, bigWidth, bigHeight);
+		g2d.drawLine(bigLocX, bigLocY, bigLocX + boxContent.getWidth() -boxContent.getLineNumberContainerWidth() - bigHeight, bigLocY);
+		g2d.drawLine(bigLocX, bigLocY, bigLocX, bigLocY+bigHeight);
 	}
 
 	public void calculateSmallWidth() {
@@ -55,33 +56,19 @@ public class ScrollerHorizontal {
 		smallWidth = (int) Math.round(boxContent.getWidth() * lineRatio);
 	}
 
-	public int getLocX() {
-		return bigLocX;
+	public void updateXShift() {
+		xShift = (int) (bigWidth * xShiftRatio);
 	}
 
-	public int getLocY() {
-		return bigLocY;
-	}
+	public void scroll(int unitsToScroll) {
+		xShift += (unitsToScroll * scrollSpeed);
 
-	public int getWidth() {
-		return bigWidth;
-	}
-
-	public int getHeight() {
-		return bigHeight;
-	}
-
-	public void scroll(int value) {
-		int scrollFactor = 5;
-		smallX += value * scrollFactor;
-		if (smallX < 0) {
-			smallX = 0;
-		} else if (smallX + smallWidth > bigWidth) {
-			smallX = bigWidth - smallWidth;
+		if (xShift < 0) {
+			xShift = 0;
+		} else if (xShift + smallWidth > bigWidth) {
+			xShift = bigWidth - smallWidth;
 		}
-	}
 
-	public void mouseMoved(MouseEvent e) {
-		System.out.println("Mouse in scrollHorizontal moved.");
+		xShiftRatio = 1 - (double) (bigWidth - xShift) / bigWidth;
 	}
 }

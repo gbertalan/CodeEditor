@@ -11,7 +11,7 @@ import view.window.Window;
 public abstract class UIComponent implements VisualComponent, Comparable<UIComponent> {
 
     private static final int MIN_PRIORITY = 0;
-    private static final int REPAINT_AREA_EXPANSION = 1;
+    private static final int REPAINT_AREA_EXPANSION = 2;
 
     protected Window window;
     protected int drawPriority;

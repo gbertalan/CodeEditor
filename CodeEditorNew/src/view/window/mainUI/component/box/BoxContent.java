@@ -149,20 +149,24 @@ public class BoxContent implements BoxComponent {
 	public void mouseMoved(MouseEvent e) {
 		System.out.println("Mouse in boxContent moved.");
 
-		if (e.getX() > scrollerVertical.getLocX())
-			scrollerVertical.mouseMoved(e);
-		else if (e.getY() > scrollerHorizontal.getLocY())
-			scrollerHorizontal.mouseMoved(e);
+//		if (e.getX() > scrollerVertical.getLocX())
+//			scrollerVertical.mouseMoved(e);
+//		else if (e.getY() > scrollerHorizontal.getLocY())
+//			scrollerHorizontal.mouseMoved(e);
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		System.out.println("MouseWheel in boxContent moved.");
-		if (!e.isShiftDown()) {
-			scrollerVertical.scroll(e.getUnitsToScroll());
-			box.repaint();
-		} else {
-			scrollerHorizontal.scroll(e.getUnitsToScroll());
-			box.repaint();
+		if (!e.isControlDown()) {
+			if (!e.isShiftDown()) {
+//				scrollerVertical.scroll(e.getUnitsToScroll());
+//				scrollerVertical.setYShift(50);
+				scrollerVertical.scroll(e.getUnitsToScroll());
+				box.repaint();
+			} else {
+				scrollerHorizontal.scroll(e.getUnitsToScroll());
+				box.repaint();
+			}
 		}
 	}
 }

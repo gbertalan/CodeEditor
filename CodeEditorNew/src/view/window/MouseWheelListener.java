@@ -30,11 +30,14 @@ public class MouseWheelListener extends MouseAdapter {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
-		String top = listener.getTopHoveredComponent().toString();
-		if (top.startsWith("Box")) {
-			listener.propagateEvent(e, Box::mouseWheelMoved);
-		} else {
+		listener.propagateEvent(e, Box::mouseWheelMoved);
 
+//		String top = listener.getTopHoveredComponent().toString();
+//		if (top.startsWith("Box")) {
+//			listener.propagateEvent(e, Box::mouseWheelMoved);
+//		} else {
+
+		if (e.isControlDown()) {
 			zoomValue += ((double) e.getWheelRotation() * 0.01f);
 
 			if (e.getWheelRotation() > 0) {

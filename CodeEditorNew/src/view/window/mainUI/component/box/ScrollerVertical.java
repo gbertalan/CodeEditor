@@ -2,7 +2,6 @@ package view.window.mainUI.component.box;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
@@ -10,14 +9,15 @@ public class ScrollerVertical {
 
 	private int bigWidth;
 	private int bigHeight;
-	private int smallHeight = 50;
-	private int smallY = 0;
+	private int smallHeight;
+	private int smallY;
 	private Color bigColor = Theme.getScrollBarColorBig();
 	private Color smallColor = Theme.getScrollBarColorSmall();
+	private int yShift;
 
 	private BoxContent boxContent;
-	private int bigLocX;
-	private int bigLocY;
+	private double yShiftRatio;
+	private int scrollSpeed = 5;
 
 	public ScrollerVertical(BoxContent boxContent) {
 		this.boxContent = boxContent;
@@ -27,20 +27,21 @@ public class ScrollerVertical {
 
 		// Draw the big rectangle
 		this.bigWidth = (boxContent.getBox().getHeight() / 46) - 2;
-		this.bigHeight = boxContent.getHeight();
+		this.bigHeight = boxContent.getHeight() - bigWidth;
 		g2d.setColor(bigColor);
-		bigLocX = boxContent.getLocX() + boxContent.getWidth() - bigWidth - 1;
-		bigLocY = boxContent.getLocY();
+		int bigLocX = boxContent.getLocX() + boxContent.getWidth() - bigWidth;
+		int bigLocY = boxContent.getLocY();
 		g2d.fillRect(bigLocX, bigLocY, bigWidth, bigHeight);
 
 		// Draw the small rectangle
 		calculateSmallHeight();
+		updateYShift();
 		g2d.setColor(smallColor);
-		g2d.fillRect(bigLocX, bigLocY + smallY, bigWidth, smallHeight);
+		g2d.fillRect(bigLocX, bigLocY + smallY + yShift, bigWidth, smallHeight);
 
 		// left border:
 		g2d.setColor(Theme.getSeparatorLineColor());
-		g2d.drawLine(bigLocX, bigLocY, bigLocX, bigLocY + boxContent.getHeight());
+		g2d.drawLine(bigLocX, bigLocY, bigLocX, bigLocY + boxContent.getHeight() - bigWidth);
 	}
 
 	public void calculateSmallHeight() {
@@ -53,39 +54,19 @@ public class ScrollerVertical {
 		smallHeight = (int) Math.round(boxContent.getHeight() * lineRatio);
 	}
 
-	public int getLocX() {
-		return bigLocX;
+	public void updateYShift() {
+		yShift = (int) (bigHeight * yShiftRatio);
 	}
 
-	public int getLocY() {
-		return bigLocY;
-	}
+	public void scroll(int unitsToScroll) {
+		yShift += (unitsToScroll * scrollSpeed);
 
-	public int getWidth() {
-		return bigWidth;
-	}
+		if (yShift < 0) {
+			yShift = 0;
+		} else if (yShift + smallHeight > bigHeight) {
+			yShift = bigHeight - smallHeight;
+		}
 
-	public int getHeight() {
-		return bigHeight;
-	}
-
-	public void scroll(int value) {
-		int scrollFactor = 5;
-	    smallY += value * scrollFactor;
-	    if (smallY < 0) {
-	        smallY = 0;
-	    } else if (smallY + smallHeight > bigHeight) {
-	        smallY = bigHeight - smallHeight;
-	    }
-	}
-
-
-	public void mouseMoved(MouseEvent e) {
-		System.out.println("Mouse in scrollVertical moved.");
-//		for (int i = 0; i < boxContent.getNoOfDisplayedLines(); i++) {
-//			boxContent.getDisplayedLine(i).getLineNumberContainer().scrollUp();
-//		}
-//
-//		boxContent.getBox().repaint();
+		yShiftRatio = 1 - (double) (bigHeight - yShift) / bigHeight;
 	}
 }

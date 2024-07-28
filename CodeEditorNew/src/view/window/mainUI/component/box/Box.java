@@ -228,10 +228,13 @@ public class Box extends UIComponent {
 	}
 	
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		
 		Rectangle rect = new Rectangle(boxContent.getLocX(), boxContent.getLocY(), boxContent.getWidth(),
 				boxContent.getHeight());
 		if (rect.contains(e.getPoint()))
 			boxContent.mouseWheelMoved(e);
+		
+		
 	}
 
 	public Graphics2D getGraphics() {

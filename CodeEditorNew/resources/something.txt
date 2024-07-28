@@ -1,88 +1,87 @@
-a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z
 package view.window.mainUI.component.box;
 
-import java.awt.FontMetrics;
+import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.awt.event.MouseEvent;
 
 import utils.Theme;
 
-public class BoxContent implements BoxComponent {
+public class ScrollerHorizontal {
 
-	private Box box;
-	private ArrayList<String> contentLineList;
+	private int bigHeight;
+	private int bigWidth;
+	private int smallWidth = 50;
+	private int smallX = 0;
+	private Color bigColor = Theme.getScrollBarColorBig();
+	private Color smallColor = Theme.getScrollBarColorSmall();
 
-	private static int LINE_LIMIT = 23;
-	ContentLine contentLine;
+	private BoxContent boxContent;
+	private int bigLocX;
+	private int bigLocY;
 
-	public BoxContent(Box box, ArrayList<String> contentLineList) {
-		this.box = box;
-		this.contentLineList = contentLineList;
-		
+	public ScrollerHorizontal(BoxContent boxContent) {
+		this.boxContent = boxContent;
 	}
 
-	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setColor(Theme.getBoxBackgroundColor());
-		int locX = box.getLocX();
-		int locY = box.getLocY() + box.getBoxHeader().getHeight();
-		int width = box.getWidth();
-		int height = box.getHeight() - box.getBoxHeader().getHeight();
-		g2d.fillRect(locX, locY, width, height);
-		// Just a filling comment
-		contentLine = new ContentLine(box);
 
-		for (String line : contentLineList) {
-			if (line.equals("")) {
-				contentLine.incrementLineIndex();
-			} else {
-				ArrayList<String> brokenLines = breakLine(line, g2d);
-				for (String brokenLine : brokenLines) {
-					contentLine.incrementLineIndex();
-					if (contentLine.getLineIndex() > LINE_LIMIT) {
-						break;
-					}
-					contentLine.setlineText(brokenLine);
-					contentLine.draw(g2d);
-				}
-			}
+		// Draw the big rectangle
+		this.bigHeight = (boxContent.getBox().getHeight() / 46) - 2;
+		this.bigWidth = boxContent.getWidth()-boxContent.getLineNumberContainerWidth();
+		g2d.setColor(bigColor);
+		bigLocX = boxContent.getLocX() + boxContent.getLineNumberContainerWidth();
+		bigLocY = boxContent.getLocY() + boxContent.getHeight() - bigHeight;
+		g2d.fillRect(bigLocX, bigLocY, bigWidth, bigHeight);
+
+		// Draw the small rectangle
+		calculateSmallWidth();
+		g2d.setColor(smallColor);
+		g2d.fillRect(bigLocX + smallX, bigLocY, smallWidth, bigHeight);
+
+		// top border:
+		g2d.setColor(Theme.getSeparatorLineColor());
+//		g2d.drawLine(bigLocX, bigLocY, bigLocX+bigWidth, bigLocY);
+		g2d.drawRect(bigLocX, bigLocY, bigWidth, bigHeight);
+	}
+
+	public void calculateSmallWidth() {
+		double lineRatio;
+		if (boxContent.getNoOfAllColumns() < boxContent.getNoOfDisplayedColumns()) {
+			lineRatio = 1.0;
+		} else {
+			lineRatio = (double) (boxContent.getNoOfDisplayedColumns()) / boxContent.getNoOfAllColumns();
+		}
+
+		smallWidth = (int) Math.round(boxContent.getWidth() * lineRatio);
+	}
+
+	public int getLocX() {
+		return bigLocX;
+	}
+
+	public int getLocY() {
+		return bigLocY;
+	}
+
+	public int getWidth() {
+		return bigWidth;
+	}
+
+	public int getHeight() {
+		return bigHeight;
+	}
+
+	public void scroll(int value) {
+		int scrollFactor = 5;
+		smallX += value * scrollFactor;
+		if (smallX < 0) {
+			smallX = 0;
+		} else if (smallX + smallWidth > bigWidth) {
+			smallX = bigWidth - smallWidth;
 		}
 	}
 
-	private ArrayList<String> breakLine(String line, Graphics2D g2d) {
-		ArrayList<String> brokenLines = new ArrayList<>();
-		int width = box.getWidth();
-		double leftMargin = (width / ContentLine.TEXT_LEFT_MARGIN_DIVISOR);
-		double maxTextWidth = width - 2 * leftMargin;
-
-		// Tokenize the line into words
-		StringTokenizer tokenizer = new StringTokenizer(line);
-		StringBuilder currentLine = new StringBuilder();
-		FontMetrics metrics = g2d.getFontMetrics();
-
-		currentLine.append("");
-		while (tokenizer.hasMoreTokens()) {
-			String word = tokenizer.nextToken();
-			String testLine = currentLine + " " + word;
-
-			// If the test line width exceeds the maximum width, break the line
-			if (metrics.stringWidth(testLine) > maxTextWidth) {
-				if (currentLine.length() > 0) {
-					brokenLines.add(currentLine.toString());
-					currentLine = new StringBuilder(word);
-				} else {
-					// If a single word is too long, add it anyway and proceed
-					brokenLines.add(word);
-				}
-			} else {
-				currentLine.append(currentLine.length() > 0 ? " " : "").append(word);
-			}
-		}
-		if (currentLine.length() > 0) {
-			brokenLines.add(currentLine.toString());
-		}
-
-		return brokenLines;
+	public void mouseMoved(MouseEvent e) {
+		System.out.println("Mouse in scrollHorizontal moved.");
 	}
 }
