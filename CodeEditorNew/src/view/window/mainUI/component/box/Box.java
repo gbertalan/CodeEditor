@@ -60,9 +60,21 @@ public class Box extends UIComponent {
 		boxHeader = new BoxHeader(this, headerText);
 	}
 
+	/**
+	 * Creates a new BoxContent instance.
+	 * 
+	 * @param contentLineList
+	 * @param startLineIndex
+	 * @param noOfDisplayedLines
+	 * @param noOfAllLines
+	 */
 	public void createContent(ArrayList<String> contentLineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		boxContent = new BoxContent(this, contentLineList, startLineIndex, noOfDisplayedLines, noOfAllLines);
+	}
+
+	public void updateContent(int startLineIndex, ArrayList<String> lineList) {
+		boxContent.updateBoxContent(startLineIndex, lineList);
 	}
 
 	@Override
@@ -226,15 +238,14 @@ public class Box extends UIComponent {
 			boxController.closeBox(this);
 		}
 	}
-	
+
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		
+
 		Rectangle rect = new Rectangle(boxContent.getLocX(), boxContent.getLocY(), boxContent.getWidth(),
 				boxContent.getHeight());
 		if (rect.contains(e.getPoint()))
 			boxContent.mouseWheelMoved(e);
-		
-		
+
 	}
 
 	public Graphics2D getGraphics() {
@@ -242,4 +253,7 @@ public class Box extends UIComponent {
 		return (Graphics2D) window.getMainUI().getGraphics();
 	}
 
+	public BoxController getBoxController() {
+		return boxController;
+	}
 }

@@ -15,8 +15,8 @@ public class BoxController {
 	private Control control;
 	private Map<Integer, Box> boxMap;
 	private int noOfBoxes;
-	private int startIndex = 0;
-	private int endIndex = 32;
+	private ArrayList<String> readInLines;
+	private ArrayList<String> linesToDisplay;
 
 	public BoxController(Model model, View view, Control control) {
 		this.model = model;
@@ -34,18 +34,33 @@ public class BoxController {
 		boxMap.put(newBox.getId(), newBox);
 		newBox.createHeader(model.getBoxModel().getHeaderText());
 
-		ArrayList<String> readInLines = ReadWrite.readFileInResourcesAsArrayList(filename);
+		readInLines = ReadWrite.readFileInResourcesAsArrayList(filename);
 //		ArrayList<String> replacedSpaces = replaceSpacesWithNonBreakingSpaces(readInLines);
 
 		model.getBoxModel().setAllLinesList(readInLines);
 
-		ArrayList<String> linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
+		int startIndex = 0;
+		int endIndex = startIndex + 32;
+
+		linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
 		newBox.createContent(linesToDisplay, startIndex, endIndex - startIndex + 1, readInLines.size());
 
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();
 		++noOfBoxes;
 	}
+
+	public void updateContent(Box box, int startIndex) {
+		int endIndex = startIndex + 32;
+		linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
+		box.updateContent(startIndex, linesToDisplay);
+		box.repaint();
+	}
+	
+//	public void refreshContent(Box box) {
+//		box.refreshContent(startIndex, linesToDisplay);
+//		box.repaint();
+//	}
 
 	private ArrayList<String> replaceSpacesWithNonBreakingSpaces(ArrayList<String> lines) {
 		ArrayList<String> modifiedLines = new ArrayList<>();

@@ -58,6 +58,8 @@ public class MouseWheelListener extends MouseAdapter {
 
 			for (Box box : window.getMainUI().getBoxList()) {
 				box.zoom(e.getPoint());
+				if (zoomLevel <= 0)
+					box.getBoxController().updateContent(box, box.getBoxContent().getStartLine());
 			}
 
 			System.out.println(ANSIText.bold("MouseWheelListener: Scroll action performed with rotation: " + zoomValue

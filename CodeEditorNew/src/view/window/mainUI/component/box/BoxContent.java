@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import utils.Globals;
 import utils.Theme;
+import view.window.MouseWheelListener;
 
 public class BoxContent implements BoxComponent {
 
@@ -34,9 +35,15 @@ public class BoxContent implements BoxComponent {
 
 	private ScrollerHorizontal scrollerHorizontal;
 
+	private ArrayList<String> lineList;
+
+	private int startLineIndex;
+
 	public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		this.box = box;
+		this.lineList = lineList;
+		this.startLineIndex = startLineIndex;
 
 		this.noOfDisplayedLines = noOfDisplayedLines;
 		this.noOfAllLines = noOfAllLines;
@@ -58,6 +65,32 @@ public class BoxContent implements BoxComponent {
 
 		scrollerVertical = new ScrollerVertical(this);
 		scrollerHorizontal = new ScrollerHorizontal(this);
+	}
+
+	public void updateBoxContent(int startLineIndex, ArrayList<String> lineList) {
+		
+		this.startLineIndex = startLineIndex;
+		
+		this.lineList = lineList;
+
+		int endLineIndex = startLineIndex + 32;
+
+		displayedLines.clear();
+		// Create displayed lines, unbroken:
+				int lineIndex = 0;
+				for (String line : lineList) {
+					displayedLines.add(new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex));
+					++lineIndex;
+				}
+
+//		int lineIndex = 0;
+//		for (int i = startLineIndex; i < endLineIndex; i++) {
+//			displayedLines.add(new DisplayedLine(box, startLineIndex + lineIndex + 1, lineList.get(i), lineIndex));
+//			++lineIndex;
+//		}
+
+		// Create image
+		createImage();
 	}
 
 	private void updateLocationAndSize() {
@@ -85,12 +118,14 @@ public class BoxContent implements BoxComponent {
 
 	@Override
 	public void draw(Graphics2D g2d) {
+		
 		updateLocationAndSize();
 
 		// Draw background
 		g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 
+		
 		BufferedImage imageToDraw = contentImage;
 		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
 			imageToDraw = Globals.resize(contentImage, width, height);
@@ -132,6 +167,10 @@ public class BoxContent implements BoxComponent {
 
 	public int getNoOfAllColumns() {
 		return noOfAllColumns;
+	}
+	
+	public int getStartLine() {
+		return startLineIndex;
 	}
 
 	public Box getBox() {

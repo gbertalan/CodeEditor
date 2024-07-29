@@ -17,7 +17,9 @@ public class ScrollerVertical {
 
 	private BoxContent boxContent;
 	private double yShiftRatio;
-	private int scrollSpeed = 5;
+	private int scrollSpeed = 7;
+	private double scrollPosition;
+	private int startLine;
 
 	public ScrollerVertical(BoxContent boxContent) {
 		this.boxContent = boxContent;
@@ -68,5 +70,22 @@ public class ScrollerVertical {
 		}
 
 		yShiftRatio = 1 - (double) (bigHeight - yShift) / bigHeight;
+
+		calculateScrollPosition();
+		calculateStartLine();
+		boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), startLine);
+	}
+
+	/**
+	 * Calculates the scrollPosition, which is a number between 0 (scroll thumb is
+	 * fully up) and 1 (scroll thumb is fully down).
+	 */
+	private void calculateScrollPosition() {
+		scrollPosition = yShift / (double) (bigHeight - smallHeight);
+	}
+
+	private void calculateStartLine() {
+		startLine = (int) Math
+				.round(scrollPosition * (boxContent.getNoOfAllLines() - boxContent.getNoOfDisplayedLines()));
 	}
 }
