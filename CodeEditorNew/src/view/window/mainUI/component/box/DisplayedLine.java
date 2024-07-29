@@ -2,6 +2,8 @@ package view.window.mainUI.component.box;
 
 import java.awt.Graphics2D;
 
+import utils.ANSIText;
+
 public class DisplayedLine {
 
 	private LineNumberContainer lineNumberContainer;
@@ -13,11 +15,16 @@ public class DisplayedLine {
 	}
 
 	public void draw(Graphics2D g2d) {
+		System.out.println(ANSIText.green("DisplayedLine draw called"));
 		lineTextContainer.draw(g2d);
 		lineNumberContainer.draw(g2d);
 	}
 	
 	public LineNumberContainer getLineNumberContainer() {
 		return lineNumberContainer;
+	}
+	
+	public LineTextContainer getLineTextContainer() {
+		return lineTextContainer;
 	}
 }

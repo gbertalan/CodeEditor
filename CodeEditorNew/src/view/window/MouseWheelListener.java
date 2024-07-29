@@ -32,11 +32,6 @@ public class MouseWheelListener extends MouseAdapter {
 
 		listener.propagateEvent(e, Box::mouseWheelMoved);
 
-//		String top = listener.getTopHoveredComponent().toString();
-//		if (top.startsWith("Box")) {
-//			listener.propagateEvent(e, Box::mouseWheelMoved);
-//		} else {
-
 		if (e.isControlDown()) {
 			zoomValue += ((double) e.getWheelRotation() * 0.01f);
 
@@ -58,7 +53,9 @@ public class MouseWheelListener extends MouseAdapter {
 
 			for (Box box : window.getMainUI().getBoxList()) {
 				box.zoom(e.getPoint());
-				if (zoomLevel <= 0)
+				if (zoomLevel == -1 || zoomLevel == 0 || zoomLevel == 2 || zoomLevel == 6) // refresh at certain zoom
+																							// levels, so that it will
+																							// not be blurry
 					box.getBoxController().updateContent(box, box.getBoxContent().getStartLine());
 			}
 

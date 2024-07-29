@@ -3,6 +3,7 @@ package view.window.mainUI.component.box;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import utils.ANSIText;
 import utils.Theme;
 
 public class ScrollerHorizontal {
@@ -17,7 +18,8 @@ public class ScrollerHorizontal {
 
 	private BoxContent boxContent;
 	private double xShiftRatio;
-	private int scrollSpeed = 5;
+	private int scrollSpeed = 7;
+	private double scrollPosition;
 
 	public ScrollerHorizontal(BoxContent boxContent) {
 		this.boxContent = boxContent;
@@ -41,8 +43,9 @@ public class ScrollerHorizontal {
 
 		// top border:
 		g2d.setColor(Theme.getSeparatorLineColor());
-		g2d.drawLine(bigLocX, bigLocY, bigLocX + boxContent.getWidth() -boxContent.getLineNumberContainerWidth() - bigHeight, bigLocY);
-		g2d.drawLine(bigLocX, bigLocY, bigLocX, bigLocY+bigHeight);
+		g2d.drawLine(bigLocX, bigLocY,
+				bigLocX + boxContent.getWidth() - boxContent.getLineNumberContainerWidth() - bigHeight, bigLocY);
+		g2d.drawLine(bigLocX, bigLocY, bigLocX, bigLocY + bigHeight);
 	}
 
 	public void calculateSmallWidth() {
@@ -70,5 +73,22 @@ public class ScrollerHorizontal {
 		}
 
 		xShiftRatio = 1 - (double) (bigWidth - xShift) / bigWidth;
+
+		calculateScrollPosition();
+
+		for (int i = 0; i < boxContent.getNoOfDisplayedLines(); i++) {
+			boxContent.getDisplayedLine(i).getLineTextContainer()
+					.setScrollHorizontal((int) (scrollPosition * bigWidth * (-1) * 2));
+		}
+		boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), boxContent.getStartLine());
+
+	}
+
+	/**
+	 * Calculates the scrollPosition, which is a number between 0 (scroll thumb is
+	 * fully to the left) and 1 (scroll thumb is fully to the right).
+	 */
+	private void calculateScrollPosition() {
+		scrollPosition = xShift / (double) (bigWidth - smallWidth);
 	}
 }

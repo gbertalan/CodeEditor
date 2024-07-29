@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Arrays;
 
+import utils.ANSIText;
 import utils.SyntaxColor;
 
 public class LineTextContainer {
@@ -28,7 +29,7 @@ public class LineTextContainer {
 
 	private boolean lastingHighlight;
 
-	private int scrollHorizontal;
+	private static int scrollHorizontal;
 
 	private int scrollVertical;
 
@@ -99,6 +100,7 @@ public class LineTextContainer {
 
 		int textHeight = locY + metrics.getAscent();
 		int drawX = locX;
+
 		for (char c : lineText.toCharArray()) {
 
 			highlightChar(g2d, c);
@@ -116,20 +118,20 @@ public class LineTextContainer {
 		if (isOperator(c)) {
 			g2d.setColor(OPERATOR_COLOR);
 			lastingHighlight = false;
-		} else if(isPunctuation(c)) {
+		} else if (isPunctuation(c)) {
 			g2d.setColor(PUNCTUATION_COLOR);
 			lastingHighlight = false;
 		}
 	}
-	
+
 	private void highlightWord(Graphics2D g2d, String word) {
-		
+
 	}
-	
+
 	public void setScrollHorizontal(int value) {
 		this.scrollHorizontal = value;
 	}
-	
+
 	public void setScrollVertical(int value) {
 		this.scrollVertical = value;
 	}

@@ -54,13 +54,7 @@ public class BoxController {
 		int endIndex = startIndex + 32;
 		linesToDisplay = model.getBoxModel().getFileLineList(startIndex, endIndex);
 		box.updateContent(startIndex, linesToDisplay);
-		box.repaint();
 	}
-	
-//	public void refreshContent(Box box) {
-//		box.refreshContent(startIndex, linesToDisplay);
-//		box.repaint();
-//	}
 
 	private ArrayList<String> replaceSpacesWithNonBreakingSpaces(ArrayList<String> lines) {
 		ArrayList<String> modifiedLines = new ArrayList<>();
