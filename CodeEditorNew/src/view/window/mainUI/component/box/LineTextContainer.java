@@ -29,7 +29,7 @@ public class LineTextContainer {
 
 	private boolean lastingHighlight;
 
-	private static int scrollHorizontal;
+	private int scrollHorizontal;
 
 	private int scrollVertical;
 
@@ -132,7 +132,7 @@ public class LineTextContainer {
 		this.scrollHorizontal = value;
 	}
 
-	public void setScrollVertical(int value) {
-		this.scrollVertical = value;
+	public void setText(String line) {
+		this.lineText = line;
 	}
 }

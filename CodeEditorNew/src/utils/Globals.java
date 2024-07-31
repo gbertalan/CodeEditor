@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JPanel;
 
@@ -236,7 +237,7 @@ public class Globals {
 			g2d.drawString(truncatedText, xx, yy);
 		}
 	}
-	
+
 	public static BufferedImage resize(BufferedImage img, int newW, int newH) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -247,5 +248,55 @@ public class Globals {
 
 		return dimg;
 	}
+
+	/**
+	 * Searches for a file with the specified name in the given directory and its
+	 * subdirectories, and returns its accurate path as a string.
+	 *
+	 * @param filename      the name of the file to search for
+	 * @param directoryPath the path of the directory to start the search from
+	 * @return the absolute path of the file if found, otherwise null
+	 * @throws IllegalArgumentException if the provided directoryPath is not a
+	 *                                  directory
+	 *
+	 *                                  This method initiates a recursive search for
+	 *                                  a file with the specified name, starting
+	 *                                  from the provided directory path. It
+	 *                                  traverses the directory and its
+	 *                                  subdirectories to find the file. If the file
+	 *                                  is found, its absolute path is returned. If
+	 *                                  the file is not found, the method returns
+	 *                                  null. If the provided directoryPath is not a
+	 *                                  directory, an IllegalArgumentException is
+	 *                                  thrown.
+	 */
+
+	public static String findFilePath(String filename, String directoryPath) {
+        File directory = new File(directoryPath);
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException("The provided path is not a directory: " + directoryPath);
+        }
+
+        String foundPath = findFileRecursively(filename, directory);
+        return foundPath != null ? foundPath.replace("\\", "\\\\") : null;
+    }
+
+    private static String findFileRecursively(String filename, File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    // Recursive call to search in subdirectory
+                    String found = findFileRecursively(filename, file);
+                    if (found != null) {
+                        return found;
+                    }
+                } else if (file.isFile() && file.getName().equals(filename)) {
+                    return file.getAbsolutePath();
+                }
+            }
+        }
+        return null; // File not found in this directory
+    }
 
 }

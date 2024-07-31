@@ -4,25 +4,26 @@ import java.util.ArrayList;
 
 public class Model {
 
-    private BoxModel boxModel;
-    private ArrayList<BoxModel> boxModelCatalog = new ArrayList<>();
+	private ArrayList<BoxModel> boxModelCatalog = new ArrayList<>();
+	private int noOfBoxModels;
 
-    public Model() {
-    }
+	public Model() {
+	}
 
-    public void createBoxModel(String filename) {
-        try {
-            boxModel = new BoxModel(filename);
-            boxModelCatalog.add(boxModel);
-        } catch (Exception e) {
-            System.err.println("Failed to create BoxModel: " + e.getMessage());
-        }
-    }
+	public BoxModel createBoxModel(String filename) {
+		BoxModel boxModel;
+		try {
+			boxModel = new BoxModel(noOfBoxModels++, filename);
+			boxModelCatalog.add(boxModel);
+			return boxModel;
+		} catch (Exception e) {
+			System.err.println("Failed to create BoxModel: " + e.getMessage());
+			return null;
+		}
 
-    public BoxModel getBoxModel() {
-        if (boxModel == null) {
-            throw new IllegalStateException("BoxModel has not been created yet");
-        }
-        return boxModel;
-    }
+	}
+
+	public BoxModel getBoxModel(int id) {
+		return boxModelCatalog.get(id);
+	}
 }

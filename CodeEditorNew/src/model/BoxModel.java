@@ -7,7 +7,7 @@ public class BoxModel {
 	private String headerText;
 	private ArrayList<String> allLinesList;
 
-	public BoxModel(String filename) {
+	public BoxModel(int ID, String filename) {
 		headerText = filename;
 	}
 

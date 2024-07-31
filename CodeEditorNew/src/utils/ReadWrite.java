@@ -87,6 +87,37 @@ public class ReadWrite {
     }
 
     /**
+         * Reads the contents of a file in a specified path line by line into an ArrayList.
+         * 
+         * @param pathWithName     The path to the directory containing the file, together with the fileName.
+         * @return An ArrayList containing each line of the file, or an empty ArrayList if an error occurs.
+         */
+    public static ArrayList<String> readFileInPathAsArrayList(String pathWithName) {
+        ArrayList<String> lines = new ArrayList<>();
+        String fullPath = pathWithName;
+
+        // Debugging output to verify the full path
+        System.out.println("Attempting to read file at: " + fullPath);
+
+        File file = new File(fullPath);
+        if (!file.exists()) {
+            System.out.println("File does not exist at path: " + fullPath);
+            return lines; // Return empty list if the file does not exist
+        }
+
+        try (BufferedReader in = new BufferedReader(new FileReader(fullPath))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+        return lines;
+    }
+
+
+    /**
      * Writes a string to a file in the resources directory.
      * 
      * @param fileName      The name of the file to write.

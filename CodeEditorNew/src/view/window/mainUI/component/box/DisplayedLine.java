@@ -15,7 +15,6 @@ public class DisplayedLine {
 	}
 
 	public void draw(Graphics2D g2d) {
-		System.out.println(ANSIText.green("DisplayedLine draw called"));
 		lineTextContainer.draw(g2d);
 		lineNumberContainer.draw(g2d);
 	}

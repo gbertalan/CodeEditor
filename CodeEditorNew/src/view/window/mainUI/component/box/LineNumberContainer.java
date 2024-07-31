@@ -37,12 +37,12 @@ public class LineNumberContainer implements BoxComponent {
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		updateLocationAndSize();
+//		updateLocationAndSize();
 		g2d.setColor(Theme.getLineNumberBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 		g2d.setColor(SyntaxColor.getLineNumberColor());
 		Globals.drawCenteredText(g2d, locX, locY, width, height, Integer.toString(lineNumber));
-		System.out.println("locY: " + locY);
+		System.out.println("width: " + width);
 	}
 
 	public void setLineNumber(int number) {
@@ -75,10 +75,5 @@ public class LineNumberContainer implements BoxComponent {
 
 	public int getLineIndex() {
 		return lineIndex;
-	}
-
-	public void scrollUp() {
-		this.scrollValue -= 10;
-		box.getBoxContent().createImage();
 	}
 }

@@ -40,6 +40,7 @@ public class Box extends UIComponent {
 
 	private BoxController boxController;
 	Graphics2D g;
+	private int scrollHorizontal;
 
 	public Box(Window window, int drawPriority, int locX, int locY, BoxController boxController) {
 		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
@@ -71,10 +72,20 @@ public class Box extends UIComponent {
 	public void createContent(ArrayList<String> contentLineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		boxContent = new BoxContent(this, contentLineList, startLineIndex, noOfDisplayedLines, noOfAllLines);
+		boxContent.setScrollHorizontal(scrollHorizontal);
 	}
 
 	public void updateContent(int startLineIndex, ArrayList<String> lineList) {
+		scrollHorizontal = boxContent.getScrollHorizontal(); // Preserve scrollHorizontal before update
 		boxContent.updateBoxContent(startLineIndex, lineList);
+		boxContent.setScrollHorizontal(scrollHorizontal); // Restore scrollHorizontal after update
+	}
+
+	public void setScrollHorizontal(int value) {
+		this.scrollHorizontal = value;
+		if (boxContent != null) {
+			boxContent.setScrollHorizontal(value);
+		}
 	}
 
 	@Override
@@ -249,11 +260,15 @@ public class Box extends UIComponent {
 	}
 
 	public Graphics2D getGraphics() {
-		// TODO Auto-generated method stub
 		return (Graphics2D) window.getMainUI().getGraphics();
 	}
 
 	public BoxController getBoxController() {
 		return boxController;
 	}
+
+	public double getScrollHorizontal() {
+		return scrollHorizontal;
+	}
+
 }

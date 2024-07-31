@@ -76,11 +76,8 @@ public class ScrollerHorizontal {
 
 		calculateScrollPosition();
 
-		for (int i = 0; i < boxContent.getNoOfDisplayedLines(); i++) {
-			boxContent.getDisplayedLine(i).getLineTextContainer()
-					.setScrollHorizontal((int) (scrollPosition * bigWidth * (-1) * 2));
-		}
-		boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), boxContent.getStartLine());
+		boxContent.setScrollHorizontal((int) (scrollPosition * bigWidth * (-1) * 2));
+        boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), boxContent.getStartLine());
 
 	}
 

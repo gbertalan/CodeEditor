@@ -31,13 +31,15 @@ public class BoxContent implements BoxComponent {
 
 	private int noOfDisplayedColumns = 50;
 
-	private int noOfAllColumns = 200;
+	private int noOfAllColumns = 100;
 
 	private ScrollerHorizontal scrollerHorizontal;
 
 	private ArrayList<String> lineList;
 
 	private int startLineIndex;
+
+	private int scrollHorizontal;
 
 	public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
@@ -53,10 +55,14 @@ public class BoxContent implements BoxComponent {
 		// Initialize location and size
 		updateLocationAndSize();
 
+		this.scrollHorizontal = 0;
+
 		// Create displayed lines, unbroken:
 		int lineIndex = 0;
 		for (String line : lineList) {
-			displayedLines.add(new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex));
+			DisplayedLine displayedLine = new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex);
+			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal);
+			displayedLines.add(displayedLine);
 			++lineIndex;
 		}
 
@@ -68,23 +74,31 @@ public class BoxContent implements BoxComponent {
 	}
 
 	public void updateBoxContent(int startLineIndex, ArrayList<String> lineList) {
-
 		this.startLineIndex = startLineIndex;
+		createDisplayedLines(lineList, startLineIndex);
+		createImage();
+	}
 
-		this.lineList = lineList;
-
-		int endLineIndex = startLineIndex + 32;
-
+	private void createDisplayedLines(ArrayList<String> lineList, int startLineIndex) {
 		displayedLines.clear();
-		// Create displayed lines, unbroken:
 		int lineIndex = 0;
 		for (String line : lineList) {
-			displayedLines.add(new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex));
+			DisplayedLine displayedLine = new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex);
+			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal); // Set scrollHorizontal
+			displayedLines.add(displayedLine);
 			++lineIndex;
 		}
+	}
 
-		// Create image
-		createImage();
+	public void setScrollHorizontal(int value) {
+		this.scrollHorizontal = value;
+		for (DisplayedLine displayedLine : displayedLines) {
+			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal); // Update all displayed lines
+		}
+	}
+
+	public int getScrollHorizontal() {
+		return scrollHorizontal;
 	}
 
 	private void updateLocationAndSize() {
@@ -109,6 +123,18 @@ public class BoxContent implements BoxComponent {
 
 		g2d.dispose();
 	}
+	
+	public static BufferedImage copyImage(BufferedImage source) {
+        BufferedImage copy = new BufferedImage(
+            source.getWidth(), 
+            source.getHeight(), 
+            source.getType()
+        );
+        Graphics2D g2d = copy.createGraphics();
+        g2d.drawImage(source, 0, 0, null);
+        g2d.dispose();
+        return copy;
+    }
 
 	@Override
 	public void draw(Graphics2D g2d) {
@@ -178,6 +204,10 @@ public class BoxContent implements BoxComponent {
 		return box.getWidth() / 8;
 	}
 
+//	public void setScrollHorizontal(int value) {
+//		this.scrollHorizontal = value;
+//	}
+
 	public void mouseMoved(MouseEvent e) {
 		System.out.println("Mouse in boxContent moved.");
 
@@ -201,4 +231,13 @@ public class BoxContent implements BoxComponent {
 			}
 		}
 	}
+
+	public ScrollerVertical getScrollerVertical() {
+		return scrollerVertical;
+	}
+
+	public ScrollerHorizontal getScrollerHorizontal() {
+		return scrollerHorizontal;
+	}
+
 }
