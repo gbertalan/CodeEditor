@@ -75,8 +75,6 @@ public class MouseListener extends MouseAdapter {
 
 		if (!listener.draggingByTitleBar && !listener.draggingByEdge) {
 
-			
-
 			int noOfBoxes = listener.boxController.getNoOfBoxes();
 			System.out.println("noOfBoxes: " + noOfBoxes);
 			for (Box box : listener.boxController.getBoxMap().values()) {
@@ -88,8 +86,9 @@ public class MouseListener extends MouseAdapter {
 				}
 			}
 		}
-		
-		if(listener.getTopHoveredComponent().equals(listener.background)) {
+
+		if (listener.getTopHoveredComponent().equals(listener.background) && hoveredComponents.size() == 1) {
+			System.out.println("THIS");
 			listener.draggingByBackground = true;
 			for (Box box : listener.boxController.getBoxMap().values()) {
 				box.setMouseOffset(e.getX() - box.getLocX(), e.getY() - box.getLocY());
@@ -117,6 +116,9 @@ public class MouseListener extends MouseAdapter {
 		}
 		if (listener.draggingByBoxHeader) {
 			listener.draggingByBoxHeader = false;
+		}
+		if (listener.draggingByBackground) {
+			listener.draggingByBackground = false;
 		}
 	}
 

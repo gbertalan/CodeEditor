@@ -127,7 +127,7 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
     }
 
     public void repaint() {
-        System.out.println(ANSIText.purple("UIComponent Repaint: " + toString()));
+//        System.out.println(ANSIText.purple("UIComponent Repaint: " + toString()));
         Rectangle area = new Rectangle(locX - REPAINT_AREA_EXPANSION, locY - REPAINT_AREA_EXPANSION,
                 width + 2 * REPAINT_AREA_EXPANSION, height + 2 * REPAINT_AREA_EXPANSION);
         window.getMainUI().repaint(area);
