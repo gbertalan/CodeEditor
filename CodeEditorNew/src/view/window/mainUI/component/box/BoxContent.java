@@ -203,6 +203,11 @@ public class BoxContent implements BoxComponent {
 	public int getLineNumberContainerWidth() {
 		return box.getWidth() / 8;
 	}
+	
+	public int getLineNumberContainerHeight() {
+		// TODO Auto-generated method stub
+		return (int) Math.round(box.getHeight() / 36);
+	}
 
 //	public void setScrollHorizontal(int value) {
 //		this.scrollHorizontal = value;
@@ -221,8 +226,6 @@ public class BoxContent implements BoxComponent {
 		System.out.println("MouseWheel in boxContent moved.");
 		if (!e.isControlDown()) {
 			if (!e.isShiftDown()) {
-//				scrollerVertical.scroll(e.getUnitsToScroll());
-//				scrollerVertical.setYShift(50);
 				scrollerVertical.scroll(e.getUnitsToScroll());
 				box.repaint();
 			} else {
@@ -239,5 +242,7 @@ public class BoxContent implements BoxComponent {
 	public ScrollerHorizontal getScrollerHorizontal() {
 		return scrollerHorizontal;
 	}
+
+	
 
 }

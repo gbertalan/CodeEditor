@@ -17,7 +17,7 @@ public class ScrollerVertical {
 
 	private BoxContent boxContent;
 	private double yShiftRatio;
-	private int scrollSpeed = 7;
+	private double scrollSpeed = 0.03;
 	private double scrollPosition;
 	private int startLine;
 
@@ -48,10 +48,11 @@ public class ScrollerVertical {
 
 	public void calculateSmallHeight() {
 		double lineRatio;
+
+		lineRatio = (double) (boxContent.getNoOfDisplayedLines()) / boxContent.getNoOfAllLines();
 		if (boxContent.getNoOfAllLines() < boxContent.getNoOfDisplayedLines()) {
 			lineRatio = 1.0;
 		}
-		lineRatio = (double) (boxContent.getNoOfDisplayedLines()) / boxContent.getNoOfAllLines();
 
 		smallHeight = (int) Math.round(boxContent.getHeight() * lineRatio);
 	}
@@ -60,8 +61,32 @@ public class ScrollerVertical {
 		yShift = (int) (bigHeight * yShiftRatio);
 	}
 
+//	public void scroll(int unitsToScroll) {
+//		
+//		int dynamicScrollSpeed = 0;
+//		if (boxContent.getNoOfAllLines() > boxContent.getNoOfDisplayedLines()) {
+//	        double ratio = (double) boxContent.getNoOfDisplayedLines() / boxContent.getNoOfAllLines();
+//	        dynamicScrollSpeed = (int) Math.round(scrollSpeed * ratio);
+//	    }
+//		
+//		yShift += ((unitsToScroll * dynamicScrollSpeed));
+//
+//		if (yShift < 0) {
+//			yShift = 0;
+//		} else if (yShift + smallHeight > bigHeight) {
+//			yShift = bigHeight - smallHeight;
+//		}
+//
+//		yShiftRatio = 1 - (double) (bigHeight - yShift) / bigHeight;
+//
+//		calculateScrollPosition();
+//		calculateStartLine();
+//		boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), startLine);
+//	}
+
 	public void scroll(int unitsToScroll) {
-		yShift += (unitsToScroll * scrollSpeed);
+
+		yShift += Math.round(smallHeight * (unitsToScroll * scrollSpeed));
 
 		if (yShift < 0) {
 			yShift = 0;

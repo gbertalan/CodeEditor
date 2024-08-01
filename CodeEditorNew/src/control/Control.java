@@ -29,6 +29,11 @@ public class Control {
 		ArrayList<String> fileNameList = new ArrayList<>();
 		fileNameList.add("Box.java");
 		fileNameList.add("BoxContent.java");
+		fileNameList.add("DisplayedLine.java");
+		fileNameList.add("LineNumberContainer.java");
+		fileNameList.add("LineTextContainer.java");
+		fileNameList.add("ScrollerHorizontal.java");
+		fileNameList.add("ScrollerVertical.java");
 
 		openBox(fileNameList, path, locX, locY);
 
