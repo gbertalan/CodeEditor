@@ -11,7 +11,9 @@ import view.window.mainUI.component.CloseButton;
 import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -40,6 +42,8 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			handleEdgeDrag(e);
 		} else if (listener.draggingByBoxHeader) {
 			handleBoxDrag(e);
+		} else if (listener.draggingByBackground) {
+			handleBackgroundDrag(e);
 		}
 
 	}
@@ -129,14 +133,18 @@ public class MouseMotionListener extends MouseMotionAdapter {
 		box.updateLocation(e.getX(), e.getY());
 	}
 
+	private void handleBackgroundDrag(MouseEvent e) {
+		for (Box box : listener.boxController.getBoxMap().values()) {
+			box.updateLocation(e.getX(), e.getY());
+		}
+	}
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		updateHoveredComponents(e);
 
 		listener.propagateEvent(e, Box::mouseMoved);
 	}
-
-	
 
 	private void updateHoveredComponents(MouseEvent e) {
 		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);

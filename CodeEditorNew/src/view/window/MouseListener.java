@@ -88,6 +88,13 @@ public class MouseListener extends MouseAdapter {
 				}
 			}
 		}
+		
+		if(listener.getTopHoveredComponent().equals(listener.background)) {
+			listener.draggingByBackground = true;
+			for (Box box : listener.boxController.getBoxMap().values()) {
+				box.setMouseOffset(e.getX() - box.getLocX(), e.getY() - box.getLocY());
+			}
+		}
 	}
 
 	private boolean isOnWindowControlButton() {

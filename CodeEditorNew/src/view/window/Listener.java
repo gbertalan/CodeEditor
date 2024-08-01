@@ -22,11 +22,11 @@ public class Listener {
 	Point initialPressOnTitleBar = new Point(0, 0);
 	Point edgeStart = new Point(0, 0);
 	int oldWidth, oldHeight, oldLocX, oldLocY;
-	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader;
+	boolean draggingByTitleBar, draggingByEdge, draggingByBoxHeader, draggingByBackground;
 	HashSet<UIComponent> hoveredComponents = new HashSet<>();
 	public int dragginBoxID;
 	public BoxController boxController;
-	public UIComponent closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
+	public UIComponent background, closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
 			sidePanelLeft, sidePanelRight, titleBar, trayButton;
 
 	public Listener(Window window) {
@@ -44,6 +44,7 @@ public class Listener {
 	}
 
 	void initializeComponents() {
+		background = mainUI.getComponent("Background");
 		closeButton = mainUI.getComponent("CloseButton");
 		edgeEast = mainUI.getComponent("EdgeEast");
 		edgeNorth = mainUI.getComponent("EdgeNorth");

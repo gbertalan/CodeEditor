@@ -131,7 +131,7 @@ public class Box extends UIComponent {
 
 	}
 
-	public void updateLocation(int x, int y) {
+	public void updateLocation(int x, int y) { // when grabbed by the header
 		repaint();
 		int newX = x - mouseOffsetX;
 		int newY = y - mouseOffsetY;
