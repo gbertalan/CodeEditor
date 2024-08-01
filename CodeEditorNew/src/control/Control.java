@@ -36,7 +36,13 @@ public class Control {
 		fileNameList.add("ScrollerVertical.java");
 
 		openBox(fileNameList, path, locX, locY);
-
+		
+		fileNameList.clear();
+		locY += 700;
+		fileNameList.add("Box.java");
+		
+		
+		openBox(fileNameList, path, locX, locY);
 	}
 
 	private void openBox(ArrayList<String> fileNameList, String path, int startingLocX, int startingLocY) {

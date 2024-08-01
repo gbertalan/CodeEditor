@@ -42,7 +42,6 @@ public class LineNumberContainer implements BoxComponent {
 		g2d.fillRect(locX, locY, width, height);
 		g2d.setColor(SyntaxColor.getLineNumberColor());
 		Globals.drawCenteredText(g2d, locX, locY, width, height, Integer.toString(lineNumber));
-		System.out.println("width: " + width);
 	}
 
 	public void setLineNumber(int number) {
