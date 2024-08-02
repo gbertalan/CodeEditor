@@ -123,12 +123,17 @@ public class ReadWrite {
      * @param fileName      The name of the file to write.
      * @param stringToWrite The string to write to the file.
      */
-    public static void writeFileInResources(String fileName, String stringToWrite) {
+    public static boolean writeFileInResources(String fileName, String stringToWrite) {
+        boolean success = true;
+
         try (BufferedWriter out = new BufferedWriter(new FileWriter(localFile.getCanonicalPath() + "\\resources\\" + fileName))) {
             out.write(stringToWrite);
         } catch (IOException e) {
             System.out.println(e);
+            success = false;
         }
+
+        return success;
     }
 
     /**

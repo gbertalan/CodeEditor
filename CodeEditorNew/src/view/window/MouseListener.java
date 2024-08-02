@@ -34,8 +34,7 @@ public class MouseListener extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (hoveredComponents.contains(listener.closeButton)) {
-			Toolkit.getDefaultToolkit().getSystemEventQueue()
-					.postEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+			listener.getControl().closeApp();
 		} else if (hoveredComponents.contains(listener.trayButton)) {
 			window.setExtendedState(JFrame.ICONIFIED);
 		} else if (hoveredComponents.contains(listener.maxButton)

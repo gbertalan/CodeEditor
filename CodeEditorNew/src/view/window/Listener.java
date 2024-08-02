@@ -2,15 +2,19 @@ package view.window;
 
 import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import control.BoxController;
+import control.Control;
 import utils.ANSIText;
+import utils.ReadWrite;
 import view.window.Window;
 import view.window.mainUI.MainUI;
 import view.window.mainUI.component.UIComponent;
@@ -28,6 +32,8 @@ public class Listener {
 	public BoxController boxController;
 	public UIComponent background, closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
 			sidePanelLeft, sidePanelRight, titleBar, trayButton;
+	private MouseWheelListener mouseWheelListener;
+	private Control control;
 
 	public Listener(Window window) {
 		System.out.println(ANSIText.purple("Listener constructor is called."));
@@ -141,40 +147,61 @@ public class Listener {
 		hoveredComponents.clear();
 	}
 
-	public void setBoxController(BoxController boxController) {
-		this.boxController = boxController;
-	}
+	
 
 	/**
 	 * Propagates an event to the first hovered component that is a Box. The
 	 * propagated method is sent in as a parameter.
 	 *
-	 * @param <E> the type of event to be propagated
-	 * @param e the event to be propagated
-	 * @param eventHandler the method we want to call. e.g. Box::mouseClicked or Box::mouseWheelMoved
+	 * @param <E>          the type of event to be propagated
+	 * @param e            the event to be propagated
+	 * @param eventHandler the method we want to call. e.g. Box::mouseClicked or
+	 *                     Box::mouseWheelMoved
 	 */
 	public <E> void propagateEvent(E e, BiConsumer<Box, E> eventHandler) {
-	    for (UIComponent uiComponent : hoveredComponents) {
-	        if (uiComponent.toString().startsWith("Box")) {
-	            Box box = (Box) uiComponent;
-	            eventHandler.accept(box, e);
-	            break;
-	        }
-	    }
+		for (UIComponent uiComponent : hoveredComponents) {
+			if (uiComponent.toString().startsWith("Box")) {
+				Box box = (Box) uiComponent;
+				eventHandler.accept(box, e);
+				break;
+			}
+		}
 	}
-	
+
 	/**
 	 * Returns the UIComponent with the highest priority
-	 * @return the UIComponent with the highest priority, or null if no components are hovered
+	 * 
+	 * @return the UIComponent with the highest priority, or null if no components
+	 *         are hovered
 	 */
 	public UIComponent getTopHoveredComponent() {
-	    UIComponent top = null;
-	    for (UIComponent uiComponent : hoveredComponents) {
-	        if (top == null || uiComponent.getDrawPriority() > top.getDrawPriority()) {
-	            top = uiComponent;
-	        }
-	    }
-	    return top;
+		UIComponent top = null;
+		for (UIComponent uiComponent : hoveredComponents) {
+			if (top == null || uiComponent.getDrawPriority() > top.getDrawPriority()) {
+				top = uiComponent;
+			}
+		}
+		return top;
+	}
+
+	protected void setMouseWheelListener(MouseWheelListener mouseWheelListener) {
+		this.mouseWheelListener = mouseWheelListener;
+	}
+	
+	public MouseWheelListener getMouseWheelListener() {
+		return mouseWheelListener;
+	}
+	
+	public void setControl(Control control) {
+		this.control = control;
+	}
+
+	public void setBoxController(BoxController boxController) {
+		this.boxController = boxController;
+	}
+
+	public Control getControl() {
+		return this.control;
 	}
 
 }
