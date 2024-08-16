@@ -28,7 +28,7 @@ public class BoxController {
 	}
 
 	public void createBox(String filename, String pathWithFilename, int locX, int locY) {
-//		String filename = "something.txt";
+
 		BoxModel boxModel = model.createBoxModel(filename);
 
 		Box newBox = new Box(view.getWindow(), 1, locX, locY, this);
@@ -36,7 +36,6 @@ public class BoxController {
 		boxMap.put(newBox.getId(), newBox);
 		newBox.createHeader(boxModel.getHeaderText());
 
-//		readInLines = ReadWrite.readFileInResourcesAsArrayList(filename);
 		readInLines = ReadWrite.readFileInPathAsArrayList(pathWithFilename);
 
 		boxModel.setAllLinesList(readInLines);

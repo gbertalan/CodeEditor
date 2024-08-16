@@ -35,5 +35,9 @@ public class BoxHeader implements BoxComponent{
 	public int getHeight() {
 		return box.getHeight() / HEIGHT_DIVISOR;
 	}
+	
+	public String getHeaderText() {
+		return headerText;
+	}
 
 }
