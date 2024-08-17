@@ -7,6 +7,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import utils.ANSIText;
 import utils.Globals;
 import utils.Theme;
 import view.window.MouseWheelListener;
@@ -41,6 +42,10 @@ public class BoxContent implements BoxComponent {
 
 	private int scrollHorizontal;
 
+	private boolean isImageResized;
+
+	private BufferedImage resizedImage;
+
 	public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		this.box = box;
@@ -57,16 +62,8 @@ public class BoxContent implements BoxComponent {
 
 		this.scrollHorizontal = 0;
 
-		// Create displayed lines, unbroken:
-		int lineIndex = 0;
-		for (String line : lineList) {
-			DisplayedLine displayedLine = new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex);
-			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal);
-			displayedLines.add(displayedLine);
-			++lineIndex;
-		}
+		createDisplayedLines(lineList, startLineIndex);
 
-		// Create image
 		createImage();
 
 		scrollerVertical = new ScrollerVertical(this);
@@ -108,7 +105,10 @@ public class BoxContent implements BoxComponent {
 		height = box.getHeight() - box.getBoxHeader().getHeight();
 	}
 
-	public void createImage() {
+	private void createImage() {
+
+		System.out.println(ANSIText.red(ANSIText.bold("\nCREATE_IMAGE in BoxContent\n")));
+
 		updateLocationAndSize();
 
 		contentImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -123,18 +123,17 @@ public class BoxContent implements BoxComponent {
 
 		g2d.dispose();
 	}
-	
+
 	public static BufferedImage copyImage(BufferedImage source) {
-        BufferedImage copy = new BufferedImage(
-            source.getWidth(), 
-            source.getHeight(), 
-            source.getType()
-        );
-        Graphics2D g2d = copy.createGraphics();
-        g2d.drawImage(source, 0, 0, null);
-        g2d.dispose();
-        return copy;
-    }
+
+		System.out.println(ANSIText.red(ANSIText.bold("\nCOPY_IMAGE in BoxContent\n")));
+
+		BufferedImage copy = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+		Graphics2D g2d = copy.createGraphics();
+		g2d.drawImage(source, 0, 0, null);
+		g2d.dispose();
+		return copy;
+	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
@@ -145,15 +144,45 @@ public class BoxContent implements BoxComponent {
 		g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
 
-		BufferedImage imageToDraw = contentImage;
-		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
-			imageToDraw = Globals.resize(contentImage, width, height);
-		}
+//		BufferedImage imageToDraw = contentImage;
+//		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
+//			imageToDraw = Globals.resize(contentImage, width, height);
+//			System.out.println(ANSIText.red(ANSIText.bold("\nRESIZE in BoxContent\n ")));
+//			contentImage = imageToDraw;
+//		}
+		BufferedImage imageToDraw = createResizedImage();
 
 		g2d.drawImage(imageToDraw, locX, locY, null);
 
 		scrollerVertical.draw(g2d);
 		scrollerHorizontal.draw(g2d);
+	}
+
+	private BufferedImage createResizedImage() {
+
+		BufferedImage imageToDraw = resizedImage;
+//		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
+		if (!isImageResized) {
+			imageToDraw = Globals.resize(copyImage(contentImage), width, height);
+			
+//			contentImage = copyImage(imageToDraw);
+			resizedImage = imageToDraw;
+			isImageResized = true;
+		}
+
+		System.out.println(ANSIText.red(ANSIText.bold("\nRESIZE in BoxContent\n width: "+width)));
+		
+		return imageToDraw;
+	}
+
+	/**
+	 * Resets the isImageResized field to false, so that the image will be resized
+	 * again at the next draw call.
+	 * 
+	 * @param isImageResized
+	 */
+	public void resetImageResized() {
+		this.isImageResized = false;
 	}
 
 	public int getLocX() {
@@ -203,7 +232,7 @@ public class BoxContent implements BoxComponent {
 	public int getLineNumberContainerWidth() {
 		return box.getWidth() / 8;
 	}
-	
+
 	public int getLineNumberContainerHeight() {
 		// TODO Auto-generated method stub
 		return (int) Math.round(box.getHeight() / 36);
@@ -242,7 +271,5 @@ public class BoxContent implements BoxComponent {
 	public ScrollerHorizontal getScrollerHorizontal() {
 		return scrollerHorizontal;
 	}
-
-	
 
 }

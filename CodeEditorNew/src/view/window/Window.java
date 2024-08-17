@@ -30,9 +30,7 @@ public class Window extends JFrame {
 	private Listener listener;
 
 	public Window() {
-		System.out.println(ANSIText.purple("Window constructor is called."));
 
-		setTitle("Code Editor by Gergely Bertalan");
 		try {
 			Image icon = Toolkit.getDefaultToolkit().getImage("resources/logo.png");
 			setIconImage(icon);
@@ -40,6 +38,7 @@ public class Window extends JFrame {
 			e.printStackTrace();
 			System.out.println("Exception in loading icon image");
 		}
+		setTitle("Code Editor by Gergely Bertalan");
 		setSize(width, height);
 		setLocation(locX, locY);
 		setUndecorated(true);
@@ -47,16 +46,16 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(new Color(0, 0, 0, 0));
 		getContentPane().setLayout(null);
-		setVisible(true);
 
+		addMainUIPanel();
+		attachListeners();
+		
+		setVisible(true);
 	}
 
-	public void attachPanels() {
-		MainUI mainUI = new MainUI(this);
-		addMainUI(mainUI);
-
-		revalidate();
-		repaint();
+	public void addMainUIPanel() {
+		this.mainUI = new MainUI(this);
+		getContentPane().add(mainUI);
 	}
 
 	public void attachListeners() {
@@ -66,10 +65,9 @@ public class Window extends JFrame {
 		addWindowStateListener(new StateListener(this));
 		addMouseWheelListener(new MouseWheelListener(listener));
 	}
-
-	private void addMainUI(MainUI mainUI) {
-		this.mainUI = mainUI;
-		getContentPane().add(mainUI);
+	
+	public MouseWheelListener getMouseWheelListener() {
+		return (MouseWheelListener) getMouseWheelListeners()[0];
 	}
 
 	public MainUI getMainUI() {

@@ -27,8 +27,6 @@ public class MainUI extends JPanel {
     private CopyOnWriteArrayList<UIComponent> componentList;
 
     public MainUI(Window window) {
-        System.out.println(ANSIText.blue("MainUI constructor is called."));
-
         this.window = window;
 
         initComponents();
@@ -56,9 +54,6 @@ public class MainUI extends JPanel {
     public void addComponent(UIComponent component) {
         componentMap.put(component.getComponentName(), component);
         componentList.add(component);
-
-        System.out.println(ANSIText
-                .cyan("Component added: " + component.toString() + " ComponentList size: " + componentList.size()));
     }
 
     public void removeComponent(Box box) {
@@ -87,7 +82,6 @@ public class MainUI extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println(ANSIText.green("MainUI paintComponent() is called."));
 
         setBounds(0, 0, window.width, window.height);
 

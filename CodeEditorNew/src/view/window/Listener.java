@@ -76,21 +76,21 @@ public class Listener {
 	}
 
 	void setCursor() {
-		if (hoveredComponents.contains(mainUI.getComponent("EdgeSouth"))) {
-			if (hoveredComponents.contains(mainUI.getComponent("EdgeWest"))) {
-				window.setCursor(mainUI.getComponent("EdgeSouth").getCursor(Cursor.W_RESIZE_CURSOR));
-			} else if (hoveredComponents.contains(mainUI.getComponent("EdgeEast"))) {
-				window.setCursor(mainUI.getComponent("EdgeSouth").getCursor(Cursor.E_RESIZE_CURSOR));
+		if (hoveredComponents.contains(edgeSouth)) {
+			if (hoveredComponents.contains(edgeWest)) {
+				window.setCursor(edgeSouth.getCursor(Cursor.W_RESIZE_CURSOR));
+			} else if (hoveredComponents.contains(edgeEast)) {
+				window.setCursor(edgeSouth.getCursor(Cursor.E_RESIZE_CURSOR));
 			} else {
-				window.setCursor(mainUI.getComponent("EdgeSouth").getCursor());
+				window.setCursor(edgeSouth.getCursor());
 			}
-		} else if (hoveredComponents.contains(mainUI.getComponent("EdgeNorth"))) {
-			if (hoveredComponents.contains(mainUI.getComponent("EdgeWest"))) {
-				window.setCursor(mainUI.getComponent("EdgeNorth").getCursor(Cursor.W_RESIZE_CURSOR));
-			} else if (hoveredComponents.contains(mainUI.getComponent("EdgeEast"))) {
-				window.setCursor(mainUI.getComponent("EdgeNorth").getCursor(Cursor.E_RESIZE_CURSOR));
+		} else if (hoveredComponents.contains(edgeNorth)) {
+			if (hoveredComponents.contains(edgeWest)) {
+				window.setCursor(edgeNorth.getCursor(Cursor.W_RESIZE_CURSOR));
+			} else if (hoveredComponents.contains(edgeEast)) {
+				window.setCursor(edgeNorth.getCursor(Cursor.E_RESIZE_CURSOR));
 			} else {
-				window.setCursor(mainUI.getComponent("EdgeNorth").getCursor());
+				window.setCursor(edgeNorth.getCursor());
 			}
 		} else {
 			Cursor highestPriorityCursor = null;
@@ -169,7 +169,7 @@ public class Listener {
 	}
 
 	/**
-	 * Returns the UIComponent with the highest priority
+	 * Returns the currently hovered UIComponent with the highest priority
 	 * 
 	 * @return the UIComponent with the highest priority, or null if no components
 	 *         are hovered
@@ -183,13 +183,9 @@ public class Listener {
 		}
 		return top;
 	}
-
-	protected void setMouseWheelListener(MouseWheelListener mouseWheelListener) {
-		this.mouseWheelListener = mouseWheelListener;
-	}
 	
-	public MouseWheelListener getMouseWheelListener() {
-		return mouseWheelListener;
+	public Control getControl() {
+		return this.control;
 	}
 	
 	public void setControl(Control control) {
@@ -198,10 +194,6 @@ public class Listener {
 
 	public void setBoxController(BoxController boxController) {
 		this.boxController = boxController;
-	}
-
-	public Control getControl() {
-		return this.control;
 	}
 
 }

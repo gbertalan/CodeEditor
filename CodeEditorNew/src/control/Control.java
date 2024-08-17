@@ -139,7 +139,7 @@ public class Control {
 	}
 
 	public void closeApp() {
-		view.getWindow().getListener().getMouseWheelListener().resetZoom();
+		view.getWindow().getMouseWheelListener().resetZoom();
 
 		if (save("save.txt")) {
 			Toolkit.getDefaultToolkit().getSystemEventQueue()

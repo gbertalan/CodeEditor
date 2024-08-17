@@ -65,7 +65,7 @@ public class BoxController {
 //		megszorzom a zoom-mal.
 //		visszaallitom.
 		// De kelleni fog talan a box eredeti merete is.
-		// Ha meg sehogy nemtudom megoldani, akkor hardcode-olom.
+		// Ha meg sehogy nem tudom megoldani, akkor hardcode-olom.
 		// De most ugy gondolom, h megoldhato ugy, ahogy leirtam itt.
 		
 		int boxWidth = box.getWidth();

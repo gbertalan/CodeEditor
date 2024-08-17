@@ -24,7 +24,6 @@ public class MouseWheelListener extends MouseAdapter {
 	public static int zoomLevel = INITIAL_ZOOM_LEVEL;
 
 	public MouseWheelListener(Listener listener) {
-		listener.setMouseWheelListener(this);
 		this.listener = listener;
 		this.window = listener.window;
 		this.mainUI = listener.mainUI;

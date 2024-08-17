@@ -153,14 +153,20 @@ public class Box extends UIComponent {
 	public void zoom(Point mouseLocation) {
 		repaint();
 		adjustComponent(mouseLocation);
+		boxContent.resetImageResized();
 		repaint();
 	}
 
 	private void adjustComponent(Point mouseLocation) {
-		setLocation((int) Math.round(calcX(mouseLocation.x)), (int) Math.round(calcY(mouseLocation.y)));
-		setDoubleLocation(calcX(mouseLocation.x), calcY(mouseLocation.y));
-		setSize((int) Math.round(calcWidth()), (int) Math.round(calcHeight()));
-		setDoubleSize(calcWidth(), calcHeight());
+		double x = calcX(mouseLocation.x);
+		double y = calcY(mouseLocation.y);
+		double w = calcWidth();
+		double h = calcHeight();
+		
+		setLocation((int) Math.round(x), (int) Math.round(y));
+		setDoubleLocation(x, y);
+		setSize((int) Math.round(w), (int) Math.round(h));
+		setDoubleSize(w, h);
 	}
 
 	private double calcX(int mouseX) {
