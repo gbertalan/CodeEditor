@@ -2,20 +2,14 @@ package view.window;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.HashSet;
 
 import utils.ANSIText;
-import view.window.mainUI.MainUI;
-import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
 public class MouseWheelListener extends MouseAdapter {
 	private Listener listener;
 	private Window window;
-	private MainUI mainUI;
-	private HashSet<UIComponent> hoveredComponents;
 
 	private static final double INITIAL_ZOOM_VALUE = 1.0;
 	private static final int INITIAL_ZOOM_LEVEL = 0;
@@ -26,8 +20,6 @@ public class MouseWheelListener extends MouseAdapter {
 	public MouseWheelListener(Listener listener) {
 		this.listener = listener;
 		this.window = listener.window;
-		this.mainUI = listener.mainUI;
-		this.hoveredComponents = listener.hoveredComponents;
 	}
 
 	@Override

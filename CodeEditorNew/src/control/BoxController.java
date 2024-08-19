@@ -34,7 +34,7 @@ public class BoxController {
 		Box newBox = new Box(view.getWindow(), 1, locX, locY, this);
 
 		boxMap.put(newBox.getId(), newBox);
-		newBox.createHeader(boxModel.getHeaderText());
+		newBox.createHeader(boxModel.getFilename());
 
 		readInLines = ReadWrite.readFileInPathAsArrayList(pathWithFilename);
 

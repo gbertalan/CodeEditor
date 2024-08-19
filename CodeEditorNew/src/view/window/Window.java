@@ -48,7 +48,7 @@ public class Window extends JFrame {
 		getContentPane().setLayout(null);
 
 		addMainUIPanel();
-		attachListeners();
+		addListeners();
 		
 		setVisible(true);
 	}
@@ -58,12 +58,13 @@ public class Window extends JFrame {
 		getContentPane().add(mainUI);
 	}
 
-	public void attachListeners() {
+	public void addListeners() {
 		listener = new Listener(this);
 		addMouseListener(new MouseListener(listener));
 		addMouseMotionListener(new MouseMotionListener(listener));
 		addWindowStateListener(new StateListener(this));
 		addMouseWheelListener(new MouseWheelListener(listener));
+		addKeyListener(new KeyListener(listener));
 	}
 	
 	public MouseWheelListener getMouseWheelListener() {

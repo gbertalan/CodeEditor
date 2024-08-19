@@ -33,11 +33,14 @@ public class FileCounter {
             for (File file : files) {
                 if (file.isFile()) {
                     fileCount++;
-                    totalLines += countLines(file);
+                    int linesInFile = countLines(file);
+                    totalLines += linesInFile;
+                    // Print filename and number of lines
+                    System.out.println(file.getName() + ": " + linesInFile + " lines");
                 } else if (file.isDirectory()) {
-                    System.out.println("Entering subfolder: " + file.getPath());
+//                    System.out.println("Entering subfolder: " + file.getPath());
                     int[] subfolderResult = countFilesAndLines(file);
-                    System.out.println("Subfolder: " + file.getPath() + " has " + subfolderResult[0] + " files.");
+//                    System.out.println("Subfolder: " + file.getPath() + " has " + subfolderResult[0] + " files.");
                     fileCount += subfolderResult[0];
                     totalLines += subfolderResult[1];
                 }

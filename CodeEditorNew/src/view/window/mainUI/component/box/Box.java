@@ -22,8 +22,8 @@ public class Box extends UIComponent {
 
 	public static int boxCounter;
 
-	private static final int WIDTH = 530;
-	private static final int HEIGHT = 664;
+	private static final int WIDTH = 830;
+	private static final int HEIGHT = 800;
 
 	protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
 
@@ -154,6 +154,18 @@ public class Box extends UIComponent {
 		repaint();
 		adjustComponent(mouseLocation);
 		boxContent.resetImageResized();
+
+//		new Thread(() -> {
+//            try {
+//                Thread.sleep(200); // Adjust the delay as needed
+//            } catch (InterruptedException ex) {
+//                ex.printStackTrace();
+//            }
+//            boxContent.resetImageResized();
+//            boxContent.isDrawingEnabled = true;
+//            this.repaint();
+//        }).start();
+
 		repaint();
 	}
 
@@ -162,7 +174,7 @@ public class Box extends UIComponent {
 		double y = calcY(mouseLocation.y);
 		double w = calcWidth();
 		double h = calcHeight();
-		
+
 		setLocation((int) Math.round(x), (int) Math.round(y));
 		setDoubleLocation(x, y);
 		setSize((int) Math.round(w), (int) Math.round(h));
@@ -275,6 +287,17 @@ public class Box extends UIComponent {
 
 	public double getScrollHorizontal() {
 		return scrollHorizontal;
+	}
+
+	public void enableBoxContent() {
+		boxContent.isDrawingEnabled = true;
+		boxContent.getScrollerVertical().scroll(0);
+		repaint();
+	}
+
+	public void disableBoxContent() {
+		boxContent.isDrawingEnabled = false;
+		repaint();
 	}
 
 }

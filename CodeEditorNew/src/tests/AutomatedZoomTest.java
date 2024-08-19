@@ -33,7 +33,7 @@ public class AutomatedZoomTest {
 		moveMouseToCenter(robot, view);
 
 		System.out.println("Starting zoom value: " + MouseWheelListener.zoomValue);
-		System.out.println("Starting zoom level: " + MouseWheelListener.zoomLevel);
+//		System.out.println("Starting zoom level: " + MouseWheelListener.zoomLevel);
 
 		for (int j = 0; j < 10; j++) {
 

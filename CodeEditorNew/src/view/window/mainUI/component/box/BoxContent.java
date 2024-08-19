@@ -46,6 +46,8 @@ public class BoxContent implements BoxComponent {
 
 	private BufferedImage resizedImage;
 
+	public boolean isDrawingEnabled = true;
+
 	public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		this.box = box;
@@ -150,9 +152,13 @@ public class BoxContent implements BoxComponent {
 //			System.out.println(ANSIText.red(ANSIText.bold("\nRESIZE in BoxContent\n ")));
 //			contentImage = imageToDraw;
 //		}
+		
+		if(isDrawingEnabled) {
 		BufferedImage imageToDraw = createResizedImage();
 
 		g2d.drawImage(imageToDraw, locX, locY, null);
+//		isDrawingEnabled = false;
+		}
 
 		scrollerVertical.draw(g2d);
 		scrollerHorizontal.draw(g2d);
@@ -163,7 +169,7 @@ public class BoxContent implements BoxComponent {
 		BufferedImage imageToDraw = resizedImage;
 //		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
 		if (!isImageResized) {
-			imageToDraw = Globals.resize(copyImage(contentImage), width, height);
+			imageToDraw = Globals.resize((contentImage), width, height);
 			
 //			contentImage = copyImage(imageToDraw);
 			resizedImage = imageToDraw;
@@ -256,11 +262,11 @@ public class BoxContent implements BoxComponent {
 		if (!e.isControlDown()) {
 			if (!e.isShiftDown()) {
 				scrollerVertical.scroll(e.getUnitsToScroll());
-				box.repaint();
 			} else {
 				scrollerHorizontal.scroll(e.getUnitsToScroll());
-				box.repaint();
 			}
+			resetImageResized();
+			box.repaint();
 		}
 	}
 

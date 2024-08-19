@@ -3,25 +3,26 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class BoxModel {
-	private String headerText;
+	private String filename;
 	private ArrayList<String> allLinesList;
 
 	public BoxModel(int ID, String filename) {
-		headerText = filename;
+		this.filename = filename;
 	}
 
-	public String getHeaderText() {
-		return headerText;
+	public String getFilename() {
+		return filename;
 	}
 
 	/**
 	 * Returns a list of lists of words from the file contents starting from
-	 * startIndex to endIndex, inclusive. If startIndex is greater than endIndex, an
-	 * IndexOutOfBoundsException is thrown. If allLinesList is null, an empty
-	 * ArrayList is returned. If startIndex is less than 0, it is set to 0. If
-	 * endIndex is greater than the index of the last element, it is set to the
-	 * index of the last element.
+	 * startIndex to endIndex, inclusive.
 	 * 
 	 * @param startIndex the starting index, inclusive
 	 * @param endIndex   the ending index, inclusive
@@ -59,11 +60,7 @@ public class BoxModel {
 	
 	/**
      * Returns a list of lines from the file contents starting from
-     * startIndex to endIndex, inclusive. If startIndex is greater than endIndex, an
-     * IndexOutOfBoundsException is thrown. If allLinesList is null, an empty
-     * ArrayList is returned. If startIndex is less than 0, it is set to 0. If
-     * endIndex is greater than the index of the last element, it is set to the
-     * index of the last element.
+     * startIndex to endIndex, inclusive.
      * 
      * @param startIndex the starting index, inclusive
      * @param endIndex   the ending index, inclusive
@@ -96,8 +93,8 @@ public class BoxModel {
         return result;
     }
 
-	public void setHeaderText(String headerText) {
-		this.headerText = headerText;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public void setAllLinesList(ArrayList<String> allLinesList) {
