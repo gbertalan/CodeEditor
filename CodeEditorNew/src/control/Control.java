@@ -32,7 +32,7 @@ public class Control {
 
 		int locX = 160;
 		int locY = 100;
-//		boxController.createBox(fileName, path, locX, locY);
+
 		
 		/*
 		ArrayList<String> fileNameList = new ArrayList<>();
@@ -90,12 +90,6 @@ public class Control {
 		openBox(fileNameList, path, locX, locY);
 		*/
 		
-
-//		fileNameList.clear();
-//		locY += 700;
-//		fileNameList.add("Box.java");
-
-//		openBox(fileNameList, path, locX, locY);
 		
 		
 		load("save.txt");
