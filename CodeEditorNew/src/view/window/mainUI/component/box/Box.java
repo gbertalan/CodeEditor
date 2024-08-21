@@ -50,7 +50,6 @@ public class Box extends UIComponent {
 		this.doubleWidth = width;
 		this.doubleHeight = height;
 		this.boxController = boxController;
-		System.out.println("New Box created with ID: " + id);
 	}
 
 	public int getId() {
@@ -239,6 +238,7 @@ public class Box extends UIComponent {
 			repaint();
 		// the closeButton-t can be placed in a separate class later, and repaint can be
 		// called on it.
+		// also when unhovered.
 
 		Rectangle rect = new Rectangle(boxContent.getLocX(), boxContent.getLocY(), boxContent.getWidth(),
 				boxContent.getHeight());
@@ -255,7 +255,6 @@ public class Box extends UIComponent {
 	}
 
 	public void unhoverCloseButton() {
-		System.out.println("Box.unhoverCloseButton is called");
 		if (closeButtonHovered) {
 			closeButtonHovered = false;
 			repaint();

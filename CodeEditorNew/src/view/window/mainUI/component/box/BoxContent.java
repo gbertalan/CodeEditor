@@ -104,8 +104,6 @@ public class BoxContent implements BoxComponent {
 
 	private void createImage() {
 
-		System.out.println(ANSIText.red(ANSIText.bold("\nCREATE_IMAGE in BoxContent\n")));
-
 		updateLocationAndSize();
 
 		contentImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -227,7 +225,7 @@ public class BoxContent implements BoxComponent {
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("Mouse in boxContent moved.");
+//		System.out.println("Mouse in boxContent moved.");
 
 //		if (e.getX() > scrollerVertical.getLocX())
 //			scrollerVertical.mouseMoved(e);
@@ -236,7 +234,7 @@ public class BoxContent implements BoxComponent {
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		System.out.println("MouseWheel in boxContent moved.");
+//		System.out.println("MouseWheel in boxContent moved.");
 		if (!e.isControlDown()) {
 			if (!e.isShiftDown()) {
 				scrollerVertical.scroll(e.getUnitsToScroll());

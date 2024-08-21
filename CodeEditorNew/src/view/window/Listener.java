@@ -34,7 +34,6 @@ public class Listener {
 	private Control control;
 
 	public Listener(Window window) {
-		System.out.println(ANSIText.purple("Listener constructor is called."));
 		this.window = window;
 		this.mainUI = window.getMainUI();
 
@@ -44,7 +43,6 @@ public class Listener {
 		oldLocY = window.locY;
 
 		initializeComponents();
-
 	}
 
 	void initializeComponents() {
