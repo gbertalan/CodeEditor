@@ -98,7 +98,7 @@ public class ScrollerVertical {
 
 		calculateScrollPosition();
 		calculateStartLine();
-		boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), startLine);
+		boxContent.getBox().getBoxController().updateBoxContent(boxContent.getBox(), startLine);
 	}
 
 	/**

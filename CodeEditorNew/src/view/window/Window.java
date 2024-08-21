@@ -10,6 +10,13 @@ import javax.swing.JPanel;
 import utils.ANSIText;
 import view.window.mainUI.MainUI;
 
+/**
+ * The Window class is the window frame. It has the MainUI panel and the
+ * userinput listeners attached to it.
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +56,7 @@ public class Window extends JFrame {
 
 		addMainUIPanel();
 		addListeners();
-		
+
 		setVisible(true);
 	}
 
@@ -66,7 +73,7 @@ public class Window extends JFrame {
 		addMouseWheelListener(new MouseWheelListener(listener));
 		addKeyListener(new KeyListener(listener));
 	}
-	
+
 	public MouseWheelListener getMouseWheelListener() {
 		return (MouseWheelListener) getMouseWheelListeners()[0];
 	}

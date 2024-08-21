@@ -8,6 +8,14 @@ import view.window.mainUI.MainUI;
 import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
+/**
+ * - keyPressed()
+ * - keyReleased()
+ * - keyTyped()
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class KeyListener extends KeyAdapter {
 
 	private Listener listener;

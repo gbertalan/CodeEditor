@@ -10,10 +10,15 @@ import java.util.Arrays;
  */
 public class BoxModel {
 	private String filename;
-	private ArrayList<String> allLinesList;
+	private ArrayList<String> textContents;
+	private Model model;
 
-	public BoxModel(String filename) {
+	public BoxModel(Model model, int id, String filename, ArrayList<String> textContents) {
+		this.model = model;
 		this.filename = filename;
+		this.textContents = textContents;
+		
+		model.boxModelCatalog.put(id, this);
 	}
 
 	public String getFilename() {
@@ -34,7 +39,7 @@ public class BoxModel {
             throw new IndexOutOfBoundsException("startIndex cannot be greater than endIndex");
         }
 
-        if (allLinesList == null) {
+        if (textContents == null) {
             return new ArrayList<>();
         }
 
@@ -42,14 +47,14 @@ public class BoxModel {
             startIndex = 0;
         }
 
-        if (endIndex >= allLinesList.size()) {
-            endIndex = allLinesList.size() - 1;
+        if (endIndex >= textContents.size()) {
+            endIndex = textContents.size() - 1;
         }
 
         ArrayList<String> result = new ArrayList<>();
 
         for (int i = startIndex; i <= endIndex; i++) {
-            result.add(allLinesList.get(i));
+            result.add(textContents.get(i));
         }
 
         return result;
@@ -59,7 +64,7 @@ public class BoxModel {
 		this.filename = filename;
 	}
 
-	public void setAllLinesList(ArrayList<String> allLinesList) {
-		this.allLinesList = allLinesList;
+	public void setTextContents(ArrayList<String> textContents) {
+		this.textContents = textContents;
 	}
 }

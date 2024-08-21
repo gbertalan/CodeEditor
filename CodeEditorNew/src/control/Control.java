@@ -12,6 +12,12 @@ import view.View;
 import view.window.Listener;
 import view.window.mainUI.component.box.Box;
 
+/**
+ * The Control class does the main application actions:
+ * open, load, save, close.
+ * @author Gergely Bertalan
+ *
+ */
 public class Control {
 
 	private Model model;

@@ -4,46 +4,48 @@ import model.BoxModel;
 import model.Model;
 import utils.ReadWrite;
 import view.View;
-import view.window.MouseWheelListener;
 import view.window.mainUI.component.box.Box;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The BoxController class controls the boxes, individually.
+ * Main functions:
+ * - creates a new box
+ * - updates the contents of a given box
+ * - closes a given box
+ * @author Gergely Bertalan
+ *
+ */
 public class BoxController {
 	private Model model;
 	private View view;
-	private Control control;
 	private Map<Integer, Box> boxMap;
 	private ArrayList<String> readInLines;
 	private ArrayList<String> linesToDisplay;
+	
+	private static int NO_OF_DISPLAYED_LINES = 32;
 
 	public BoxController(Model model, View view, Control control) {
 		this.model = model;
 		this.view = view;
-		this.control = control;
 		this.boxMap = new HashMap<>();
 	}
 
 	public void createBox(String filename, String pathWithFilename, int locX, int locY) {
 
-		
-
 		Box newBox = new Box(view.getWindow(), 1, locX, locY, this);
 		
-		BoxModel boxModel = model.createBoxModel(newBox.getId(), filename);
+		readInLines = ReadWrite.readFileInPathAsArrayList(pathWithFilename);
+		BoxModel boxModel = new BoxModel(model, newBox.getId(), filename, readInLines);
 
 		boxMap.put(newBox.getId(), newBox);
-		newBox.createHeader(boxModel.getFilename());
-
-		readInLines = ReadWrite.readFileInPathAsArrayList(pathWithFilename);
-
-		boxModel.setAllLinesList(readInLines);
+		newBox.createHeader(filename);
 
 		int startIndex = 0;
-		int endIndex = startIndex + 32;
-
+		int endIndex = startIndex + NO_OF_DISPLAYED_LINES;
 		linesToDisplay = boxModel.getFileLineList(startIndex, endIndex);
 		newBox.createContent(linesToDisplay, startIndex, endIndex - startIndex + 1, readInLines.size());
 
@@ -51,20 +53,10 @@ public class BoxController {
 		newBox.repaint();
 	}
 
-	public void updateContent(Box box, int startIndex) {
-		int endIndex = startIndex + 32;
+	public void updateBoxContent(Box box, int startIndex) {
+		int endIndex = startIndex + NO_OF_DISPLAYED_LINES;
 		linesToDisplay = model.getBoxModel(box.getId()).getFileLineList(startIndex, endIndex);
 		box.updateContent(startIndex, linesToDisplay);
-	}
-
-	private ArrayList<String> replaceSpacesWithNonBreakingSpaces(ArrayList<String> lines) {
-		ArrayList<String> modifiedLines = new ArrayList<>();
-		for (String line : lines) {
-			// Replace spaces with non-breaking spaces
-			String modifiedLine = line.replace(" ", "\u00A0");
-			modifiedLines.add(modifiedLine);
-		}
-		return modifiedLines;
 	}
 
 	public void closeBox(Box box) {
@@ -83,7 +75,7 @@ public class BoxController {
 	}
 
 	public int getNoOfBoxes() {
-		return model.getNoOfBoxModels();
+		return boxMap.size();
 	}
 
 }

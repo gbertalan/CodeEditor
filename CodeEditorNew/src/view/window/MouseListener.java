@@ -12,6 +12,15 @@ import view.window.mainUI.MainUI;
 import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
+/**
+ * - mouseExited()
+ * - mouseClicked()
+ * - mousePressed()
+ * - mouseReleased()
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class MouseListener extends MouseAdapter {
 	private Listener listener;
 	private Window window;
@@ -28,7 +37,7 @@ public class MouseListener extends MouseAdapter {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		listener.unhoverAllComponents();
-		mainUI.update();
+		mainUI.repaint();
 	}
 
 	@Override

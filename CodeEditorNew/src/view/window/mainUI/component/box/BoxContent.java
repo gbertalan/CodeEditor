@@ -1,7 +1,6 @@
 package view.window.mainUI.component.box;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import utils.ANSIText;
 import utils.Globals;
 import utils.Theme;
-import view.window.MouseWheelListener;
 
 public class BoxContent implements BoxComponent {
 
@@ -36,8 +34,6 @@ public class BoxContent implements BoxComponent {
 
 	private ScrollerHorizontal scrollerHorizontal;
 
-	private ArrayList<String> lineList;
-
 	private int startLineIndex;
 
 	private int scrollHorizontal;
@@ -51,7 +47,6 @@ public class BoxContent implements BoxComponent {
 	public BoxContent(Box box, ArrayList<String> lineList, int startLineIndex, int noOfDisplayedLines,
 			int noOfAllLines) {
 		this.box = box;
-		this.lineList = lineList;
 		this.startLineIndex = startLineIndex;
 
 		this.noOfDisplayedLines = noOfDisplayedLines;
@@ -83,7 +78,7 @@ public class BoxContent implements BoxComponent {
 		int lineIndex = 0;
 		for (String line : lineList) {
 			DisplayedLine displayedLine = new DisplayedLine(box, startLineIndex + lineIndex + 1, line, lineIndex);
-			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal); // Set scrollHorizontal
+			displayedLine.getLineTextContainer().setScrollHorizontal(scrollHorizontal);
 			displayedLines.add(displayedLine);
 			++lineIndex;
 		}
@@ -159,16 +154,12 @@ public class BoxContent implements BoxComponent {
 	private BufferedImage createResizedImage() {
 
 		BufferedImage imageToDraw = resizedImage;
-//		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
 		if (!isImageResized) {
 			imageToDraw = Globals.resize((contentImage), width, height);
 			
-//			contentImage = copyImage(imageToDraw);
 			resizedImage = imageToDraw;
 			isImageResized = true;
 		}
-
-		System.out.println(ANSIText.red(ANSIText.bold("\nRESIZE in BoxContent\n width: "+width)));
 		
 		return imageToDraw;
 	}
@@ -232,13 +223,8 @@ public class BoxContent implements BoxComponent {
 	}
 
 	public int getLineNumberContainerHeight() {
-		// TODO Auto-generated method stub
 		return (int) Math.round(box.getHeight() / 36);
 	}
-
-//	public void setScrollHorizontal(int value) {
-//		this.scrollHorizontal = value;
-//	}
 
 	public void mouseMoved(MouseEvent e) {
 		System.out.println("Mouse in boxContent moved.");

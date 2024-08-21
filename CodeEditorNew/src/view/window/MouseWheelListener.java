@@ -7,6 +7,13 @@ import java.awt.event.MouseWheelEvent;
 import utils.ANSIText;
 import view.window.mainUI.component.box.Box;
 
+/**
+ * - mouseWheelMoved()
+ * - resetZoom()
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class MouseWheelListener extends MouseAdapter {
 	private Listener listener;
 	private Window window;
@@ -83,7 +90,6 @@ public class MouseWheelListener extends MouseAdapter {
 		zoomValue = INITIAL_ZOOM_VALUE;
 
 		// Update the UI boxes to reflect the reset zoom state
-//        Point centerPoint = new Point(window.getWidth() / 2, window.getHeight() / 2);
 		Point centerPoint = new Point(window.width / 2, window.height / 2);
 		for (Box box : window.getMainUI().getBoxList()) {
 			box.zoom(centerPoint);

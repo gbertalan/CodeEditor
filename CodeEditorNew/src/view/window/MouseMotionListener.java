@@ -5,21 +5,19 @@ import java.awt.Point;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 
-import view.window.Window;
 import view.window.mainUI.MainUI;
-import view.window.mainUI.component.CloseButton;
 import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-import utils.ANSIText;
-
+/**
+ * - mouseDragged() - mouseMoved()
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class MouseMotionListener extends MouseMotionAdapter {
 	private Listener listener;
 	private Window window;
@@ -150,7 +148,8 @@ public class MouseMotionListener extends MouseMotionAdapter {
 		Set<UIComponent> oldHoveredComponents = new HashSet<>(hoveredComponents);
 		Set<UIComponent> newHoveredComponents = new HashSet<>();
 
-		for (UIComponent component : mainUI.getComponentList()) {
+		for (UIComponent component : mainUI.getComponentMap().values()) {
+
 			if (component.isInRegion(e)) {
 				newHoveredComponents.add(component);
 				component.setHovered(true);

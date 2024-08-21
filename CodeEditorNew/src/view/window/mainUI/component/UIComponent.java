@@ -5,10 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import utils.ANSIText;
 import view.window.Window;
 
-public abstract class UIComponent implements VisualComponent, Comparable<UIComponent> {
+public abstract class UIComponent implements Comparable<UIComponent> {
 
     private static final int MIN_PRIORITY = 0;
     private static final int REPAINT_AREA_EXPANSION = 2;
@@ -91,7 +90,6 @@ public abstract class UIComponent implements VisualComponent, Comparable<UICompo
         this.hovered = isHovered;
     }
 
-    @Override
     public abstract void draw(Graphics2D g2d);
 
     public abstract void update();

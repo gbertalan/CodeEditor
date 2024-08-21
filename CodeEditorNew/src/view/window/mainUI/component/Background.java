@@ -1,6 +1,5 @@
 package view.window.mainUI.component;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
@@ -10,7 +9,6 @@ import view.window.Window;
 
 public class Background extends UIComponent {
 
-	private static int ARC_AMOUNT = 18;
 	private static int ARC_SIZE = 8;
 	private static int TITLEBAR_HEIGHT = 42;
 

@@ -1,10 +1,7 @@
 package view.window.mainUI.component;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.geom.GeneralPath;
 
 import utils.Theme;

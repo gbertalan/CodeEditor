@@ -2,8 +2,6 @@ package view.window.mainUI.component.box;
 
 import java.awt.Graphics2D;
 
-import utils.ANSIText;
-
 public class DisplayedLine {
 
 	private LineNumberContainer lineNumberContainer;

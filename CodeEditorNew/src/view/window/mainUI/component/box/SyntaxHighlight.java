@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class SyntaxHighlight {
 
-	private String text;
 	private ArrayList<String> tokenizedText;
 	private List<Entry<String, Color>> coloredText;
 
@@ -28,7 +27,6 @@ public class SyntaxHighlight {
 	private static final Color COMMENT_COLOR = new Color(109, 154, 102);
 
 	public SyntaxHighlight(String text) {
-		this.text = text;
 		tokenizedText = tokenize(text);
 		coloredText = colorize(tokenizedText);
 	}

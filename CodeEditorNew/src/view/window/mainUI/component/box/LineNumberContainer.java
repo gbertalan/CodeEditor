@@ -1,6 +1,5 @@
 package view.window.mainUI.component.box;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import utils.Globals;

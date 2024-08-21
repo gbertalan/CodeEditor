@@ -15,17 +15,17 @@ import view.window.mainUI.component.box.Box;
 public class Model {
 
 //	private ArrayList<BoxModel> boxModelCatalog;
-	private Map<Integer, BoxModel> boxModelCatalog;
+	public Map<Integer, BoxModel> boxModelCatalog;
 
 	public Model() {
 		boxModelCatalog = new HashMap<>();
 	}
 
-	public BoxModel createBoxModel(int id, String filename) {
-		BoxModel boxModel = new BoxModel(filename);
-		boxModelCatalog.put(id, boxModel);
-		return boxModel;
-	}
+//	public BoxModel createBoxModel(int id, String filename) {
+//		BoxModel boxModel = new BoxModel(filename);
+//		boxModelCatalog.put(id, boxModel);
+//		return boxModel;
+//	}
 
 	public BoxModel getBoxModel(int id) {
 		return boxModelCatalog.get(id);

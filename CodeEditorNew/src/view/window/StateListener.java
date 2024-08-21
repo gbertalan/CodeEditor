@@ -5,6 +5,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+/**
+ * - windowStateChanged()
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class StateListener implements WindowStateListener {
     private Window window;
     private int previousState = JFrame.NORMAL;

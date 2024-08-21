@@ -3,7 +3,6 @@ package view.window.mainUI.component.box;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import utils.ANSIText;
 import utils.Theme;
 
 public class ScrollerHorizontal {
@@ -77,7 +76,7 @@ public class ScrollerHorizontal {
 		calculateScrollPosition();
 
 		boxContent.setScrollHorizontal((int) (scrollPosition * bigWidth * (-1) * 2));
-        boxContent.getBox().getBoxController().updateContent(boxContent.getBox(), boxContent.getStartLine());
+        boxContent.getBox().getBoxController().updateBoxContent(boxContent.getBox(), boxContent.getStartLine());
 
 	}
 

@@ -2,11 +2,6 @@ package view.window;
 
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -14,12 +9,16 @@ import java.util.function.Consumer;
 import control.BoxController;
 import control.Control;
 import utils.ANSIText;
-import utils.ReadWrite;
-import view.window.Window;
 import view.window.mainUI.MainUI;
 import view.window.mainUI.component.UIComponent;
 import view.window.mainUI.component.box.Box;
 
+/**
+ * The Listener class holds variables and methods that are shared among the mouse and key listeners.
+ * 
+ * @author Gergely Bertalan
+ *
+ */
 public class Listener {
 	Window window;
 	MainUI mainUI;
@@ -32,7 +31,6 @@ public class Listener {
 	public BoxController boxController;
 	public UIComponent background, closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
 			sidePanelLeft, sidePanelRight, titleBar, trayButton;
-	private MouseWheelListener mouseWheelListener;
 	private Control control;
 
 	public Listener(Window window) {
@@ -70,7 +68,7 @@ public class Listener {
 	}
 
 	void allUIComponent(Consumer<UIComponent> action) {
-		for (UIComponent component : mainUI.getComponentList()) {
+		for (UIComponent component : mainUI.getComponentMap().values()) {
 			action.accept(component);
 		}
 	}
