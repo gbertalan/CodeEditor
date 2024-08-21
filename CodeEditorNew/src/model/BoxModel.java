@@ -12,7 +12,7 @@ public class BoxModel {
 	private String filename;
 	private ArrayList<String> allLinesList;
 
-	public BoxModel(int ID, String filename) {
+	public BoxModel(String filename) {
 		this.filename = filename;
 	}
 

@@ -1,6 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import view.window.mainUI.component.box.Box;
 
 /**
  * The Model class handles a catalog of BoxModels.
@@ -10,20 +14,28 @@ import java.util.ArrayList;
  */
 public class Model {
 
-	private ArrayList<BoxModel> boxModelCatalog;
-	private int noOfBoxModels;
+//	private ArrayList<BoxModel> boxModelCatalog;
+	private Map<Integer, BoxModel> boxModelCatalog;
 
 	public Model() {
-		boxModelCatalog = new ArrayList<>();
+		boxModelCatalog = new HashMap<>();
 	}
 
-	public BoxModel createBoxModel(String filename) {
-		BoxModel boxModel = new BoxModel(noOfBoxModels++, filename);
-		boxModelCatalog.add(boxModel);
+	public BoxModel createBoxModel(int id, String filename) {
+		BoxModel boxModel = new BoxModel(filename);
+		boxModelCatalog.put(id, boxModel);
 		return boxModel;
 	}
 
 	public BoxModel getBoxModel(int id) {
 		return boxModelCatalog.get(id);
+	}
+	
+	public BoxModel removeBoxModel(int id) {
+		return boxModelCatalog.remove(id);
+	}
+	
+	public int getNoOfBoxModels() {
+		return boxModelCatalog.size();
 	}
 }

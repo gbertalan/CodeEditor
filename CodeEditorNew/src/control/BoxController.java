@@ -16,7 +16,6 @@ public class BoxController {
 	private View view;
 	private Control control;
 	private Map<Integer, Box> boxMap;
-	private int noOfBoxes;
 	private ArrayList<String> readInLines;
 	private ArrayList<String> linesToDisplay;
 
@@ -29,9 +28,11 @@ public class BoxController {
 
 	public void createBox(String filename, String pathWithFilename, int locX, int locY) {
 
-		BoxModel boxModel = model.createBoxModel(filename);
+		
 
 		Box newBox = new Box(view.getWindow(), 1, locX, locY, this);
+		
+		BoxModel boxModel = model.createBoxModel(newBox.getId(), filename);
 
 		boxMap.put(newBox.getId(), newBox);
 		newBox.createHeader(boxModel.getFilename());
@@ -48,30 +49,12 @@ public class BoxController {
 
 		view.getWindow().getMainUI().addComponent(newBox);
 		newBox.repaint();
-		++noOfBoxes;
 	}
 
 	public void updateContent(Box box, int startIndex) {
 		int endIndex = startIndex + 32;
 		linesToDisplay = model.getBoxModel(box.getId()).getFileLineList(startIndex, endIndex);
 		box.updateContent(startIndex, linesToDisplay);
-	
-		
-//		int newScrollHor = (int)Math.round(box.getScrollHorizontal()*MouseWheelListener.zoomValue);
-//		box.setScrollHorizontal(newScrollHor);
-		
-//		Lekerem a scrollHor-t.
-//		Kiszamolom, h a box-hoz kepest mekkora.
-//		megszorzom a zoom-mal.
-//		visszaallitom.
-		// De kelleni fog talan a box eredeti merete is.
-		// Ha meg sehogy nem tudom megoldani, akkor hardcode-olom.
-		// De most ugy gondolom, h megoldhato ugy, ahogy leirtam itt.
-		
-		int boxWidth = box.getWidth();
-		
-		
-//		box.setScrollHorizontal(0);
 	}
 
 	private ArrayList<String> replaceSpacesWithNonBreakingSpaces(ArrayList<String> lines) {
@@ -86,9 +69,9 @@ public class BoxController {
 
 	public void closeBox(Box box) {
 		boxMap.remove(box.getId());
+		model.removeBoxModel(box.getId());
 		view.getWindow().getMainUI().removeComponent(box);
 		box.repaint();
-		--noOfBoxes;
 	}
 
 	public Map<Integer, Box> getBoxMap() {
@@ -100,7 +83,7 @@ public class BoxController {
 	}
 
 	public int getNoOfBoxes() {
-		return noOfBoxes;
+		return model.getNoOfBoxModels();
 	}
 
 }
