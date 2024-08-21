@@ -18,16 +18,9 @@ public class Model {
 	}
 
 	public BoxModel createBoxModel(String filename) {
-		BoxModel boxModel;
-		try {
-			boxModel = new BoxModel(noOfBoxModels++, filename);
-			boxModelCatalog.add(boxModel);
-			return boxModel;
-		} catch (Exception e) {
-			System.err.println("Failed to create BoxModel: " + e.getMessage());
-			return null;
-		}
-
+		BoxModel boxModel = new BoxModel(noOfBoxModels++, filename);
+		boxModelCatalog.add(boxModel);
+		return boxModel;
 	}
 
 	public BoxModel getBoxModel(int id) {

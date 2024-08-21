@@ -29,7 +29,7 @@ public class BoxHeader implements BoxComponent{
 				headerText);
 		
 		g2d.setColor(Theme.getSeparatorLineColor());
-		g2d.drawRect(box.getLocX(), box.getLocY(), box.getWidth(), box.getHeight() / HEIGHT_DIVISOR);
+		g2d.drawRect(box.getLocX(), box.getLocY(), box.getWidth(), (box.getHeight() / HEIGHT_DIVISOR)-1);
 	}
 	
 	public int getHeight() {

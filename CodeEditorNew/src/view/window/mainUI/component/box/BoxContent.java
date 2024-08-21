@@ -145,19 +145,11 @@ public class BoxContent implements BoxComponent {
 		// Draw background
 		g2d.setColor(Theme.getBoxBackgroundColor());
 		g2d.fillRect(locX, locY, width, height);
-
-//		BufferedImage imageToDraw = contentImage;
-//		if (contentImage.getWidth() != width || contentImage.getHeight() != height) {
-//			imageToDraw = Globals.resize(contentImage, width, height);
-//			System.out.println(ANSIText.red(ANSIText.bold("\nRESIZE in BoxContent\n ")));
-//			contentImage = imageToDraw;
-//		}
 		
 		if(isDrawingEnabled) {
 		BufferedImage imageToDraw = createResizedImage();
 
 		g2d.drawImage(imageToDraw, locX, locY, null);
-//		isDrawingEnabled = false;
 		}
 
 		scrollerVertical.draw(g2d);

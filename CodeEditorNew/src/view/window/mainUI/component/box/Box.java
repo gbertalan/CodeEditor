@@ -100,7 +100,7 @@ public class Box extends UIComponent {
 		boxContent.draw(g2d);
 
 		// close button:
-		closeButtonSize = (height / 16) - 2;
+		closeButtonSize = (height / 16) - 3;
 		closeButtonX = locX + width - closeButtonSize - 1;
 		closeButtonY = locY + 1;
 		int closeButtonPadding = (int) (closeButtonSize / 2.6);
