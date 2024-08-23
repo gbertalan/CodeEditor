@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
+import view.window.mainUI.component.box.syntax.SyntaxHighlight;
+
 public class LineTextContainer {
 
 	private static final double HEIGHT_DIVISOR = 36;

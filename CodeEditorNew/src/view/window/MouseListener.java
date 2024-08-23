@@ -95,7 +95,7 @@ public class MouseListener extends MouseAdapter {
 			}
 		}
 
-		if (listener.getTopHoveredComponent().equals(listener.background) && hoveredComponents.size() == 1) {
+		if (hoveredComponents.size() == 1 && listener.getTopHoveredComponent().equals(listener.background)) {
 			System.out.println("THIS");
 			listener.draggingByBackground = true;
 			for (Box box : listener.boxController.getBoxMap().values()) {

@@ -1,4 +1,4 @@
-package view.window.mainUI.component.box;
+package view.window.mainUI.component.box.syntax;
 
 import java.awt.Color;
 import java.util.AbstractMap.SimpleEntry;
