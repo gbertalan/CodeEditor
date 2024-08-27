@@ -6,19 +6,15 @@ import java.awt.Graphics2D;
 import utils.Theme;
 import view.window.Window;
 
-public class SidePanelLeft extends UIComponent {
+public class ProjectPanel extends UIComponent {
 
-	private static int TOP_MARGIN = 42;
-	private static int WIDTH = 8;
+	private static int TOP_MARGIN = 42+1;
+	private static int LEFT_MARGIN = 8;
+	private static int WIDTH = 220;
 	private static int BOTTOM_MARGIN = 9;
 
-	public SidePanelLeft(Window window, int drawPriority) {
-		super(window, drawPriority, 0, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
-	}
-
-	@Override
-	public void update() {
-		height = window.height - TOP_MARGIN - BOTTOM_MARGIN;
+	public ProjectPanel(Window window, int drawPriority) {
+		super(window, drawPriority, LEFT_MARGIN, TOP_MARGIN, WIDTH, window.height - TOP_MARGIN - BOTTOM_MARGIN);
 
 	}
 
@@ -27,8 +23,12 @@ public class SidePanelLeft extends UIComponent {
 		g2d.setColor(Theme.getSidePanelColor());
 		g2d.fillRect(locX, locY, width, height);
 		g2d.setColor(Theme.getSeparatorLineColor());
-		g2d.drawLine(locX, locY, locX, locY + height);
-		g2d.drawLine(width, locY, width, locY + height);
+		g2d.drawLine(locX + width, locY, locX + width, locY + height);
+	}
+
+	@Override
+	public void update() {
+		height = window.height - TOP_MARGIN - BOTTOM_MARGIN;
 	}
 
 	@Override

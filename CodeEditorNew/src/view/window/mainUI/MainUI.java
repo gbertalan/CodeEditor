@@ -46,7 +46,7 @@ public class MainUI extends JPanel {
 				new EdgeSouth(window, 10), new TitleBar(window, 10), new CloseButton(window, 11),
 				new TrayButton(window, 11), new MaxButton(window, 11), new SidePanelLeft(window, 10),
 				new SidePanelRight(window, 10), new FileButton(window, 11), new Footer(window, 10),
-				new Background(window, 0) };
+				new Background(window, 0), new ProjectPanel(window, 11) };
 
 		componentMap = new HashMap<>();
 
