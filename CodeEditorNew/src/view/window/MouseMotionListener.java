@@ -177,7 +177,7 @@ public class MouseMotionListener extends MouseMotionAdapter {
 			if (isHoverStateChanged(listener.fileButton, hoveredComponents, oldHoveredComponents)) {
 				listener.fileButton.repaint();
 				if (listener.fileButton.isHovered()) {
-					listener.boxController.createBox("something.txt", "", 140, 80);
+//					listener.boxController.createBox("something.txt", "", 140, 80);
 				}
 			}
 

@@ -22,8 +22,8 @@ public class Box extends UIComponent {
 
 	public static int boxCounter;
 
-	private static final int WIDTH = 830;
-	private static final int HEIGHT = 800;
+	private static int WIDTH = 830;
+	private static int HEIGHT = 800;
 
 	protected double doubleLocX, doubleLocY, doubleWidth, doubleHeight;
 
@@ -42,8 +42,11 @@ public class Box extends UIComponent {
 	Graphics2D g;
 	private int scrollHorizontal;
 
-	public Box(Window window, int drawPriority, int locX, int locY, BoxController boxController) {
-		super(window, drawPriority, locX, locY, WIDTH, HEIGHT);
+	public Box(Window window, int drawPriority, int locX, int locY, int width, int height, BoxController boxController) {
+		super(window, drawPriority, locX, locY, width, height);
+		this.WIDTH = width;
+		this.HEIGHT = height;
+		
 		this.id = idGenerator.incrementAndGet() - 1;
 		this.doubleLocX = locX;
 		this.doubleLocY = locY;

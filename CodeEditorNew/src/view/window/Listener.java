@@ -30,7 +30,7 @@ public class Listener {
 	public int dragginBoxID;
 	public BoxController boxController;
 	public UIComponent background, closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
-			sidePanelLeft, sidePanelRight, titleBar, trayButton, projectPanel;
+			sidePanelLeft, sidePanelRight, titleBar, trayButton, projectPanel, consolePanel;
 	private Control control;
 
 	public Listener(Window window) {
@@ -60,6 +60,7 @@ public class Listener {
 		titleBar = mainUI.getComponent("TitleBar");
 		trayButton = mainUI.getComponent("TrayButton");
 		projectPanel = mainUI.getComponent("ProjectPanel");
+		consolePanel = mainUI.getComponent("ConsolePanel");
 	}
 
 	void updateComponentLocationAndSize() {

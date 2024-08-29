@@ -36,7 +36,7 @@ public class BoxController {
 
 	public void createBox(String filename, String pathWithFilename, int locX, int locY) {
 
-		Box newBox = new Box(view.getWindow(), 1, locX, locY, this);
+		Box newBox = new Box(view.getWindow(), 1, locX, locY, 830, 800, this);
 		
 		readInLines = ReadWrite.readFileInPathAsArrayList(pathWithFilename);
 		BoxModel boxModel = new BoxModel(model, newBox.getId(), filename, readInLines);
