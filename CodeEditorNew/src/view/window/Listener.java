@@ -30,7 +30,7 @@ public class Listener {
 	public int dragginBoxID;
 	public BoxController boxController;
 	public UIComponent background, closeButton, edgeEast, edgeNorth, edgeSouth, edgeWest, fileButton, footer, maxButton,
-			sidePanelLeft, sidePanelRight, titleBar, trayButton, projectPanel, consolePanel;
+			sidePanelLeft, sidePanelRight, titleBar, trayButton, projectPanel, consolePanel, editorPanel;
 	private Control control;
 
 	public Listener(Window window) {

@@ -15,7 +15,7 @@ public class ProjectPanel extends UIComponent {
 	private static int TOP_MARGIN = 42;
 	private static int LEFT_MARGIN = 8;
 	private static int WIDTH = 220;
-	private static int BOTTOM_MARGIN = 9;
+	private static int BOTTOM_MARGIN = 220+9;
 
 	private PanelButton projectButton;
 	BoxContent boxContent;
